@@ -11,7 +11,7 @@
 <!-- Default first request -->
 <servlet>
   <servlet-name>homeServlet</servlet-name>
-  <servlet-class>blwsmartware.controller.home.HomeController</servlet-class>
+  <servlet-class>net.blwsmartware.controller.home.HomeController</servlet-class>
 </servlet>
 <welcome-file-list>
   <welcome-file>home</welcome-file>
@@ -19,7 +19,7 @@
 
 <filter>
   <filter-name>loginFilter</filter-name>
-  <filter-class>blwsmartware.filter.AuthorizationFilter</filter-class>
+  <filter-class>net.blwsmartware.filter.AuthorizationFilter</filter-class>
 </filter>
 <filter-mapping>
   <filter-name>loginFilter</filter-name>
