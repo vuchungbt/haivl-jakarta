@@ -1,6 +1,7 @@
 package blwsmartware.dao;
 
-import com.vuchungbt.model.CommentModel;
+
+import blwsmartware.model.CommentModel;
 
 import java.util.List;
 

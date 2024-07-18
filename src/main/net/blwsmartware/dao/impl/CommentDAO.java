@@ -1,8 +1,8 @@
 package blwsmartware.dao.impl;
 
-import com.vuchungbt.dao.ICommentDAO;
-import com.vuchungbt.mapper.CommentMapper;
-import com.vuchungbt.model.CommentModel;
+import blwsmartware.dao.ICommentDAO;
+import blwsmartware.mapper.CommentMapper;
+import blwsmartware.model.CommentModel;
 
 import java.util.List;
 

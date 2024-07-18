@@ -1,7 +1,8 @@
 package blwsmartware.dao.impl;
 
-import com.vuchungbt.dao.GenericDAO;
-import com.vuchungbt.mapper.RowMapper;
+
+import blwsmartware.dao.GenericDAO;
+import blwsmartware.mapper.RowMapper;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.sql.*;

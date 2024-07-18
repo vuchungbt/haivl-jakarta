@@ -1,12 +1,12 @@
 package blwsmartware.service.impl;
 
-import com.vuchungbt.dao.IPostDAO;
-import com.vuchungbt.model.PostModel;
-import com.vuchungbt.service.ICommentService;
-import com.vuchungbt.service.IPostService;
-import com.vuchungbt.service.IUserService;
+import blwsmartware.dao.IPostDAO;
+import blwsmartware.model.PostModel;
+import blwsmartware.service.ICommentService;
+import blwsmartware.service.IPostService;
+import blwsmartware.service.IUserService;
+import jakarta.inject.Inject;
 
-import javax.inject.Inject;
 import java.util.List;
 
 public class PostService implements IPostService {

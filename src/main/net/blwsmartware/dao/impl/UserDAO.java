@@ -1,8 +1,8 @@
 package blwsmartware.dao.impl;
 
-import com.vuchungbt.dao.IUserDAO;
-import com.vuchungbt.mapper.UserMapper;
-import com.vuchungbt.model.UserModel;
+import blwsmartware.dao.IUserDAO;
+import blwsmartware.mapper.UserMapper;
+import blwsmartware.model.UserModel;
 
 public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO  {
     @Override

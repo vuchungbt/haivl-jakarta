@@ -1,8 +1,8 @@
 package blwsmartware.dao.impl;
 
-import com.vuchungbt.dao.IPostDAO;
-import com.vuchungbt.mapper.PostMapper;
-import com.vuchungbt.model.PostModel;
+import blwsmartware.dao.IPostDAO;
+import blwsmartware.mapper.PostMapper;
+import blwsmartware.model.PostModel;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package blwsmartware.mapper;
 
-import com.vuchungbt.model.PostModel;
+import blwsmartware.model.PostModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,6 +1,6 @@
 package blwsmartware.dao;
 
-import com.vuchungbt.model.PostModel;
+import blwsmartware.model.PostModel;
 
 import java.util.List;
 

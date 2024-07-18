@@ -1,6 +1,6 @@
 package blwsmartware.dao;
 
-import com.vuchungbt.model.UserModel;
+import blwsmartware.model.UserModel;
 
 public interface IUserDAO extends GenericDAO<UserModel> {
     UserModel findByFbID(String fbID);

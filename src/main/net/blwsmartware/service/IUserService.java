@@ -1,6 +1,6 @@
 package blwsmartware.service;
 
-import com.vuchungbt.model.UserModel;
+import blwsmartware.model.UserModel;
 
 public interface IUserService {
     UserModel findByFbID(String fbID);

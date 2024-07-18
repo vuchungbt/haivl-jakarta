@@ -1,6 +1,6 @@
 package blwsmartware.mapper;
 
-import com.vuchungbt.model.CommentModel;
+import blwsmartware.model.CommentModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

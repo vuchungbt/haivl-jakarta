@@ -1,11 +1,12 @@
 package blwsmartware.service.impl;
 
-import com.vuchungbt.dao.ICommentDAO;
-import com.vuchungbt.model.CommentModel;
-import com.vuchungbt.service.ICommentService;
-import com.vuchungbt.service.IUserService;
+import blwsmartware.dao.ICommentDAO;
+import blwsmartware.model.CommentModel;
+import blwsmartware.service.ICommentService;
+import blwsmartware.service.IUserService;
+import jakarta.inject.Inject;
 
-import javax.inject.Inject;
+
 import java.util.List;
 
 public class CommentService implements ICommentService {

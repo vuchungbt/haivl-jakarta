@@ -1,10 +1,9 @@
 package blwsmartware.service.impl;
 
-import com.vuchungbt.dao.IUserDAO;
-import com.vuchungbt.model.UserModel;
-import com.vuchungbt.service.IUserService;
-
-import javax.inject.Inject;
+import blwsmartware.dao.IUserDAO;
+import blwsmartware.model.UserModel;
+import blwsmartware.service.IUserService;
+import jakarta.inject.Inject;
 
 public class UserService implements IUserService {
 
