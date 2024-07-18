@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/home","/trending","/top","/ask"})
+@WebServlet(urlPatterns = {"/home","/trending","/top","/ask"} , name = "home")
 public class HomeController extends HttpServlet {
 
     @Override
