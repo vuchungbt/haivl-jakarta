@@ -53,9 +53,9 @@ public class AbstractDAO<T> implements GenericDAO<T> {
     @Override
     public <T> List<T> query(String sql, RowMapper<T> rowMapper, Object... param) {
         List<T> results = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
+        Connection connection ;
+        PreparedStatement statement;
+        ResultSet resultSet;
         try {
             System.out.println("Query:"+sql);
             connection = getConnection();
@@ -69,8 +69,6 @@ public class AbstractDAO<T> implements GenericDAO<T> {
         } catch (SQLException e) {
             System.out.println("ResultSet error:" + e.getMessage());
             return null;
-            //throw new RuntimeException(e);
-
         }
     }
 
