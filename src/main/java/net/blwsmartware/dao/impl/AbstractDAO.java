@@ -3,7 +3,7 @@ package net.blwsmartware.dao.impl;
 
 import net.blwsmartware.dao.GenericDAO;
 import net.blwsmartware.mapper.RowMapper;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
