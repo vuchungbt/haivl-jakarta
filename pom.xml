@@ -8,13 +8,19 @@
   <name>haivl-jakarta</name>
 
   <properties>
-    <jakarta.servlet-api>6.0.0</jakarta.servlet-api>
+    <jakarta.servlet-api>6.1.0</jakarta.servlet-api>
     <jakarta.servlet.jsp>4.0.0</jakarta.servlet.jsp>
-    <jakarta.servlet.jstl>3.0.0</jakarta.servlet.jstl>
+    <jakarta.servlet.jstl.api>3.0.0</jakarta.servlet.jstl.api>
+    <jakarta.jsp.jstl>3.0.1</jakarta.jsp.jstl>
+
     <weld.servlet.version>6.0.0.Beta4</weld.servlet.version>
+
     <fasterxml.jackson>2.15.2</fasterxml.jackson>
+
     <com.mysql.connector-j>9.0.0</com.mysql.connector-j>
+
     <org.sitemesh>3.2.1</org.sitemesh>
+
   </properties>
 
   <dependencies>
@@ -32,17 +38,31 @@
       <version>${jakarta.servlet.jsp}</version>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>jakarta.servlet.jsp.jstl</groupId>
       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-      <version>${jakarta.servlet.jstl}</version>
+      <version>${jakarta.servlet.jstl.api}</version>
     </dependency>
+    <dependency>
+      <groupId>org.glassfish.web</groupId>
+      <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+      <version>${jakarta.jsp.jstl}</version>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.el</groupId>
+      <artifactId>jakarta.el-api</artifactId>
+      <version>5.0.0</version>
+    </dependency>
+
+
 
     <dependency>
       <groupId>org.jboss.weld.servlet</groupId>
       <artifactId>weld-servlet-core</artifactId>
       <version>${weld.servlet.version}</version>
     </dependency>
+
 
     <!--https://github.com/sitemesh/sitemesh3 -->
     <dependency>
