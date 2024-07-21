@@ -8,7 +8,7 @@
   <name>haivl-jakarta</name>
 
   <properties>
-    <jakarta.servlet-api>6.1.0</jakarta.servlet-api>
+    <jakarta.servlet-api>6.0.0</jakarta.servlet-api>
     <jakarta.servlet.jsp>4.0.0</jakarta.servlet.jsp>
     <jakarta.servlet.jstl.api>3.0.0</jakarta.servlet.jstl.api>
     <jakarta.jsp.jstl>3.0.1</jakarta.jsp.jstl>
