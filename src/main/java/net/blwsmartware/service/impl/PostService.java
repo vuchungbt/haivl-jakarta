@@ -1,5 +1,7 @@
 package net.blwsmartware.service.impl;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
 import net.blwsmartware.dao.IPostDAO;
 import net.blwsmartware.model.PostModel;
 import net.blwsmartware.service.ICommentService;
@@ -8,6 +10,7 @@ import net.blwsmartware.service.IUserService;
 import jakarta.inject.Inject;
 
 import java.util.List;
+
 
 public class PostService implements IPostService {
 

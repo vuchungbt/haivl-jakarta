@@ -1,0 +1,48 @@
+<html xmlns:sitemesh="http://www.opensymphony.com/sitemesh">
+<head>
+  <title>SiteMesh example: <sitemesh:write property="title"/></title>
+  <style>
+    /* Some CSS */
+    body { font-family: arial, sans-serif; background-color: #ffffcc; }
+    h1, h2, h3, h4 { text-align: center; background-color: #ccffcc;
+      border-top: 1px solid #66ff66; }
+    .mainBody { padding: 10px; border: 1px solid #555555; }
+    .disclaimer { text-align: center; border-top: 1px solid #cccccc;
+      margin-top: 40px; color: #666666; font-size: smaller; }
+  </style>
+
+  <link href="/template/web/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
+  <link href="/template/web/css/customize.css" rel="stylesheet" type="text/css" media="all">
+  <link href="/template/web/css/dropzone.css" rel="stylesheet" type="text/css" media="all">
+  <link href="/template/web/css/glightbox.min.css " rel="stylesheet" type="text/css" media="all">
+
+  <script src="/template/web/js/kit.42d5adcbca.js"></script>
+
+  <!-- Dark mode -->
+  <script  src="/template/web/js/theme.js"></script>
+
+  <sitemesh:write property="head"/>
+
+</head>
+<body>
+
+
+<!--      <h1 class="title">SiteMesh Working: <sitemesh:write property="title"/></h1>-->
+
+<!--<div class="header">-->
+<!--  <sitemesh:include page="web/header.jsp"/>-->
+<!--</div>-->
+<!--<div>vao cai kia</div>-->
+
+<div class="mainBody">
+
+  <sitemesh:write property="body"/>
+</div>
+
+<script  src="/template/web/js/token/refreshToken.js"></script>
+<script   src="/template/web/js/bootstrap.bundle.min.js"></script>
+<script   src="/template/web/js/customize.js"></script>
+<script src="/template/web/js/loginDirection/loginDirection.js"></script>
+
+</body>
+</html>
