@@ -4,7 +4,7 @@ import net.blwsmartware.model.PostModel;
 
 import java.util.List;
 
-public interface IPostDAO extends GenericDAO<PostModel>{
+public interface IPostDAO extends GenericDAO{
     PostModel findByID(Long id);
     void update(PostModel newPost);
     void delete(long id);

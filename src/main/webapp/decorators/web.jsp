@@ -5,8 +5,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SiteMesh3 JSP and Page Title: <sitemesh:write property="title"/></title>
-    <sitemesh:write property="head"/>
+    <title>
+        <sitemesh:write property="title"/>
+    </title>
 
     <link href="<c:url value='/template/web/css/bootstrap.min.css'/>" rel="stylesheet" type="text/css" media="all">
     <link href="<c:url value='/template/web/css/customize.css'/> " rel="stylesheet" type="text/css" media="all">
@@ -21,8 +22,18 @@
     <script  src="/template/web/js/token/refreshToken.js"></script>
 </head>
 <body>
-    <div>Text in web.jsp decorator </div>
+
+    <%@ include file="/common/web/header-bar.jsp" %>
+
     <sitemesh:write property="body"/>
 
+
+    <%@include file="/common/web/footer.jsp"%>
+
 </body>
+
+
+        <script   src="<c:url value='/template/web/js/bootstrap.bundle.min.js'/>"></script>
+        <script   src="<c:url value='/template/web/js/customize.js'/> "></script>
+
 </html>

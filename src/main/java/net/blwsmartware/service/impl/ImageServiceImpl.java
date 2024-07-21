@@ -96,11 +96,11 @@ public class ImageServiceImpl implements ImageService {
     public void makeDir(){
         File r= new File(getFolderUpload()+File.separator+IConstant.UPLOAD_DIR_ROOT);
         System.out.println("root folder is:"+getFolderUpload());
-        if(!r.exists()) r.mkdirs();
+        if(!r.exists()) if(!r.mkdirs()) System.out.println("Error dir:99");
         File f = new File(getFolderUpload()+File.separator+IConstant.UPLOAD_DIR_RESIZE);
-        if(!f.exists()) f.mkdirs();
+        if(!f.exists()) if(!f.mkdirs()) System.out.println("Error dir:101");
         File f1 = new File(getFolderUpload()+File.separator+IConstant.UPLOAD_DIR_THUMBNAIL);
-        if(!f1.exists()) f1.mkdirs();
+        if(!f1.exists()) if(!f1.mkdirs()) System.out.println("Error dir:103");
         System.out.println("Root folder exist:"+r.exists());
 
     };

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AbstractDAO<T> implements GenericDAO<T> {
+public class AbstractDAO implements GenericDAO {
 
     ResourceBundle resourceBundle = ResourceBundle.getBundle("db");
 
@@ -125,12 +125,16 @@ public class AbstractDAO<T> implements GenericDAO<T> {
             return id;
         } catch (SQLException e) {
             System.out.println("Save error:"+e.getMessage());
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
+            try {
+                if (connection.isClosed()) {
+                    try {
+                        connection.rollback();
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
                 }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
             }
         } finally {
             try {
@@ -184,7 +188,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                     resultSet.close();
                 }
             } catch (SQLException e) {
-                return 0;
+                System.out.println("187:"+this.getClass());
             }
         }
     }
@@ -220,7 +224,8 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                     resultSet.close();
                 }
             } catch (SQLException e) {
-                return null;
+                System.out.println("223:"+this.getClass());
+
             }
 
 

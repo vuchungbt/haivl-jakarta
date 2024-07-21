@@ -1,4 +1,4 @@
-package net.blwsmartware.controller.home;
+package net.blwsmartware.controller.test;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;

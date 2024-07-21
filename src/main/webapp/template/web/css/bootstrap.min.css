@@ -4395,6 +4395,7 @@ textarea.form-control-lg {
 }
 
 .navbar-nav {
+
   --bs-nav-link-padding-x: 0;
   --bs-nav-link-padding-y: 0.25rem;
   --bs-nav-link-font-weight: ;
@@ -4411,6 +4412,7 @@ textarea.form-control-lg {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+  z-index:10002;
 }
 .navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
   color: var(--bs-navbar-active-color);
@@ -4431,6 +4433,7 @@ textarea.form-control-lg {
 }
 
 .navbar-collapse {
+z-index: 10001;
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
   -webkit-box-flex: 1;
@@ -15387,6 +15390,7 @@ header {
     top: 100%;
     background: #fff;
     border-top: 1px solid var(--bs-border-color);
+    z-index:10002;
   }
   .navbar-expand-lg .navbar-collapse .navbar-nav .dropdown-toggle::after {
     position: absolute;
@@ -17884,5 +17888,3 @@ a.badge:hover {
   display: none !important;
 }
 
-/*User CSS*/
-/*# sourceMappingURL=style.css.map */

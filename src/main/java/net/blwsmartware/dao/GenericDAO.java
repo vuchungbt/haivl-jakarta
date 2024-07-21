@@ -6,7 +6,7 @@ import net.blwsmartware.mapper.RowMapper;
 
 import java.util.List;
 
-public interface GenericDAO<T>{
+public interface GenericDAO{
 
     <T> List<T> query(String sql, RowMapper<T> rowMapper , Object... param);
     void       update(String sql, Object... param);

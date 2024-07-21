@@ -6,7 +6,7 @@ import net.blwsmartware.model.PostModel;
 
 import java.util.List;
 
-public class PostDAO extends AbstractDAO<PostModel> implements IPostDAO {
+public class PostDAO extends AbstractDAO implements IPostDAO {
 
     @Override
     public PostModel findByID(Long id) {

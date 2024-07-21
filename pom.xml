@@ -11,7 +11,7 @@
     <jakarta.servlet-api>6.0.0</jakarta.servlet-api>
     <jakarta.servlet.jsp>4.0.0</jakarta.servlet.jsp>
     <jakarta.servlet.jstl.api>3.0.0</jakarta.servlet.jstl.api>
-    <jakarta.jsp.jstl>3.0.1</jakarta.jsp.jstl>
+    <jakarta.glassfish.jsp.jstl>3.0.1</jakarta.glassfish.jsp.jstl>
 
     <weld.servlet.version>6.0.0.Beta4</weld.servlet.version>
 
@@ -47,13 +47,19 @@
     <dependency>
       <groupId>org.glassfish.web</groupId>
       <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-      <version>${jakarta.jsp.jstl}</version>
+      <version>${jakarta.glassfish.jsp.jstl}</version>
     </dependency>
     <dependency>
       <groupId>jakarta.el</groupId>
       <artifactId>jakarta.el-api</artifactId>
       <version>5.0.0</version>
     </dependency>
+    <dependency>
+      <groupId>jakarta.enterprise</groupId>
+      <artifactId>jakarta.enterprise.cdi-api</artifactId>
+      <version>4.1.0</version>
+    </dependency>
+
 
 
 
