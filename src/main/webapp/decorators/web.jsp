@@ -26,16 +26,14 @@
 </div>
 
 <%--footer--%>
-<%--<%@include file="/common/web/footer.jsp"%>--%>
-<%--<sitemesh:include page="/common/web/footer.jsp"/>-->--%>
+<%@include file="/common/web/footer.jsp"%>
+<%--<sitemesh:include page="/common/web/footer.jsp"/>--%>
 <%--footer--%>
 
 <script  src="<c:url value='/template/web/js/token/refreshToken.js'/> "></script>
 <script   src="<c:url value='/template/web/js/bootstrap.bundle.min.js'/>"></script>
 <script   src="<c:url value='/template/web/js/customize.js'/> "></script>
 <script src="<c:url value='/template/web/js/loginDirection/loginDirection.js'/> "></script>
-
-
 </body>
 
 </html>
