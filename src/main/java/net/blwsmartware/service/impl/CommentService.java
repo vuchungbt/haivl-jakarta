@@ -79,6 +79,7 @@ public class CommentService implements ICommentService {
     }
 
     private void createdEntity(List<CommentModel> list){
+        if(list.isEmpty()) return;
         list.forEach(cmtModel -> {
             cmtModel.setCreated(userService.findByID(cmtModel.getAuthId()));
         });
