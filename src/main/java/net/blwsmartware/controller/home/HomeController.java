@@ -1,6 +1,8 @@
 package net.blwsmartware.controller.home;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,16 +18,27 @@ import java.util.List;
 
 @WebServlet(urlPatterns = {"/home","/trending","/top","/ask"} , name = "home")
 public class HomeController extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
     @Inject
     private IPostService postService;
 
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        if (postService == null) {
+            System.out.println("postService is null");
+        } else {
+            System.out.println("postService is injected successfully: " + postService);
+        }
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String pth_request = (String) request.getAttribute("router");
-        System.out.println(pth_request);
-
+        String pth_request = (String) request.getAttribute("router") ;
+        System.out.println("link : " + pth_request);
+//        pth_request = "";
         String page = RouterUtil.getRouter(2,request);
         int pageNumber = 1 ;
         try{
@@ -49,7 +62,6 @@ public class HomeController extends HttpServlet {
                 list = postService.findTrending(pageNumber);
                 break;
         }
-
         request.setAttribute("posts", list);
 
         RequestDispatcher rd = request.getRequestDispatcher("/views/home.jsp");
@@ -61,5 +73,5 @@ public class HomeController extends HttpServlet {
         rd.forward(request, response);
     }
 
-
 }
+

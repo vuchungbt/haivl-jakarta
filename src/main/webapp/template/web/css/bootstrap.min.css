@@ -4395,7 +4395,6 @@ textarea.form-control-lg {
 }
 
 .navbar-nav {
-
   --bs-nav-link-padding-x: 0;
   --bs-nav-link-padding-y: 0.25rem;
   --bs-nav-link-font-weight: ;
@@ -17888,3 +17887,5 @@ a.badge:hover {
   display: none !important;
 }
 
+/*User CSS*/
+/*# sourceMappingURL=style.css.map */
