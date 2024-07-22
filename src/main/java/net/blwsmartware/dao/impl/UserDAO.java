@@ -4,7 +4,7 @@ import net.blwsmartware.dao.IUserDAO;
 import net.blwsmartware.mapper.UserMapper;
 import net.blwsmartware.model.UserModel;
 
-public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO  {
+public class UserDAO extends AbstractDAO implements IUserDAO  {
     @Override
     public UserModel findByFbID(String fbID ) {
         StringBuilder sql = new StringBuilder("SELECT * FROM users AS u");

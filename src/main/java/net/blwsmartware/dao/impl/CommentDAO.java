@@ -6,7 +6,7 @@ import net.blwsmartware.model.CommentModel;
 
 import java.util.List;
 
-public class CommentDAO extends AbstractDAO<CommentModel> implements ICommentDAO {
+public class CommentDAO extends AbstractDAO implements ICommentDAO {
     @Override
     public Long save(CommentModel commentModel) {
         StringBuilder sql = new StringBuilder("INSERT INTO comments ");

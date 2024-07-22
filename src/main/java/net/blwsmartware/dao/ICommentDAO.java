@@ -5,7 +5,7 @@ import net.blwsmartware.model.CommentModel;
 
 import java.util.List;
 
-public interface ICommentDAO extends GenericDAO<CommentModel>{
+public interface ICommentDAO extends GenericDAO{
     Long save(CommentModel commentModel);
     void update(CommentModel commentModel);
     void delete(Long id);

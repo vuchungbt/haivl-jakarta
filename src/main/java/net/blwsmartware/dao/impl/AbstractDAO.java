@@ -3,14 +3,14 @@ package net.blwsmartware.dao.impl;
 
 import net.blwsmartware.dao.GenericDAO;
 import net.blwsmartware.mapper.RowMapper;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AbstractDAO<T> implements GenericDAO<T> {
+public class AbstractDAO implements GenericDAO {
 
     ResourceBundle resourceBundle = ResourceBundle.getBundle("db");
 
@@ -53,9 +53,9 @@ public class AbstractDAO<T> implements GenericDAO<T> {
     @Override
     public <T> List<T> query(String sql, RowMapper<T> rowMapper, Object... param) {
         List<T> results = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
+        Connection connection ;
+        PreparedStatement statement;
+        ResultSet resultSet;
         try {
             System.out.println("Query:"+sql);
             connection = getConnection();
@@ -69,8 +69,6 @@ public class AbstractDAO<T> implements GenericDAO<T> {
         } catch (SQLException e) {
             System.out.println("ResultSet error:" + e.getMessage());
             return null;
-            //throw new RuntimeException(e);
-
         }
     }
 
@@ -127,12 +125,16 @@ public class AbstractDAO<T> implements GenericDAO<T> {
             return id;
         } catch (SQLException e) {
             System.out.println("Save error:"+e.getMessage());
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
+            try {
+                if (connection.isClosed()) {
+                    try {
+                        connection.rollback();
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
                 }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
             }
         } finally {
             try {
@@ -186,7 +188,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                     resultSet.close();
                 }
             } catch (SQLException e) {
-                return 0;
+                System.out.println("187:"+this.getClass());
             }
         }
     }
@@ -222,7 +224,8 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                     resultSet.close();
                 }
             } catch (SQLException e) {
-                return null;
+                System.out.println("223:"+this.getClass());
+
             }
 
 

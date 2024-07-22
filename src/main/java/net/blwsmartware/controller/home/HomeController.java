@@ -15,12 +15,14 @@ import net.blwsmartware.util.RouterUtil;
 
 import java.io.IOException;
 import java.util.List;
+
 @WebServlet(urlPatterns = {"/home","/trending","/top","/ask"} , name = "home")
 public class HomeController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Inject
     private IPostService postService;
+
     @Override
     public void init() throws ServletException {
         super.init();
@@ -60,7 +62,6 @@ public class HomeController extends HttpServlet {
                 list = postService.findTrending(pageNumber);
                 break;
         }
-
         request.setAttribute("posts", list);
 
         RequestDispatcher rd = request.getRequestDispatcher("/views/home.jsp");
@@ -71,7 +72,6 @@ public class HomeController extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("/views/home.jsp");
         rd.forward(request, response);
     }
-
 
 }
 
