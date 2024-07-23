@@ -80,7 +80,7 @@
                   <div class="d-flex justify-content-between align-items-center bg-dark rounded">
                     <div class="d-flex flex-row icons d-flex align-items-center ">
                       <div class="cont">
-                        <div class="stars py-1" data-vote-value="">
+                        <div class="stars py-1" data-vote-value="${post.voteCount}">
                           <form action="">
                             <input class="star star-5" id="star-5-${post.id}" type="radio" name="star" />
                             <label class="star star-5" for="star-5-${post.id}"></label>
