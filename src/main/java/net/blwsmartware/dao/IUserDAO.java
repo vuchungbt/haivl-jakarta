@@ -2,7 +2,7 @@ package net.blwsmartware.dao;
 
 import net.blwsmartware.model.UserModel;
 
-public interface IUserDAO extends GenericDAO<UserModel> {
+public interface IUserDAO extends GenericDAO {
     UserModel findByFbID(String fbID);
     UserModel findByGgID(String ggID);
     UserModel findByID(Long id);

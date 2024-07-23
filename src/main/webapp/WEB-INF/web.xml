@@ -28,6 +28,9 @@
 
 
   <listener>
+    <listener-class>net.blwsmartware.filter.DBDriverListener</listener-class>
+  </listener>
+  <listener>
     <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
   </listener>
 
@@ -35,7 +38,6 @@
     <filter-name>sitemesh</filter-name>
     <filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class>
   </filter>
-
   <filter-mapping>
     <filter-name>sitemesh</filter-name>
     <url-pattern>/*</url-pattern>

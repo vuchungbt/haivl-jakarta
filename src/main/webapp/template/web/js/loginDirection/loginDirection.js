@@ -6,3 +6,11 @@ document.addEventListener('DOMContentLoaded', function (){
     loginLink.href = loginLink.href + "?send-direction=" + currentUrl;
 }
 })
+
+if (window.location.hash && window.location.hash ==="#_=_"){
+    history.replaceState("",document.title,window.location.name + window.location.search)
+}
+
+if (window.location.protocol === "https:") {
+    window.location.href = "http://" + window.location.host + window.location.pathname + window.location.search;
+}

@@ -4,7 +4,7 @@ Tổ hợp 1 đống ý tưởng từ các trang mạng xã hội khác nhau đ�
 ## Sử dụng:
 
  - Maven 3.9.6 - Jakarta EE 10 - Servlet
- - Java sdk:22
- - Mysql - com.mysql-connector/j
+ - Java sdk:22 (17+)
+ - Mysql 9 - com.mysql-connector/j
  - Apache tomcat 10
  - Bootstrap 5.3.3 - jQuery
