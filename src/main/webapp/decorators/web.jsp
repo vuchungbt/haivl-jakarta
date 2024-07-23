@@ -24,9 +24,10 @@
 
     <sitemesh:write property="body"/>
 
-
-    <%@include file="/common/web/footer.jsp"%>
-
+<%--footer--%>
+<%--<%@include file="/common/web/footer.jsp"%>--%>
+<%--<sitemesh:include page="/common/web/footer.jsp"/>--%>
+<%--footer--%>
 </body>
 
       <script  src="<c:url value='/template/web/js/token/refreshToken.js'/> "></script>

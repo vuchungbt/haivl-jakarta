@@ -22,8 +22,8 @@
     if(facebookLogin){
         facebookLogin.addEventListener('click',function (event){
             event.preventDefault();
-            let stateParam = encodeURIComponent(JSON.stringify({"send-direction": sendDirection, provider:'facebook'}))
-            let newHref = this.href + "&state" + stateParam;
+            let stateParam = (JSON.stringify({"send-direction": sendDirection, provider:'facebook'}))
+            let newHref = this.href + "&state=" + stateParam;
             window.location.href = newHref;
         })
     }

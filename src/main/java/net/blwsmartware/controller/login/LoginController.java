@@ -17,6 +17,7 @@ import net.blwsmartware.util.JWTUtil;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 @WebServlet(urlPatterns = {"/login", "/logout"})
 public class LoginController extends HttpServlet {
@@ -28,14 +29,37 @@ public class LoginController extends HttpServlet {
             throws ServletException,IOException{
         String code = request.getParameter("code");
         String state = request.getParameter("state");
+        String error_code = request.getParameter("error_code");
+        String error_message = request.getParameter("error_message");
+        if(error_code!=null || error_message!=null){
+            System.out.println("co vao khong");
+//            String errorUrl = request.getContextPath() + "/login?error_code=" + error_code + "&error_message=" + URLEncoder.encode(error_message, "UTF-8");
+//            response.sendRedirect(errorUrl);
+//            response.sendRedirect(request.getContextPath()+ "/login");
+//            return;
+            String previousError = (String) request.getSession().getAttribute("previousError");
+            if (previousError == null || !previousError.equals(error_code)) {
+                request.getSession().setAttribute("previousError", error_code);
+                response.sendRedirect(request.getContextPath() + "/login");
+                return;
+            } else {
+                // Nếu phát hiện vòng lặp, hiển thị thông báo lỗi
+                request.setAttribute("status", 401);
+                request.setAttribute("msg", "There is an issue with the application. Please try again later.");
+                RequestDispatcher rd = request.getRequestDispatcher("/views/login.jsp");
+                rd.forward(request, response);
+                return;
+            }
+        }
         String path="";
         if (code != null) {
             if (state != null) {
 
                 String decodedState = URLDecoder.decode(state, "UTF-8");
                 JsonObject stateJson = JsonParser.parseString(decodedState).getAsJsonObject();
-                String sendDirection = stateJson.has("send-direction")? stateJson.get("send-direction").getAsString() : "home";
+                String sendDirection = stateJson.has("send-direction") || !stateJson.get("send-direction").getAsString().isEmpty()? stateJson.get("send-direction").getAsString() : "home";
                 String provider = stateJson.has("provider") ?stateJson.get("provider").getAsString():"unknown";
+
                 UserModel acc= null;
                 if (provider.equals("google")) {
                     String accessToken = GoogleLogin.getToken(code);
@@ -84,8 +108,6 @@ public class LoginController extends HttpServlet {
 
         if (existingUser == null) {
             userModel.setRoleId(userService.getRoleIDByRoleCode(IConstant.USER));
-
-            System.out.println("save+ ID :"+userModel.getId());
             userModel = userService.save(userModel);
         }else{
             userModel.setId(existingUser.getId());
