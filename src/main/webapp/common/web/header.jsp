@@ -18,7 +18,7 @@
             <div class="collapse navbar-collapse" id="navbarsExample07">
                 <ul class="navbar-nav me-auto mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link
+                        <a  class="nav-link
                 <c:choose>
                     <c:when test="${router == 'home' or router == ''}">
                     active

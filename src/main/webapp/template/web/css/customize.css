@@ -174,14 +174,16 @@ div.stars{
   display: inline-block;
   padding-top:6px;
 }
-
+.min-370 {
+    min-width:370px;
+}
 input.star{
   display: none;
 }
 
 label.star {
   float: right;
-  padding-left: 30px;
+  padding-left: 25px;
   font-size: 20px;
   color: #444;
   transition: all .2s;
