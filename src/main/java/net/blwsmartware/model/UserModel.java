@@ -3,7 +3,7 @@ package net.blwsmartware.model;
 import java.sql.Timestamp;
 
 public class UserModel extends AbstractModel {
-    private String avatar,pagePhoto,fbID,ggID,email,tel;
+    private String avatar, pagePhoto, fbID, ggID, email, tel;
     private Timestamp lastOnline;
     private Long roleId;
 

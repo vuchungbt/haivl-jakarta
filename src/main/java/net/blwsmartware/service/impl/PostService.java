@@ -31,9 +31,9 @@ public class PostService implements IPostService {
     @Override
     public PostModel save(PostModel postModel) {
         String src = postModel.getSource();
-        src =src.toUpperCase();
-        if(!src.startsWith("HTTP://") && !src.startsWith("HTTPS://")) {
-            postModel.setSource("https://"+postModel.getSource());
+        src = src.toUpperCase();
+        if (!src.startsWith("HTTP://") && !src.startsWith("HTTPS://")) {
+            postModel.setSource("https://" + postModel.getSource());
         }
         Long id = postDAO.save(postModel);
         return postDAO.findByID(id);
@@ -88,16 +88,21 @@ public class PostService implements IPostService {
 
     }
 
-    private void createdEntity(List<PostModel> list){
-        if (list.isEmpty())return;
+    private void createdEntity(List<PostModel> list) {
+        if (list.isEmpty()) return;
         list.forEach(postModel -> {
             postModel.setCreated(userService.findByID(postModel.getAuthId()));
         });
-    };
-    private void commentsEntity(List<PostModel> list){
-        if (list.isEmpty())return;
+    }
+
+    ;
+
+    private void commentsEntity(List<PostModel> list) {
+        if (list.isEmpty()) return;
         list.forEach(postModel -> {
-            postModel.setComments(commentService.findByPostIDAndFirstLevel(postModel.getId(),1));
+            postModel.setComments(commentService.findByPostIDAndFirstLevel(postModel.getId(), 1));
         });
-    };
+    }
+
+    ;
 }

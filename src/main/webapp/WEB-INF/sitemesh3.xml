@@ -2,6 +2,6 @@
     <decorator-selector>org.sitemesh.config.MetaTagBasedDecoratorSelector</decorator-selector>
     <decorator-prefix>/decorators</decorator-prefix>
     <mapping path="/*" decorator="/web.jsp"/>
-    <mapping path="/template/*" exclude="true" />
+    <mapping path="/template/*" exclude="true"/>
     <mapping path="/login" decorator="/login.jsp"/>
 </sitemesh>

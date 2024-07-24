@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class UserMapper implements RowMapper<UserModel> {
     @Override
     public UserModel mapRow(ResultSet rs) {
-        UserModel user= new UserModel();
+        UserModel user = new UserModel();
         try {
             user.setId(rs.getLong("id"));
             user.setAvatar(rs.getString("avatar"));
@@ -30,10 +30,9 @@ public class UserMapper implements RowMapper<UserModel> {
             user.setModifiedBy(rs.getString("updated_by"));
             user.setModifiedDate(rs.getTimestamp("updated_date"));
 
-        }
-         catch (SQLException e) {
-             System.out.println("ResultSet UserModel error:"+e.getMessage());
-             return null;
+        } catch (SQLException e) {
+            System.out.println("ResultSet UserModel error:" + e.getMessage());
+            return null;
         }
         return user;
     }

@@ -1,9 +1,9 @@
 package net.blwsmartware.model;
 
-public class CommentModel extends AbstractModel{
+public class CommentModel extends AbstractModel {
     private String content;
     private int level;
-    private Long forPost,authId,parentId;
+    private Long forPost, authId, parentId;
     private int voteCount;
 
     public int getVoteCount() {

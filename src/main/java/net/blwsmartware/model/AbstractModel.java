@@ -2,7 +2,7 @@ package net.blwsmartware.model;
 
 import java.sql.Timestamp;
 
-public class AbstractModel{
+public class AbstractModel {
 
     private Long id;
     private Timestamp createdDate;
@@ -10,7 +10,7 @@ public class AbstractModel{
     private String createdBy;
     private String modifiedBy;
     private String type;
-    private String name,thumbnail,title,description;
+    private String name, thumbnail, title, description;
     private int status;
 
     public String getThumbnail() {

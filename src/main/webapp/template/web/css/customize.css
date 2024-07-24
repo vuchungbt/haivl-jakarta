@@ -12,6 +12,10 @@
         --color-secondary: #181818;
     }
 }
+
+
+
+
 body {
     min-height: 100vh;
     padding-bottom: 3.5rem;
@@ -170,12 +174,32 @@ border-top: 1px solid rgba(0, 0, 0, 0.1)
 Rating --------------------------------------------------------
 */
 
+        @media (max-width: 900px) {
+            .star-none-wrap {
+                padding-left: 12px !important; /* Thay đổi padding-left khi màn hình nhỏ hơn 900px */
+            }
+        }
+        @media (max-width: 768px) {
+            .star-none-wrap {
+                padding-left: 50px !important; /* Thay đổi padding-left khi màn hình nhỏ hơn 768px */
+            }
+        }
+        @media (min-width: 901px) {
+            .star-none-wrap {
+                padding-left: 27px  !important; /* Giữ nguyên padding-left khi màn hình lớn hơn 900px */
+            }
+        }
+
+
 div.stars{
   display: inline-block;
   padding-top:6px;
 }
 .min-370 {
-    min-width:370px;
+    min-width:360px;
+}
+.fist-star{
+    padding-left:15px !important;
 }
 input.star{
   display: none;
@@ -183,7 +207,7 @@ input.star{
 
 label.star {
   float: right;
-  padding-left: 25px;
+  padding-left:25px;
   font-size: 20px;
   color: #444;
   transition: all .2s;

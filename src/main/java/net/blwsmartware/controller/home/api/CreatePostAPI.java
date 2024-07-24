@@ -15,13 +15,13 @@ import java.rmi.ServerException;
 public class CreatePostAPI {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServerException, IOException {
+            throws ServerException, IOException {
         request.setCharacterEncoding("UTF-8");
         ObjectMapper mapper = new ObjectMapper();
 
         response.setContentType("application/json");
         PostModel postModel = HttpUtil.of(request.getReader()).toModel(PostModel.class);
-        Cookie[]cookies = request.getCookies();
+        Cookie[] cookies = request.getCookies();
         Cookie tokenCookie = null;
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -31,7 +31,6 @@ public class CreatePostAPI {
                 }
             }
         }
-
 
 
     }
