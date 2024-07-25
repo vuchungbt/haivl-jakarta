@@ -23,18 +23,14 @@ public class VerifyTokenServlet extends HttpServlet {
         DecodedJWT jwt = JWTUtil.verifyToken(token);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-
+        Map<String, Object> responseData = new HashMap<>();
         if (jwt != null) {
-            Map<String, Object> responseData = new HashMap<>();
             responseData.put("valid", true);
-            responseData.put("exp", jwt.getExpiresAt().getTime() / 1000); // Lấy thời gian hết hạn trong giây
-            response.getWriter().write(new Gson().toJson(responseData));
+            responseData.put("exp", jwt.getExpiresAt().getTime() / 1000);
         } else {
-            Map<String, Object> responseData = new HashMap<>();
             responseData.put("valid", false);
-            response.getWriter().write(new Gson().toJson(responseData));
-//            response.sendRedirect(request.getContextPath()+ "/home");
         }
+        response.getWriter().write(new Gson().toJson(responseData));
     }
 }
 

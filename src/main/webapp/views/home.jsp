@@ -6,6 +6,14 @@
   <!-- Required meta tags -->
   <meta charset="UTF-8">
   <title>Meme World</title>
+<%--  <link  rel="stylesheet" href="<c:url value='/template/web/css/bootstrap.min.css'/>">--%>
+<%--  <link  rel="stylesheet" href="<c:url value='/template/web/css/customize.css'/>" >--%>
+<%--  <link  rel="stylesheet" href="<c:url value='/template/web/css/dropzone.css'/>">--%>
+<%--  <link  rel="stylesheet" href="<c:url value='/template/web/css/glightbox.min.css'/>">--%>
+<%--  <script src="<c:url value='/template/web/js/kit.42d5adcbca.js' />"></script>--%>
+
+  <!-- Dark mode -->
+<%--  <script  src="<c:url value='/template/web/js/theme.js' />"></script>--%>
 </head>
 <body>
 <!-- **************** MAIN CONTENT START **************** -->
@@ -249,6 +257,10 @@
 
   </div>
 </main>
+  <script  src="<c:url value='/public/web/js/token/refreshToken.js'/> "></script>
+  <script   src="<c:url value='/public/web/js/bootstrap.bundle.min.js'/>"></script>
+  <script   src="<c:url value='/public/web/js/customize.js'/> "></script>
+  <script src="<c:url value='/public/web/js/loginDirection/loginDirection.js'/> "></script>
 
 
 </body>

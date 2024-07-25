@@ -47,11 +47,14 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
     @Override
     public Long save(PostModel postModel) {
         StringBuilder sql = new StringBuilder("INSERT INTO posts ");
-        sql.append(" (name,publish_date,verified_date, status ,created_by,type,title,thumbnail,description,short_description,source,source_name,refer,content,auth_id)");
-        sql.append(" VALUES(?, ?,?,?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?,?,?)");
-        return insert(sql.toString(),postModel.getName(),postModel.getStatus(),postModel.getCreatedBy(),
-                postModel.getType(),postModel.getTitle(),postModel.getThumbnail(),postModel.getDescription(),postModel.getShortDescription(),postModel.getSource(),
-                postModel.getRefer(), postModel.getContent(),postModel.getAuthId()
+//        sql.append(" (name,publish_date,verified_date, status ,created_by,type,title,thumbnail,description,short_description,source,source_name,refer,content,auth_id)");
+        sql.append(" (name,publish_date,verified_date,status ,created_by,type,title,thumbnail");
+        sql.append(",description,short_description,source,source_name,refer,content,auth_id)");
+        sql.append(" VALUES(?,?,?,?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?,?)");
+        return insert(sql.toString(),postModel.getName(),postModel.getPublishDate(),postModel.getVerifiedDate(),
+                postModel.getStatus(),postModel.getCreatedBy(),postModel.getType(),postModel.getTitle(),
+                postModel.getThumbnail(),postModel.getDescription(),postModel.getShortDescription(),postModel.getSource(),
+                postModel.getSourceName(),postModel.getRefer(), postModel.getContent(),postModel.getAuthId()
         );
     }
 

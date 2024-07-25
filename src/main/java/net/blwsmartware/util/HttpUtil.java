@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
 
 public class HttpUtil {
-    private String value;
+    private final String value;
     public HttpUtil(String value){this.value = value; }
 
     public <T> T toModel (Class<T> tClass){

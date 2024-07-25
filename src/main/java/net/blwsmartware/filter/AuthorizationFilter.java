@@ -19,10 +19,8 @@ public class AuthorizationFilter implements Filter {
 
     @Inject
     private IUserService userService;
-    private ServletContext context;
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        this.context = filterConfig.getServletContext();
     }
 
     @Override
@@ -31,8 +29,8 @@ public class AuthorizationFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         String url = request.getRequestURI();
-        handleUri(url,request);
-        Cookie tokenCookie  = getCookieToken(request);
+        handleUri(request);
+        Cookie tokenCookie  = JWTUtil.getCookieToken(request);
         if(tokenCookie!=null&&!tokenCookie.getValue().isEmpty()){
 
             try {
@@ -54,7 +52,7 @@ public class AuthorizationFilter implements Filter {
         Long id = JWTUtil.getIdUserFromToken(token);
         return userService.findByID(id);
     }
-    private void handleUri(String url, HttpServletRequest request){
+    private void handleUri(HttpServletRequest request){
         String link = RouterUtil.getRouter(1,request);
         request.setAttribute("router", link);
     }
@@ -80,17 +78,7 @@ public class AuthorizationFilter implements Filter {
     }
     private void handleExpiredToken( String url,HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        Cookie []cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    cookie.setValue("");
-                    cookie.setMaxAge(0);
-                    response.addCookie(cookie);
-                    break;
-                }
-            }
-        }
+        JWTUtil.destroyToken(request, response);
         if(checkURLForNoToken(url)){
             filterChain.doFilter(request, response);
         }else{
@@ -110,16 +98,6 @@ public class AuthorizationFilter implements Filter {
     }
     private boolean checkURLForNoToken(String url){
         return !url.startsWith("/admin");
-    }
-    private Cookie getCookieToken(HttpServletRequest request){
-        Cookie []cookies = request.getCookies();
-        if(cookies!=null){
-            for(Cookie cookie : cookies){
-                if(cookie.getName().equals("token"))
-                    return cookie;
-            }
-        }
-        return null;
     }
     @Override
     public void destroy() {

@@ -5,6 +5,9 @@ import com.auth0.jwt.JWTCreator.Builder;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import net.blwsmartware.model.UserModel;
 
 import java.util.Date;
@@ -32,5 +35,34 @@ public class JWTUtil {
     public static Long getIdUserFromToken(String token){
         DecodedJWT jwt =verifyToken(token);
         return jwt.getClaim("id").asLong();
+    }
+    public static Cookie getCookieToken(HttpServletRequest request){
+        Cookie []cookies = request.getCookies();
+        if(cookies!=null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("token"))
+                    return cookie;
+            }
+        }
+        return null;
+    }
+    public static String getToken(HttpServletRequest request){
+        Cookie cookie = getCookieToken(request);
+        if(cookie != null &&!cookie.getValue().isEmpty())
+            return cookie.getValue();
+        return null;
+    }
+    public static void destroyToken(HttpServletRequest request, HttpServletResponse response){
+        Cookie []cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    cookie.setValue("");
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                    break;
+                }
+            }
+        }
     }
 }

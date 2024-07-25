@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class FacebookLogin {
     public static String getToken(String code) {
-        String response =null;
+        String response ;
         try {
             response= Request.Post(IConstant.FACEBOOK_LINK_GET_TOKEN)
                     .bodyForm(
@@ -25,14 +25,15 @@ public class FacebookLogin {
                                     .build()
                     )
                     .execute().returnContent().asString();
+            JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
+            return jobj.get("access_token").toString().replaceAll("\"", "");
         }
         catch (IOException e ) {
             System.out.println(">>>"+e.getMessage());
+            return null;
         }
 
-        JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
-        //System.out.println(jobj.get("access_token").toString().replaceAll("\"", ""));
-        return jobj.get("access_token").toString().replaceAll("\"", "");
+
     }
     public static UserModel getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
         String link = IConstant.FACEBOOK_LINK_GET_USER_INFO + accessToken;

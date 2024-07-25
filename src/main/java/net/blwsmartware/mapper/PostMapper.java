@@ -11,7 +11,7 @@ public class PostMapper implements RowMapper<PostModel> {
         PostModel postModel = new PostModel();
         try {
             postModel.setId(rs.getLong("id"));
-            postModel.setSource(rs.getString("source"));
+            postModel.setSource(rs.getString("source"));git
             postModel.setSourceName(rs.getString("source_name"));
             postModel.setRefer(rs.getString("refer"));
             postModel.setCreatedBy(rs.getString("created_by"));

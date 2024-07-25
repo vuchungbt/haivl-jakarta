@@ -66,14 +66,14 @@
             -->
 
           </ul>
-          <c:if test="${not empty cookie.token}">
+          <c:if test="${not empty userModel}">
             <div class="dropdown border-bottom-menu">
               <a href="#" class="d-blockdropdown-toggle" data-bs-toggle="dropdown"
                  aria-expanded="false">
-                <c:if test="${not empty thumbnail}">
-                  <img src="${thumbnail}" alt="mdo" width="32" height="32" class="rounded-circle">
+                <c:if test="${not empty userModel.avatar}">
+                  <img src="${userModel.avatar}" alt="mdo" width="32" height="32" class="rounded-circle">
                 </c:if>
-                <c:if test="${empty thumbnail}">
+                <c:if test="${empty userModel.avatar}">
                   <img src='<c:url value = "/template/web/img/avatar/user.png"/>' alt="mdo" width="32" height="32" class="rounded-circle">
                 </c:if>
 
@@ -114,8 +114,10 @@
             </div>
           </c:if>
 
-          <c:if test="${empty cookie.token}">
-            <a role"button" style="margin:5px 10px 5px 25px;" class="login-link btn btn-sm btn-info" href='<c:url value="/login" />'>Đăng nhập</a>
+          <c:if test="${empty userModel}">
+            <%--            <a role "button" style="margin:5px 10px 5px 25px;" class="login-link btn btn-sm btn-info" href='<c:url value="/login" />'>Đăng nhập</a>--%>
+            <a style="margin:5px 10px 5px 25px;" id = "login-link" class="login-link btn btn-sm btn-info" href='<c:url value="/login" />'>Đăng nhập</a>
+
           </c:if>
           <div class="search">
           <div class="m-2">
