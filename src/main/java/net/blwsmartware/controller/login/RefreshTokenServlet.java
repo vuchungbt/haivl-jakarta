@@ -23,8 +23,9 @@ public class RefreshTokenServlet extends HttpServlet {
 
     @Inject
     private IUserService userService;
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         String oldToken = request.getHeader("Authorization").replace("Bearer ", "");
         DecodedJWT decodedJWT = JWTUtil.verifyToken(oldToken);
         response.setContentType("application/json");
@@ -38,14 +39,15 @@ public class RefreshTokenServlet extends HttpServlet {
 //            tokenCookie.setHttpOnly(true);
             response.addCookie(tokenCookie);
 
-            Map<String,Object> responseData = new HashMap<>();
-            responseData.put("valid",true);
-            responseData.put("token",token);
+            Map<String, Object> responseData = new HashMap<>();
+            responseData.put("valid", true);
+            responseData.put("token", token);
             response.getWriter().write(new Gson().toJson(responseData));
-        }else{
+        } else {
             Map<String, Object> responseData = new HashMap<>();
             responseData.put("valid", false);
-            response.getWriter().write(new Gson().toJson(responseData));}
+            response.getWriter().write(new Gson().toJson(responseData));
+        }
     }
 
 }

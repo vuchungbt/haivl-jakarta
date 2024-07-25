@@ -90,16 +90,21 @@ public class PostService implements IPostService {
 
     }
 
-    private void createdEntity(List<PostModel> list){
-        if (list.isEmpty())return;
+    private void createdEntity(List<PostModel> list) {
+        if (list.isEmpty()) return;
         list.forEach(postModel -> {
             postModel.setCreated(userService.findByID(postModel.getAuthId()));
         });
-    };
-    private void commentsEntity(List<PostModel> list){
-        if (list.isEmpty())return;
+    }
+
+    ;
+
+    private void commentsEntity(List<PostModel> list) {
+        if (list.isEmpty()) return;
         list.forEach(postModel -> {
-            postModel.setComments(commentService.findByPostIDAndFirstLevel(postModel.getId(),1));
+            postModel.setComments(commentService.findByPostIDAndFirstLevel(postModel.getId(), 1));
         });
-    };
+    }
+
+    ;
 }

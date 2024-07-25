@@ -86,33 +86,31 @@
               <div class="col-md-6">
                 <div class="me-sm-1">
                   <div class="d-flex justify-content-between align-items-center bg-dark rounded">
-                    <div class="d-flex flex-row icons d-flex align-items-center ">
-                      <div class="cont">
-                        <div class="stars py-1" data-vote-value="${post.voteCount}">
-                          <form action="">
-                            <input class="star star-5" id="star-5-${post.id}" type="radio" name="star" />
-                            <label class="star star-5" for="star-5-${post.id}"></label>
-                            <input class="star star-4" id="star-4-${post.id}" type="radio" name="star" />
-                            <label class="star star-4" for="star-4-${post.id}"></label>
-                            <input class="star star-3" id="star-3-${post.id}" type="radio" name="star" />
-                            <label class="star star-3" for="star-3-${post.id}"></label>
-                            <input class="star star-2" id="star-2-${post.id}" type="radio" name="star" />
-                            <label class="star star-2" for="star-2-${post.id}"></label>
-                            <input class="star star-1" id="star-1-${post.id}" type="radio" name="star" />
-                            <label class="star star-1" for="star-1-${post.id}"></label>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="d-flex flex-row muted-color px-2"> <span class="ml-2"> <i class="fa fa-star"
-                                                                                          aria-hidden="true"></i> ${post.avgVote} /<c:choose>
-                      <c:when test="${post.voteCount == 0}">
-                        0
-                      </c:when>
-                      <c:otherwise>
-                        5
-                      </c:otherwise>
-                    </c:choose>
+                  <div class="">
+                    <div class="d-flex flex-row d-flex align-items-center ">
+                                        <div class="cont">
+                                          <div class="stars py-1" data-vote-value="${post.voteCount}">
+                                            <form action="">
+
+                                              <input class="star star-5 star-none-wrap" id="star-5-${post.id}" type="radio" name="star" />
+                                              <label class="star star-5 star-none-wrap" for="star-5-${post.id}"></label>
+
+                                              <input class="star star-4 star-none-wrap" id="star-4-${post.id}" type="radio" name="star" />
+                                              <label class="star star-4 star-none-wrap" for="star-4-${post.id}"></label>
+                                              <input class="star star-3 star-none-wrap" id="star-3-${post.id}" type="radio" name="star" />
+                                              <label class="star star-3 star-none-wrap" for="star-3-${post.id}"></label>
+                                              <input class="star star-2 star-none-wrap" id="star-2-${post.id}" type="radio" name="star" />
+                                              <label class="star star-2 star-none-wrap" for="star-2-${post.id}"></label>
+                                              <input class="star star-1 star-none-wrap fist-star" id="star-1-${post.id}" type="radio" name="star" />
+                                              <label class="star star-1 star-none-wrap fist-star" for="star-1-${post.id}"></label>
+                                            </form>
+                                          </div>
+                                        </div>
+                     </div>
+                  </div>
+
+                    <div class="d-flex flex-row muted-color px-2"> <span class="ml-2 text-nowrap text-white"> <i class="fa fa-star"
+                                                                                          aria-hidden="true"></i>${post.avgVote}/<c:choose><c:when test="${post.voteCount == 0}">0</c:when><c:otherwise>5</c:otherwise></c:choose>
                               </span>
                     </div>
                   </div>

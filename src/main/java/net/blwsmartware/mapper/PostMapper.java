@@ -11,7 +11,7 @@ public class PostMapper implements RowMapper<PostModel> {
         PostModel postModel = new PostModel();
         try {
             postModel.setId(rs.getLong("id"));
-            postModel.setSource(rs.getString("source"));git
+            postModel.setSource(rs.getString("source"));
             postModel.setSourceName(rs.getString("source_name"));
             postModel.setRefer(rs.getString("refer"));
             postModel.setCreatedBy(rs.getString("created_by"));
@@ -28,8 +28,7 @@ public class PostMapper implements RowMapper<PostModel> {
             postModel.setAvgVote(rs.getDouble("avg_vote"));
             postModel.setVoteCount(rs.getInt("vote_count"));
             postModel.setAuthId(rs.getLong("auth_id"));
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("PostMapper result null");
             return null;
         }

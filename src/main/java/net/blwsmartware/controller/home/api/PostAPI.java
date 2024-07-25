@@ -34,10 +34,11 @@ public class PostAPI extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
         response.setContentType("application/json");
 
-        Long idUser = JWTUtil.getIdUserFromToken(JWTUtil.getToken(request));
-        UserModel userModel = userService.findByID(idUser);
         Map<String, Object> result = new HashMap<>();
         try {
+            Long idUser = JWTUtil.getIdUserFromToken(JWTUtil.getToken(request));
+            UserModel userModel = userService.findByID(idUser);
+
             PostModel postModel = HttpUtil.of(request.getReader()).toModel(PostModel.class);
             postModel.setCreatedBy(userModel.getName());
             postModel.setAuthId(userModel.getId());

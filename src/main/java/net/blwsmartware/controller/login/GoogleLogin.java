@@ -32,10 +32,11 @@ public class GoogleLogin {
         }
 
     }
+
     public static UserModel getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
         String link = IConstant.GOOGLE_LINK_GET_USER_INFO + accessToken;
         String response = Request.Get(link).execute().returnContent().asString();
-        JsonObject object = new Gson().fromJson(response , JsonObject.class);
+        JsonObject object = new Gson().fromJson(response, JsonObject.class);
         UserModel ggAccount = new UserModel();
         ggAccount.setGgID(object.get("id").getAsString());
         ggAccount.setName(object.get("name").getAsString());

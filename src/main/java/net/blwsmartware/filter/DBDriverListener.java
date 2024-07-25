@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 @WebListener
 public class DBDriverListener implements ServletContextListener {
     private static final Logger LOGGER = Logger.getLogger(DBDriverListener.class.getName());
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         LOGGER.info("-----Registered JDBC driver--------------------");
@@ -23,9 +24,9 @@ public class DBDriverListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         Enumeration<Driver> drivers = DriverManager.getDrivers();
-        LOGGER.info("-----has Driver:"+drivers.hasMoreElements());
+        LOGGER.info("-----has Driver:" + drivers.hasMoreElements());
         while (drivers.hasMoreElements()) {
-            Driver driver =drivers.nextElement();
+            Driver driver = drivers.nextElement();
             try {
                 DriverManager.deregisterDriver(driver);
                 AbandonedConnectionCleanupThread.checkedShutdown();

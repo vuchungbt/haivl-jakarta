@@ -28,8 +28,7 @@
     <sitemesh:write property="body"/>
 
 <%--footer--%>
-<%--<%@include file="/common/web/footer.jsp"%>--%>
-<%--<sitemesh:include page="/common/web/footer.jsp"/>--%>
+    <%@include file="/common/web/footer.jsp"%>
 <%--footer--%>
 </body>
 

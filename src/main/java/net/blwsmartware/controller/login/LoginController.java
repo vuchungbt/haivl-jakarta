@@ -25,7 +25,7 @@ public class LoginController extends HttpServlet {
     private IUserService userService;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException,IOException{
+            throws ServletException, IOException {
         String code = request.getParameter("code");
         String state = request.getParameter("state");
         String error_code = request.getParameter("error_code");
@@ -40,10 +40,10 @@ public class LoginController extends HttpServlet {
 
                 String decodedState = URLDecoder.decode(state, "UTF-8");
                 JsonObject stateJson = JsonParser.parseString(decodedState).getAsJsonObject();
-                String sendDirection = stateJson.has("send-direction") || !stateJson.get("send-direction").getAsString().isEmpty()? stateJson.get("send-direction").getAsString() : "home";
-                String provider = stateJson.has("provider") ?stateJson.get("provider").getAsString():"unknown";
+                String sendDirection = stateJson.has("send-direction") || !stateJson.get("send-direction").getAsString().isEmpty() ? stateJson.get("send-direction").getAsString() : "home";
+                String provider = stateJson.has("provider") ? stateJson.get("provider").getAsString() : "unknown";
 
-                UserModel acc= null;
+                UserModel acc = null;
                 if (provider.equals("google")) {
                     String accessToken = GoogleLogin.getToken(code);
                     acc = GoogleLogin.getUserInfo(accessToken);
@@ -53,12 +53,12 @@ public class LoginController extends HttpServlet {
                 } else {
                     System.out.println("Unknown provider: " + provider);
                 }
-                if(acc != null){
-                    handleUserLogin(acc,provider,sendDirection,request,response);
+                if (acc != null) {
+                    handleUserLogin(acc, provider, sendDirection, request, response);
                     System.out.println(acc);
                     return;
 
-                }else{
+                } else {
                     request.setAttribute("status", 401);
                     request.setAttribute("msg", "User does not exists");
                     path = "/views/login.jsp";
@@ -72,27 +72,28 @@ public class LoginController extends HttpServlet {
             path = "/views/login.jsp";
         }
         String action = request.getParameter("action");
-        if(action!=null &&action.equals("logout")){
-            handleUserLogout(request,response);
+        if (action != null && action.equals("logout")) {
+            handleUserLogout(request, response);
             return;
         }
         RequestDispatcher rd = request.getRequestDispatcher(path);
-        rd.forward(request,response);
+        rd.forward(request, response);
 
     }
+
     public void handleUserLogin(UserModel userModel, String provider, String sendDirection, HttpServletRequest request, HttpServletResponse response)
             throws IOException{
         UserModel existingUser;
         if(provider.equals("google")){
             existingUser = userService.findByGgID(userModel.getGgID());
-        }else{
+        } else {
             existingUser = userService.findByFbID(userModel.getFbID());
         }
 
         if (existingUser == null) {
             userModel.setRoleId(userService.getRoleIDByRoleCode(IConstant.USER));
             userModel = userService.save(userModel);
-        }else{
+        } else {
             userModel.setId(existingUser.getId());
             userModel.setRoleId(existingUser.getRoleId());
             userModel = userService.update(userModel);
@@ -102,13 +103,14 @@ public class LoginController extends HttpServlet {
 
         System.out.println("Generated JWT Token: " + jwtToken);
 
-        Cookie cookie = new Cookie("token",jwtToken);
+        Cookie cookie = new Cookie("token", jwtToken);
 //        cookie.setPath("/");
 //        cookie.setHttpOnly(true);
         response.addCookie(cookie);
         response.sendRedirect(request.getContextPath() + "/" + sendDirection);
 
     }
+
     public void handleUserLogout(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
         JWTUtil.destroyToken(request, response);

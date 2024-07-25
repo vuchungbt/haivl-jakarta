@@ -14,6 +14,7 @@ import net.blwsmartware.util.JWTUtil;
 import net.blwsmartware.util.RouterUtil;
 
 import java.io.IOException;
+
 @WebFilter("/loginFilter")
 public class AuthorizationFilter implements Filter {
 
@@ -25,7 +26,7 @@ public class AuthorizationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest)servletRequest;
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         String url = request.getRequestURI();
@@ -35,19 +36,20 @@ public class AuthorizationFilter implements Filter {
 
             try {
                 String token = tokenCookie.getValue();
-                handleValidToken(token,url,request,response,filterChain);
+                handleValidToken(token, url, request, response, filterChain);
 
-            }catch (TokenExpiredException e){
-                handleExpiredToken(url,request,response,filterChain);
+            } catch (TokenExpiredException e) {
+                handleExpiredToken(url, request, response, filterChain);
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Invalid token: " + e.getMessage());
-                handleInvalidToken(request,response);
+                handleInvalidToken(request, response);
             }
-        }else{
-            handleNoToken(url,request,response,filterChain);
+        } else {
+            handleNoToken(url, request, response, filterChain);
         }
     }
+
     private UserModel getInfoFromToken(String token) {
         Long id = JWTUtil.getIdUserFromToken(token);
         return userService.findByID(id);
@@ -56,49 +58,66 @@ public class AuthorizationFilter implements Filter {
         String link = RouterUtil.getRouter(1,request);
         request.setAttribute("router", link);
     }
+
     private void handleValidToken(String token, String url, HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
         UserModel userModel = getInfoFromToken(token);
         request.setAttribute("status", 200);
-        request.setAttribute("userModel",userModel);
-        if(url.startsWith("/login")){
-            response.sendRedirect(request.getContextPath()+"/");
-        }else if (url.startsWith("/admin")) {
+        request.setAttribute("userModel", userModel);
+        if (url.startsWith("/login")) {
+            response.sendRedirect(request.getContextPath() + "/");
+        } else if (url.startsWith("/admin")) {
             Long idAdmin = userService.getRoleIDByRoleCode(IConstant.ADMIN);
             if (userModel.getRoleId().equals(idAdmin)) {
                 filterChain.doFilter(request, response);
             } else {
                 response.sendRedirect(request.getContextPath() + "/login?message=not_permission&alert=danger");
             }
-        }else {
+        } else {
             filterChain.doFilter(request, response);
         }
 
     }
-    private void handleExpiredToken( String url,HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+
+    private void handleExpiredToken(String url, HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         JWTUtil.destroyToken(request, response);
         if(checkURLForNoToken(url)){
             filterChain.doFilter(request, response);
-        }else{
+        } else {
             response.sendRedirect(request.getContextPath() + "/login?message=token_expired&alert=danger");
         }
     }
-    private void handleInvalidToken( HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+    private void handleInvalidToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.sendRedirect(request.getContextPath() + "/login?message=token_invalid&alert=danger");
     }
-    private void handleNoToken(String url, HttpServletRequest request, HttpServletResponse response, FilterChain filterChain )
-            throws ServletException, IOException{
-        if(checkURLForNoToken(url)) {
+
+    private void handleNoToken(String url, HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        if (checkURLForNoToken(url)) {
             filterChain.doFilter(request, response);
-        }else{
-            response.sendRedirect(request.getContextPath()+"/login?message=not_permission&alert=danger");
+        } else {
+            response.sendRedirect(request.getContextPath() + "/login?message=not_permission&alert=danger");
         }
     }
-    private boolean checkURLForNoToken(String url){
+
+    private boolean checkURLForNoToken(String url) {
         return !url.startsWith("/admin");
     }
+
+    private Cookie getCookieToken(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token"))
+                    return cookie;
+            }
+        }
+        return null;
+    }
+
     @Override
     public void destroy() {
 

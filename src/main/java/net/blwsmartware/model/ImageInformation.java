@@ -1,8 +1,16 @@
 package net.blwsmartware.model;
 
-public class ImageInformation{
-    private int height,with;
-    private String originalName,resizeName,thumbnailName,id,watermarkName;
+public class ImageInformation {
+    private int height, with;
+    private String originalName, resizeName, thumbnailName, id, watermarkName,workSpace;
+
+    public String getWorkSpace() {
+        return workSpace;
+    }
+
+    public void setWorkSpace(String workSpace) {
+        this.workSpace = workSpace;
+    }
 
     public int getHeight() {
         return height;

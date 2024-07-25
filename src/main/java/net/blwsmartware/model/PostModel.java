@@ -6,15 +6,15 @@ import java.util.List;
 
 public class PostModel extends AbstractModel {
     private List<String> tab = new ArrayList<>();
-    private String source,refer,shortdescription,content,sourceName;
-    private Timestamp publishDate,verifiedDate ;
+    private String source, refer, shortdescription, content, sourceName;
+    private Timestamp publishDate, verifiedDate;
     private Long authId;
     private double avgVote;
     private int voteCount;
 
 
     private UserModel created;
-    private List<CommentModel> comments ;
+    private List<CommentModel> comments;
 
     public List<CommentModel> getComments() {
         return comments;
@@ -71,7 +71,7 @@ public class PostModel extends AbstractModel {
     public void setAuthId(Long authId) {
         this.authId = authId;
     }
-    
+
 
     public Timestamp getPublishDate() {
         return publishDate;

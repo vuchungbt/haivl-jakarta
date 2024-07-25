@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/sitemesh3"} )
+@WebServlet(urlPatterns = {"/sitemesh3"})
 public class SiteMeshController extends HttpServlet {
 
     @Override

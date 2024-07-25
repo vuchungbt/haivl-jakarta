@@ -16,7 +16,7 @@
         <div class="collapse navbar-collapse" id="navbarsExample07">
           <ul class="navbar-nav me-auto mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link
+              <a class="nav-link text-nowrap
                 <c:choose>
                     <c:when test="${router == 'home' or router == ''}">
                             active
@@ -25,7 +25,7 @@
                 " aria-current="page" href="<c:url value='/'/>">Trang chủ</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link
+              <a class="nav-link text-nowrap
                 <c:choose>
                     <c:when test="${router == 'trending' }">
                             active
@@ -34,7 +34,7 @@
                 " href="/trending">Xu hướng</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link
+              <a class="nav-link text-nowrap
                 <c:choose>
                     <c:when test="${router == 'top'  }">
                             active
@@ -43,7 +43,7 @@
                 " href="/top">Phổ biến</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link
+              <a class="nav-link text-nowrap
                 <c:choose>
                     <c:when test="${router == 'ask' }">
                             active
@@ -52,7 +52,7 @@
                 " href="/ask">Câu hỏi</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link">Chat với người lạ</a>
+              <a class="nav-link text-nowrap">Chat với người lạ</a>
             </li>
             <!-- <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-bs-toggle="dropdown"

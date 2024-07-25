@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class ImageServiceImpl implements ImageService {
-    private  int width, height;
-    private String fileName,resizeName,thumbnailName,id,watermarkName;
+    private int width, height;
+    private String fileName, resizeName, thumbnailName, id, watermarkName;
     Part path;
 
     public String getWatermarkName() {
@@ -30,7 +30,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     public int getWidth() {
-        return  this.width!=0 & this.height!=0? this.width : getBufferedImage().getWidth();
+        return this.width != 0 & this.height != 0 ? this.width : getBufferedImage().getWidth();
     }
 
     public void setWidth(int width) {
@@ -38,7 +38,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     public int getHeight() {
-        return  this.height!=0 & this.height!=0? this.width : getBufferedImage().getWidth();
+        return this.height != 0 & this.height != 0 ? this.width : getBufferedImage().getWidth();
     }
 
     public void setHeight(int height) {
@@ -75,7 +75,7 @@ public class ImageServiceImpl implements ImageService {
 
     private BufferedImage getBufferedImage() {
         try {
-            return  ImageIO.read(getFile());
+            return ImageIO.read(getFile());
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -84,7 +84,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public File getFile() {
-        return new File(getFolderUpload() + File.separator + IConstant.UPLOAD_DIR_ROOT+ File.separator + this.id +DOT_EXTENDS);
+        return new File(getFolderUpload() + File.separator + IConstant.UPLOAD_DIR_ROOT + File.separator + this.id + DOT_EXTENDS);
 
     }
 
@@ -93,23 +93,26 @@ public class ImageServiceImpl implements ImageService {
         return System.getProperty("user.home");
     }
 
-    public void makeDir(){
-        File r= new File(getFolderUpload()+File.separator+IConstant.UPLOAD_DIR_ROOT);
-        System.out.println("root folder is:"+getFolderUpload());
-        if(!r.exists()) if(!r.mkdirs()) System.out.println("Error dir:99");
-        File f = new File(getFolderUpload()+File.separator+IConstant.UPLOAD_DIR_RESIZE);
-        if(!f.exists()) if(!f.mkdirs()) System.out.println("Error dir:101");
-        File f1 = new File(getFolderUpload()+File.separator+IConstant.UPLOAD_DIR_THUMBNAIL);
-        if(!f1.exists()) if(!f1.mkdirs()) System.out.println("Error dir:103");
-        System.out.println("Root folder exist:"+r.exists());
+    public void makeDir() {
+        File r = new File(getFolderUpload() + File.separator + IConstant.UPLOAD_DIR_ROOT);
+        System.out.println("root folder is:" + getFolderUpload());
+        if (!r.exists()) if (!r.mkdirs()) System.out.println("Error dir:99");
+        File f = new File(getFolderUpload() + File.separator + IConstant.UPLOAD_DIR_RESIZE);
+        if (!f.exists()) if (!f.mkdirs()) System.out.println("Error dir:101");
+        File f1 = new File(getFolderUpload() + File.separator + IConstant.UPLOAD_DIR_THUMBNAIL);
+        if (!f1.exists()) if (!f1.mkdirs()) System.out.println("Error dir:103");
+        System.out.println("Root folder exist:" + r.exists());
 
-    };
+    }
+
+    ;
+
     @Override
     public void saveImageToDisk() {
         try {
             path.write(getFile().getAbsolutePath());
-            this.width=this.width>0?this.width: getBufferedImage().getWidth();
-            this.height=this.height>0?this.height: getBufferedImage().getWidth();
+            this.width = this.width > 0 ? this.width : getBufferedImage().getWidth();
+            this.height = this.height > 0 ? this.height : getBufferedImage().getWidth();
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -118,8 +121,8 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public void createThumbnail() {
-        this.thumbnailName = File.separator + IConstant.UPLOAD_DIR_THUMBNAIL+ File.separator+ id + DOT_EXTENDS;
-        File resizedFile = new File(getFolderUpload()+ this.thumbnailName);
+        this.thumbnailName = File.separator + IConstant.UPLOAD_DIR_THUMBNAIL + File.separator + id + DOT_EXTENDS;
+        File resizedFile = new File(getFolderUpload() + this.thumbnailName);
         try {
             Thumbnails.of(getFile())
                     .size(DEFAULT_WIDTH, DEFAULT_HEIGHT)
@@ -132,7 +135,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public File resize() {
         UUID uuid = UUID.randomUUID();
-        this.resizeName = File.separator + IConstant.UPLOAD_DIR_RESIZE + File.separator+ uuid +"_resize"+ DOT_EXTENDS;
+        this.resizeName = File.separator + IConstant.UPLOAD_DIR_RESIZE + File.separator + uuid + "_resize" + DOT_EXTENDS;
         File targetFile = new File(getFolderUpload() + resizeName);
         try {
             Thumbnails.of(getFile()).size(width, height).keepAspectRatio(false).toFile(targetFile);
@@ -140,9 +143,10 @@ public class ImageServiceImpl implements ImageService {
         }
         return targetFile;
     }
+
     public File resizeKeepAspectRatio() {
         UUID uuid = UUID.randomUUID();
-        this.resizeName = File.separator + IConstant.UPLOAD_DIR_RESIZE + File.separator+ uuid +"_resize"+ DOT_EXTENDS;
+        this.resizeName = File.separator + IConstant.UPLOAD_DIR_RESIZE + File.separator + uuid + "_resize" + DOT_EXTENDS;
         File targetFile = new File(getFolderUpload() + resizeName);
         try {
             Thumbnails.of(getFile()).size(width, height).keepAspectRatio(true).toFile(targetFile);
@@ -154,7 +158,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public File scale(double scale) {
         UUID uuid = UUID.randomUUID();
-        File targetFile = new File(getFolderUpload() + File.separator + IConstant.UPLOAD_DIR_RESIZE + File.separator+ uuid +"_scale_"+scale+ DOT_EXTENDS);
+        File targetFile = new File(getFolderUpload() + File.separator + IConstant.UPLOAD_DIR_RESIZE + File.separator + uuid + "_scale_" + scale + DOT_EXTENDS);
         try {
             Thumbnails.of(getBufferedImage()).scale(scale).toFile(targetFile.getAbsoluteFile());
         } catch (IOException e) {
@@ -166,8 +170,8 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public File createWatermark() {
         UUID uuid = UUID.randomUUID();
-        this.watermarkName = File.separator + IConstant.UPLOAD_DIR_RESIZE + File.separator+ uuid +  DOT_EXTENDS;
-        File watermark = new File(getFolderUpload()+File.separator+IConstant.UPLOAD_DIR+File.separator+IConstant.FILE_WATERMARK);
+        this.watermarkName = File.separator + IConstant.UPLOAD_DIR_RESIZE + File.separator + uuid + DOT_EXTENDS;
+        File watermark = new File(getFolderUpload() + File.separator + IConstant.UPLOAD_DIR + File.separator + IConstant.FILE_WATERMARK);
         File targetFile = new File(getFolderUpload() + watermarkName);
         try {
             Thumbnails.of(getFile())
@@ -184,11 +188,11 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public void submitSystemWaterMark() {
-        File targetFile = new File(getFolderUpload()+File.separator+IConstant.UPLOAD_DIR +File.separator+"watermark.png" );
+        File targetFile = new File(getFolderUpload() + File.separator + IConstant.UPLOAD_DIR + File.separator + "watermark.png");
         try {
             path.write(targetFile.getAbsolutePath());
         } catch (IOException e) {
-            System.out.println("submitSystemWaterMark"+e.getMessage());
+            System.out.println("submitSystemWaterMark" + e.getMessage());
         }
     }
 

@@ -14,6 +14,7 @@ public class CommentService implements ICommentService {
     private ICommentDAO commentDAO;
     @Inject
     private IUserService userService;
+
     @Override
     public CommentModel save(CommentModel commentModel) {
         Long id = commentDAO.save(commentModel);
@@ -38,50 +39,52 @@ public class CommentService implements ICommentService {
 
     @Override
     public List<CommentModel> findByPostID(Long idPost) {
-        List<CommentModel> list= commentDAO.findByPostID(idPost);
+        List<CommentModel> list = commentDAO.findByPostID(idPost);
         createdEntity(list);
         return list;
     }
 
     @Override
     public List<CommentModel> findByPostID(Long idPost, int page) {
-        List<CommentModel> list= commentDAO.findByPostID(idPost,page);
+        List<CommentModel> list = commentDAO.findByPostID(idPost, page);
         createdEntity(list);
         return list;
     }
 
     @Override
     public List<CommentModel> findByPostIDAndFirstLevel(Long idPost) {
-        List<CommentModel> list= commentDAO.findByPostIDAndFirstLevel(idPost);
+        List<CommentModel> list = commentDAO.findByPostIDAndFirstLevel(idPost);
         createdEntity(list);
         return list;
     }
 
     @Override
     public List<CommentModel> findByPostIDAndFirstLevel(Long idPost, int page) {
-        List<CommentModel> list= commentDAO.findByPostIDAndFirstLevel(idPost,page);
+        List<CommentModel> list = commentDAO.findByPostIDAndFirstLevel(idPost, page);
         createdEntity(list);
         return list;
     }
 
     @Override
     public List<CommentModel> findByParentID(Long idParent) {
-        List<CommentModel> list= commentDAO.findByParentID(idParent);
+        List<CommentModel> list = commentDAO.findByParentID(idParent);
         createdEntity(list);
         return list;
     }
 
     @Override
     public List<CommentModel> findByParentID(Long idParent, int page) {
-        List<CommentModel> list= commentDAO.findByParentID(idParent,page);
+        List<CommentModel> list = commentDAO.findByParentID(idParent, page);
         createdEntity(list);
         return list;
     }
 
-    private void createdEntity(List<CommentModel> list){
-        if(list.isEmpty()) return;
+    private void createdEntity(List<CommentModel> list) {
+        if (list.isEmpty()) return;
         list.forEach(cmtModel -> {
             cmtModel.setCreated(userService.findByID(cmtModel.getAuthId()));
         });
-    };
+    }
+
+    ;
 }

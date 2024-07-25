@@ -12,9 +12,9 @@ public class CommentDAO extends AbstractDAO implements ICommentDAO {
         StringBuilder sql = new StringBuilder("INSERT INTO comments ");
         sql.append(" (name, status ,created_by,type,title,thumbnail,description,content,level,for_post,auth_id)");
         sql.append(" VALUES(?, ?, ?, ?, ?, ?,?, ?, ?, ?,?)");
-        return insert(sql.toString(),commentModel.getName(),commentModel.getStatus(),commentModel.getCreatedDate(),commentModel.getCreatedBy(),
-                commentModel.getType(),commentModel.getTitle(),commentModel.getThumbnail(),commentModel.getDescription(),commentModel.getContent(),commentModel.getLevel(),
-                commentModel.getForPost(),commentModel.getAuthId()
+        return insert(sql.toString(), commentModel.getName(), commentModel.getStatus(), commentModel.getCreatedDate(), commentModel.getCreatedBy(),
+                commentModel.getType(), commentModel.getTitle(), commentModel.getThumbnail(), commentModel.getDescription(), commentModel.getContent(), commentModel.getLevel(),
+                commentModel.getForPost(), commentModel.getAuthId()
         );
     }
 
@@ -32,9 +32,9 @@ public class CommentDAO extends AbstractDAO implements ICommentDAO {
         sql.append(" level=?,");
         sql.append(" auth_id=?");
         sql.append(" WHERE id = ?");
-        update(sql.toString(), commentModel.getDescription(),commentModel.getContent(),
-                commentModel.getModifiedBy(),commentModel.getStatus(),commentModel.getThumbnail(),
-                commentModel.getTitle(),commentModel.getType(),commentModel.getLevel(),commentModel.getAuthId(),commentModel.getForPost(),
+        update(sql.toString(), commentModel.getDescription(), commentModel.getContent(),
+                commentModel.getModifiedBy(), commentModel.getStatus(), commentModel.getThumbnail(),
+                commentModel.getTitle(), commentModel.getType(), commentModel.getLevel(), commentModel.getAuthId(), commentModel.getForPost(),
                 commentModel.getId());
     }
 
@@ -64,8 +64,8 @@ public class CommentDAO extends AbstractDAO implements ICommentDAO {
     @Override
     public List<CommentModel> findByPostID(Long idPost, int page) {
         int record = 5;
-        if(page==0) page=1;
-        String sql_limit=" LIMIT "+ record + " OFFSET " + (page-1)*record ;
+        if (page == 0) page = 1;
+        String sql_limit = " LIMIT " + record + " OFFSET " + (page - 1) * record;
 
         StringBuilder sql = new StringBuilder("SELECT cmt.* , COUNT(cv.user_id) AS vote_count FROM comments cmt");
         sql.append(" LEFT JOIN comment_has_votes cv ON cmt.id = cv.comment_id");
@@ -89,8 +89,8 @@ public class CommentDAO extends AbstractDAO implements ICommentDAO {
     @Override
     public List<CommentModel> findByPostIDAndFirstLevel(Long idPost, int page) {
         int record = 5;
-        if(page==0) page=1;
-        String sql_limit=" LIMIT "+ record + " OFFSET " + (page-1)*record ;
+        if (page == 0) page = 1;
+        String sql_limit = " LIMIT " + record + " OFFSET " + (page - 1) * record;
         StringBuilder sql = new StringBuilder("SELECT cmt.* , COUNT(cv.user_id) AS vote_count FROM comments cmt");
         sql.append(" LEFT JOIN comment_has_votes cv ON cmt.id = cv.comment_id");
         sql.append(" WHERE cmt.for_post = ?");
@@ -111,7 +111,7 @@ public class CommentDAO extends AbstractDAO implements ICommentDAO {
     public List<CommentModel> findByParentID(Long idParent, int page) {
         int record = 5;
         String sql = "SELECT * FROM comments WHERE parent_comment_id = ?";
-        sql+=" LIMIT "+ record + " OFFSET " + (page-1)*record ;
+        sql += " LIMIT " + record + " OFFSET " + (page - 1) * record;
         return query(sql, new CommentMapper(), idParent);
     }
 }

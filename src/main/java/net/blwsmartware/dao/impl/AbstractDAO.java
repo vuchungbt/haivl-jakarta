@@ -53,11 +53,11 @@ public class AbstractDAO implements GenericDAO {
     @Override
     public <T> List<T> query(String sql, RowMapper<T> rowMapper, Object... param) {
         List<T> results = new ArrayList<>();
-        Connection connection ;
+        Connection connection;
         PreparedStatement statement;
         ResultSet resultSet;
         try {
-            System.out.println("Query:"+sql);
+            System.out.println("Query:" + sql);
             connection = getConnection();
             statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql));
             setParameter(statement, param);
@@ -84,11 +84,11 @@ public class AbstractDAO implements GenericDAO {
             statement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
-                try {
-                    connection.rollback();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         } finally {
             try {
                 if (connection != null) {
@@ -122,7 +122,7 @@ public class AbstractDAO implements GenericDAO {
             connection.commit();
             return id;
         } catch (SQLException e) {
-            System.out.println("Save error:"+e.getMessage());
+            System.out.println("Save error:" + e.getMessage());
             try {
                 if (connection.isClosed()) {
                     try {
@@ -186,7 +186,7 @@ public class AbstractDAO implements GenericDAO {
                     resultSet.close();
                 }
             } catch (SQLException e) {
-                System.out.println("187:"+this.getClass());
+                System.out.println("187:" + this.getClass());
             }
         }
     }
@@ -222,7 +222,7 @@ public class AbstractDAO implements GenericDAO {
                     resultSet.close();
                 }
             } catch (SQLException e) {
-                System.out.println("223:"+this.getClass());
+                System.out.println("223:" + this.getClass());
 
             }
 

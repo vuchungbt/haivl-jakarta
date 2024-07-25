@@ -5,7 +5,7 @@ import net.blwsmartware.model.CommentModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CommentMapper implements RowMapper<CommentModel>{
+public class CommentMapper implements RowMapper<CommentModel> {
     @Override
     public CommentModel mapRow(ResultSet rs) {
         CommentModel commentModel = new CommentModel();
@@ -26,9 +26,8 @@ public class CommentMapper implements RowMapper<CommentModel>{
             commentModel.setForPost(rs.getLong("for_post"));
             commentModel.setAuthId(rs.getLong("auth_id"));
             commentModel.setVoteCount(rs.getInt("vote_count"));
-        }
-        catch (SQLException e) {
-            System.out.println("CommentMapper: "+e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("CommentMapper: " + e.getMessage());
             return null;
         }
         return commentModel;

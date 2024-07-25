@@ -10,8 +10,11 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
 
     @Override
     public PostModel findByID(Long id) {
-        StringBuilder sql = new StringBuilder("SELECT * FROM posts");
-        sql.append(" WHERE id = ?");
+        StringBuilder sql = new StringBuilder("SELECT p.*, COUNT(pv.user_id) AS vote_count, ROUND(AVG(pv.vote), 2) AS avg_vote ");
+        sql.append(" FROM posts p");
+        sql.append(" LEFT JOIN post_has_votes pv ON p.id = pv.post_id");
+        sql.append(" GROUP BY p.id");
+        sql.append(" WHERE p.id = ?");
         return findOne(sql.toString(), new PostMapper(), id);
     }
 
@@ -32,9 +35,9 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
         sql.append(" verified_date=?,");
         sql.append(" type=?");
         sql.append(" WHERE id = ?");
-        update(sql.toString(),newPost.getDescription(),newPost.getShortDescription(),newPost.getContent(),
-                newPost.getRefer(),newPost.getSource(),newPost.getSourceName(),newPost.getModifiedBy(),newPost.getStatus(),newPost.getThumbnail(),newPost.getTitle(),
-                newPost.getPublishDate(),newPost.getVerifiedDate(),newPost.getType(),
+        update(sql.toString(), newPost.getDescription(), newPost.getShortDescription(), newPost.getContent(),
+                newPost.getRefer(), newPost.getSource(), newPost.getSourceName(), newPost.getModifiedBy(), newPost.getStatus(), newPost.getThumbnail(), newPost.getTitle(),
+                newPost.getPublishDate(), newPost.getVerifiedDate(), newPost.getType(),
                 newPost.getId());
     }
 
@@ -67,34 +70,35 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
     @Override
     public List<PostModel> findAll() {
         String sql = "SELECT * FROM posts";
-        return query(sql,new PostMapper());
+        return query(sql, new PostMapper());
     }
 
     @Override
     public List<PostModel> findAll(int page) {
-        if(page==0) page=1;
+        if (page == 0) page = 1;
         int record = 10;
-        String limit = " LIMIT "+ record + " OFFSET " + (page-1)*record;
+        String limit = " LIMIT " + record + " OFFSET " + (page - 1) * record;
         StringBuilder sql = new StringBuilder("SELECT p.*, COUNT(pv.user_id) AS vote_count, ROUND(AVG(pv.vote), 2) AS avg_vote ");
         sql.append(" FROM posts p");
         sql.append(" LEFT JOIN post_has_votes pv ON p.id = pv.post_id");
         sql.append(" GROUP BY p.id");
-        sql.append( limit) ;
-        return query(sql.toString(),new PostMapper());
+        sql.append(" ORDER BY p.created_date DESC");
+        sql.append(limit);
+        return query(sql.toString(), new PostMapper());
     }
 
     @Override
     public List<PostModel> findTop(int page) {
-        if(page==0) page=1;
+        if (page == 0) page = 1;
         int record = 10;
-        String limit = " LIMIT "+ record + " OFFSET " + (page-1)*record;
+        String limit = " LIMIT " + record + " OFFSET " + (page - 1) * record;
         StringBuilder sql = new StringBuilder("SELECT p.*, COUNT(pv.user_id) AS vote_count, ROUND(AVG(pv.vote), 2) AS avg_vote ");
         sql.append(" FROM posts p");
         sql.append(" LEFT JOIN post_has_votes pv ON p.id = pv.post_id");
         sql.append(" GROUP BY p.id");
-        sql.append(" ORDER BY vote_count DESC");
-        sql.append(limit) ;
-        return query(sql.toString(),new PostMapper());
+        sql.append(" ORDER BY p.created_date DESC, vote_count DESC ");
+        sql.append(limit);
+        return query(sql.toString(), new PostMapper());
     }
 
     @Override
