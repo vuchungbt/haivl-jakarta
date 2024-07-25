@@ -10,8 +10,11 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
 
     @Override
     public PostModel findByID(Long id) {
-        StringBuilder sql = new StringBuilder("SELECT * FROM posts");
-        sql.append(" WHERE id = ?");
+        StringBuilder sql = new StringBuilder("SELECT p.*, COUNT(pv.user_id) AS vote_count, ROUND(AVG(pv.vote), 2) AS avg_vote ");
+        sql.append(" FROM posts p");
+        sql.append(" LEFT JOIN post_has_votes pv ON p.id = pv.post_id");
+        sql.append(" GROUP BY p.id");
+        sql.append(" WHERE p.id = ?");
         return findOne(sql.toString(), new PostMapper(), id);
     }
 
@@ -76,6 +79,7 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
         sql.append(" FROM posts p");
         sql.append(" LEFT JOIN post_has_votes pv ON p.id = pv.post_id");
         sql.append(" GROUP BY p.id");
+        sql.append(" ORDER BY p.created_date DESC");
         sql.append(limit);
         return query(sql.toString(), new PostMapper());
     }
@@ -89,7 +93,7 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
         sql.append(" FROM posts p");
         sql.append(" LEFT JOIN post_has_votes pv ON p.id = pv.post_id");
         sql.append(" GROUP BY p.id");
-        sql.append(" ORDER BY vote_count DESC");
+        sql.append(" ORDER BY p.created_date DESC, vote_count DESC ");
         sql.append(limit);
         return query(sql.toString(), new PostMapper());
     }

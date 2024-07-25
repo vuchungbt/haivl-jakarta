@@ -198,6 +198,9 @@ div.stars{
 .min-370 {
     min-width:360px;
 }
+.timestamp {
+    font-size: 0.75em !important;
+}
 .fist-star{
     padding-left:15px !important;
 }
