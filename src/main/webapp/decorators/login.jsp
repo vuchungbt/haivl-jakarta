@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Thinh
-  Date: 6/19/2024
-  Time: 12:16 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@include file="/common/taglib.jsp"%>
 <html>
 <head>
@@ -25,5 +18,5 @@
 </div>
 </body>
 
-<script src="<c:url value='/template/login/js/sendDirection.js'/> " type="text/javascript"></script>
+<script src="<c:url value='/public/login/js/sendDirection.js'/> " type="text/javascript"></script>
 </html>

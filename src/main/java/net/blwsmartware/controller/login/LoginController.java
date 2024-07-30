@@ -17,7 +17,6 @@ import net.blwsmartware.util.JWTUtil;
 
 import java.io.IOException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 
 @WebServlet(urlPatterns = {"/login", "/logout"})
 public class LoginController extends HttpServlet {
@@ -31,27 +30,11 @@ public class LoginController extends HttpServlet {
         String state = request.getParameter("state");
         String error_code = request.getParameter("error_code");
         String error_message = request.getParameter("error_message");
-        if (error_code != null || error_message != null) {
-            System.out.println("co vao khong");
-//            String errorUrl = request.getContextPath() + "/login?error_code=" + error_code + "&error_message=" + URLEncoder.encode(error_message, "UTF-8");
-//            response.sendRedirect(errorUrl);
-//            response.sendRedirect(request.getContextPath()+ "/login");
-//            return;
-            String previousError = (String) request.getSession().getAttribute("previousError");
-            if (previousError == null || !previousError.equals(error_code)) {
-                request.getSession().setAttribute("previousError", error_code);
-                response.sendRedirect(request.getContextPath() + "/login");
-                return;
-            } else {
-                // Nếu phát hiện vòng lặp, hiển thị thông báo lỗi
-                request.setAttribute("status", 401);
-                request.setAttribute("msg", "There is an issue with the application. Please try again later.");
-                RequestDispatcher rd = request.getRequestDispatcher("/views/login.jsp");
-                rd.forward(request, response);
-                return;
-            }
+        if(error_code!=null || error_message!=null){
+            response.sendRedirect(request.getContextPath()+ "/login");
+            return;
         }
-        String path = "";
+        String path;
         if (code != null) {
             if (state != null) {
 
@@ -99,9 +82,9 @@ public class LoginController extends HttpServlet {
     }
 
     public void handleUserLogin(UserModel userModel, String provider, String sendDirection, HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        UserModel existingUser = null;
-        if (provider.equals("google")) {
+            throws IOException{
+        UserModel existingUser;
+        if(provider.equals("google")){
             existingUser = userService.findByGgID(userModel.getGgID());
         } else {
             existingUser = userService.findByFbID(userModel.getFbID());
@@ -129,18 +112,8 @@ public class LoginController extends HttpServlet {
     }
 
     public void handleUserLogout(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    cookie.setValue("");
-                    cookie.setMaxAge(0);
-                    response.addCookie(cookie);
-                    break;
-                }
-            }
-        }
+            throws ServletException, IOException{
+        JWTUtil.destroyToken(request, response);
         response.sendRedirect(request.getContextPath() + "/login");
     }
 }

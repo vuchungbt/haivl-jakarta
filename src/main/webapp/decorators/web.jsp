@@ -8,14 +8,17 @@
     <title>
         <sitemesh:write property="title"/>
     </title>
-    <link href="<c:url value='/template/web/css/bootstrap.min.css'/>" rel="stylesheet" type="text/css" media="all">
-    <link href="<c:url value='/template/web/css/customize.css'/> " rel="stylesheet" type="text/css" media="all">
-    <link href="<c:url value='/template/web/css/dropzone.css'/> " rel="stylesheet" type="text/css" media="all">
-    <link href="<c:url value='/template/web/css/glightbox.min.css'/> " rel="stylesheet" type="text/css" media="all">
-    <script src="<c:url value='/template/web/js/kit.42d5adcbca.js' />"></script>
+    <link href="<c:url value='/public/web/css/bootstrap.min.css'/>" rel="stylesheet" type="text/css" media="all">
+    <link href="<c:url value='/public/web/css/customize.css'/> " rel="stylesheet" type="text/css" media="all">
+    <link href="<c:url value='/public/web/css/dropzone.css'/> " rel="stylesheet" type="text/css" media="all">
+    <link href="<c:url value='/public/web/css/glightbox.min.css'/> " rel="stylesheet" type="text/css" media="all">
+    <script src="<c:url value='/public/web/js/kit.42d5adcbca.js' />"></script>
 
     <!-- Dark mode -->
-    <script  src="<c:url value='/template/web/js/theme.js' />"></script>
+    <script  src="<c:url value='/public/web/js/theme.js' />"></script>
+
+    <link rel="stylesheet" href="<c:url value='/public/web/css/dropify.min.css' />" />
+
   
 </head>
 <body>
@@ -29,10 +32,10 @@
 <%--footer--%>
 </body>
 
-      <script  src="<c:url value='/template/web/js/token/refreshToken.js'/> "></script>
-      <script   src="<c:url value='/template/web/js/bootstrap.bundle.min.js'/>"></script>
-      <script   src="<c:url value='/template/web/js/customize.js'/> "></script>
-      <script src="<c:url value='/template/web/js/loginDirection/loginDirection.js'/> "></script>
+<%--      <script  src="<c:url value='/template/web/js/token/refreshToken.js'/> "></script>--%>
+<%--      <script   src="<c:url value='/template/web/js/bootstrap.bundle.min.js'/>"></script>--%>
+<%--      <script   src="<c:url value='/template/web/js/customize.js'/> "></script>--%>
+<%--      <script src="<c:url value='/template/web/js/loginDirection/loginDirection.js'/> "></script>--%>
 
 </html>
 

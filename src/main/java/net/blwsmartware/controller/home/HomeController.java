@@ -1,8 +1,6 @@
 package net.blwsmartware.controller.home;
 
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -38,10 +36,9 @@ public class HomeController extends HttpServlet {
 
         String pth_request = (String) request.getAttribute("router");
         System.out.println("link : " + pth_request);
-//        pth_request = "";
-        String page = RouterUtil.getRouter(2, request);
-        int pageNumber = 1;
-        try {
+        String page = RouterUtil.getRouter(2,request);
+        int pageNumber = 1 ;
+        try{
             pageNumber = Integer.parseInt(page);
             if (pageNumber == 0) pageNumber = 1;
         } catch (Exception e) {

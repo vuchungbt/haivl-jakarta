@@ -30,10 +30,12 @@ public class PostService implements IPostService {
 
     @Override
     public PostModel save(PostModel postModel) {
-        String src = postModel.getSource();
-        src = src.toUpperCase();
-        if (!src.startsWith("HTTP://") && !src.startsWith("HTTPS://")) {
-            postModel.setSource("https://" + postModel.getSource());
+        if(postModel.getSource()!=null){
+            String src = postModel.getSource();
+            src =src.toUpperCase();
+            if(!src.startsWith("HTTP://") && !src.startsWith("HTTPS://")) {
+                postModel.setSource("https://"+postModel.getSource());
+            }
         }
         Long id = postDAO.save(postModel);
         return postDAO.findByID(id);
