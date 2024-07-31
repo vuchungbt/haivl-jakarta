@@ -179,9 +179,14 @@ Rating --------------------------------------------------------
                 padding-left: 12px !important; /* Thay đổi padding-left khi màn hình nhỏ hơn 900px */
             }
         }
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
             .star-none-wrap {
                 padding-left: 50px !important; /* Thay đổi padding-left khi màn hình nhỏ hơn 768px */
+            }
+        }
+        @media (max-width: 460px) {
+            .star-none-wrap {
+                padding-left: 12px !important; /* Thay đổi padding-left khi màn hình nhỏ hơn 460px */
             }
         }
         @media (min-width: 901px) {

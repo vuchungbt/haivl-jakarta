@@ -3,6 +3,7 @@ package net.blwsmartware.model;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class PostModel extends AbstractModel {
     private List<String> tab = new ArrayList<>();
@@ -14,7 +15,16 @@ public class PostModel extends AbstractModel {
 
 
     private UserModel created;
+    private Set<TagModel> tags;
     private List<CommentModel> comments;
+
+    public Set<TagModel> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<TagModel> tags) {
+        this.tags = tags;
+    }
 
     public List<CommentModel> getComments() {
         return comments;
