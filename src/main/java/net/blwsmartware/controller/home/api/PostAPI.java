@@ -45,6 +45,7 @@ public class PostAPI extends HttpServlet {
             postModel = postService.save(postModel);
             System.out.println(postModel);
             result.put("status","success");
+            result.put("postModdel",postModel);
         } catch (Exception e){
             result.put("status", "error");
         }
@@ -57,25 +58,37 @@ public class PostAPI extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         ObjectMapper objectMapper = new ObjectMapper();
         response.setContentType("application/json");
+        Map<String, Object> result = new HashMap<>();
+        try {
+            Long idUser = JWTUtil.getIdUserFromToken(JWTUtil.getToken(request));
+            UserModel userModel = userService.findByID(idUser);
 
-        Long idUser = JWTUtil.getIdUserFromToken(JWTUtil.getToken(request));
-        UserModel userModel = userService.findByID(idUser);
-
-        PostModel postModel = HttpUtil.of(request.getReader()).toModel(PostModel.class);
-        postModel.setModifiedBy(userModel.getName());
-        postModel = postService.update(postModel);
-        System.out.println(postModel);
-        objectMapper.writeValue(response.getOutputStream(), postModel);
+            PostModel postModel = HttpUtil.of(request.getReader()).toModel(PostModel.class);
+            postModel.setModifiedBy(userModel.getName());
+            postModel = postService.update(postModel);
+            System.out.println(postModel);
+            result.put("postModdel",postModel);
+            result.put("status","success");
+        }
+        catch (Exception e){
+            result.put("status", "error");
+        }
+        objectMapper.writeValue(response.getOutputStream(), result);
     }
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> result = new HashMap<>();
+        try {
+            Long idUser = JWTUtil.getIdUserFromToken(JWTUtil.getToken(request));
+            PostModel postModel = HttpUtil.of(request.getReader()).toModel(PostModel.class);
+            postService.delete(postModel.getId());
 
-        PostModel postModel = HttpUtil.of(request.getReader()).toModel(PostModel.class);
-
-        postService.delete(postModel.getId());
-        objectMapper.writeValue(response.getOutputStream(), "{}");
+        }catch (Exception e){
+            result.put("status", "error");
+        }
+        objectMapper.writeValue(response.getOutputStream(), result);
     }
 }
