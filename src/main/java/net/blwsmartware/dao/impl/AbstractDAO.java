@@ -3,150 +3,109 @@ package net.blwsmartware.dao.impl;
 
 import net.blwsmartware.dao.GenericDAO;
 import net.blwsmartware.mapper.RowMapper;
+import net.blwsmartware.util.HikariCPDataSource;
+import net.blwsmartware.util.HikariCPMetrics;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class AbstractDAO implements GenericDAO {
-
-    ResourceBundle resourceBundle = ResourceBundle.getBundle("db");
-
-    public Connection getConnection() {
-
-        try {
-            Class.forName(resourceBundle.getString("driverName"));
-            String url = resourceBundle.getString("url");
-            String user = resourceBundle.getString("user");
-            String password = resourceBundle.getString("password");
-            return DriverManager.getConnection(url, user, password);
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Connect error:" + e.getMessage());
-            return null;
-        }
-    }
 
     private void setParameter(PreparedStatement statement, Object... param) {
         try {
             for (int i = 0; i < param.length; i++) {
                 Object parameter = param[i];
                 int index = i + 1;
-                if (parameter instanceof Long) {
-                    statement.setLong(index, (Long) parameter);
-                } else if (parameter instanceof String) {
-                    statement.setString(index, (String) parameter);
-                } else if (parameter instanceof Integer) {
-                    statement.setInt(index, (Integer) parameter);
-                } else if (parameter instanceof Timestamp) {
-                    statement.setTimestamp(index, (Timestamp) parameter);
-                }else if(parameter == null) {
-                    statement.setNull(index, Types.NULL);
+                switch (parameter) {
+                    case Long l -> statement.setLong(index, l);
+                    case String s -> statement.setString(index, s);
+                    case Integer integer -> statement.setInt(index, integer);
+                    case Timestamp timestamp -> statement.setTimestamp(index, timestamp);
+                    case null -> statement.setNull(index, Types.NULL);
+                    default -> {
+                    }
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("setParameter error:" +e.getMessage());
         }
     }
 
     @Override
     public <T> List<T> query(String sql, RowMapper<T> rowMapper, Object... param) {
         List<T> results = new ArrayList<>();
-        Connection connection;
-        PreparedStatement statement;
-        ResultSet resultSet;
-        try {
-            System.out.println("Query:" + sql);
-            connection = getConnection();
-            statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql));
+        System.out.println("Query:" + sql);
+
+        try(
+                Connection connection = HikariCPDataSource.getDataSource().getConnection();
+                PreparedStatement statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql))
+        ) {
             setParameter(statement, param);
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                results.add(rowMapper.mapRow(resultSet));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    results.add(rowMapper.mapRow(resultSet));
+                }
+                new HikariCPMetrics(HikariCPDataSource.getDataSource()).printMetrics();
             }
-            return results;
-        } catch (SQLException e) {
-            System.out.println("ResultSet error:" + e.getMessage());
+        }
+        catch (SQLException e) {
+            System.out.println("ResultSet query error:" + e.getMessage());
             return null;
         }
+        return results;
+
     }
 
     @Override
     public void update(String sql, Object... param) {
+
         Connection connection = null;
-        PreparedStatement statement = null;
         try {
-            connection = getConnection();
+            connection =HikariCPDataSource.getDataSource().getConnection();
             connection.setAutoCommit(false);
-            statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql));
-            setParameter(statement, param);
-            statement.executeUpdate();
-            connection.commit();
-        } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
+
+            try(PreparedStatement statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql))) {
+                setParameter(statement, param);
+                statement.executeUpdate();
+                connection.commit();
             }
-        } finally {
+
+        } catch (SQLException e) {
+            System.out.println("ResultSet update error:" + e.getMessage());
             try {
-                if (connection != null) {
-                    connection.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-            } catch (SQLException e2) {
-                e2.printStackTrace();
+                if (connection!=null) connection.rollback();
+            } catch (SQLException e1) {
+                System.out.println("ResultSet update error:" + e1.getMessage());
             }
         }
     }
 
     @Override
     public Long insert(String sql, Object... param) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
+        Connection connection =null;
+         try {
+             connection =HikariCPDataSource.getDataSource().getConnection();
             Long id = null;
-            connection = getConnection();
             connection.setAutoCommit(false);
-            statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql), Statement.RETURN_GENERATED_KEYS);
-            setParameter(statement, param);
-            statement.executeUpdate();
-            resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
-                id = resultSet.getLong(1);
-            }
-            connection.commit();
-            return id;
-        } catch (SQLException e) {
-            System.out.println("Save error:" + e.getMessage());
-            try {
-                if (connection.isClosed()) {
-                    try {
-                        connection.rollback();
-                    } catch (SQLException e1) {
-                        e1.printStackTrace();
+            try(PreparedStatement statement =connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql), Statement.RETURN_GENERATED_KEYS)) {
+                setParameter(statement, param);
+                statement.executeUpdate();
+                try(ResultSet resultSet = statement.getGeneratedKeys()) {
+                    if (resultSet.next()) {
+                        id = resultSet.getLong(1);
                     }
+                    connection.commit();
+                    return id;
                 }
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
             }
-        } finally {
+        } catch (SQLException e) {
+            System.out.println("ResultSet update error:" + e.getMessage());
             try {
-                if (connection != null) {
-                    connection.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e2) {
-                e2.printStackTrace();
+                if (connection!=null) connection.rollback();
+            } catch (SQLException e1) {
+                System.out.println("ResultSet update error:" + e1.getMessage());
             }
         }
         return null;
@@ -159,76 +118,46 @@ public class AbstractDAO implements GenericDAO {
 
     @Override
     public int count(String sql, Object... param) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            int count = 0;
-            connection = getConnection();
-            statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql));
-            setParameter(statement, param);
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                count = resultSet.getInt(1);
-            }
-            return count;
+        int count = 0;
+        try(
+                Connection connection = HikariCPDataSource.getDataSource().getConnection();
+                PreparedStatement statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql));
+                ) {
+                    setParameter(statement, param);
+                    try(
+                            ResultSet resultSet =statement.executeQuery();
+                            ) {
+                            if (resultSet.next()) {
+                                count = resultSet.getInt(1);
+                            }
+                    }
+
         } catch (SQLException e) {
-            return 0;
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                System.out.println("187:" + this.getClass());
-            }
+            System.out.println("ResultSet count error:" + e.getMessage());
         }
+        return count;
     }
 
     @Override
     public <T> T findOne(String sql, RowMapper<T> rowMapper, Object... param) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        System.out.println(sql);
-        try {
-            connection = getConnection();
-            statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql));
-            setParameter(statement, param);
-            resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return rowMapper.mapRow(resultSet);
-            }
-            return null;
-        } catch (SQLException e) {
-            System.out.println("ResultSet error:" + e.getMessage());
-            return null;
 
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
+        try(
+                Connection connection = HikariCPDataSource.getDataSource().getConnection();
+                PreparedStatement statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql));
+                ){
+                    setParameter(statement, param);
+                    try(
+                            ResultSet resultSet =statement.executeQuery();
+                    ) {
+                        if (resultSet.next()) {
+                            return rowMapper.mapRow(resultSet);
+                        }
+                    }
+
+                } catch (SQLException e) {
+                    System.out.println("ResultSet findOne error:" + e.getMessage());
                 }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                System.out.println("223:" + this.getClass());
-
-            }
-
-
-        }
-
+                return null;
 
     }
 }
