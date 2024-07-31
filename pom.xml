@@ -45,11 +45,6 @@
             <version>${jakarta.servlet.jstl.api}</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-            <version>${jakarta.glassfish.jsp.jstl}</version>
-        </dependency>
-        <dependency>
             <groupId>jakarta.el</groupId>
             <artifactId>jakarta.el-api</artifactId>
             <version>5.0.0</version>
@@ -99,7 +94,7 @@
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>4.1.0</version>
+            <version>4.4.0</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -135,6 +130,7 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>fluent-hc</artifactId>
             <version>4.5.14</version>
+
         </dependency>
 
         <dependency>
@@ -143,23 +139,12 @@
             <version>2.10.1</version>
         </dependency>
 
-        <!--    <dependency>-->
-        <!--      <groupId>org.glassfish.web</groupId>-->
-        <!--      <artifactId>jakarta.servlet.jsp.jstl</artifactId>-->
-        <!--      <version>3.0.0</version>-->
-        <!--    </dependency>-->
-
-        <!--    <dependency>-->
-        <!--      <groupId>org.apache.taglibs</groupId>-->
-        <!--      <artifactId>taglibs-standard-impl</artifactId>-->
-        <!--      <version>1.2.5</version>-->
-        <!--    </dependency>-->
-
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
             <version>3.0.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.taglibs</groupId>
             <artifactId>taglibs-standard-impl</artifactId>
@@ -171,5 +156,6 @@
     <build>
         <finalName>haivl-jakarta</finalName>
     </build>
+
 
 </project>
