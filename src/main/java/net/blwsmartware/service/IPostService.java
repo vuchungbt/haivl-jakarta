@@ -20,6 +20,8 @@ public interface IPostService {
     List<PostModel> findAll(int page);
 
     List<PostModel> findTop(int page);
-
     List<PostModel> findTrending(int page);
+
+    List<PostModel> findPostPending(int page);
+    List<PostModel> findPostPublished(int page);
 }

@@ -1,5 +1,6 @@
 package net.blwsmartware.dao.impl;
 
+import net.blwsmartware.constant.IConstant;
 import net.blwsmartware.dao.ICommentDAO;
 import net.blwsmartware.mapper.CommentMapper;
 import net.blwsmartware.model.CommentModel;
@@ -63,10 +64,8 @@ public class CommentDAO extends AbstractDAO implements ICommentDAO {
 
     @Override
     public List<CommentModel> findByPostID(Long idPost, int page) {
-        int record = 5;
         if (page == 0) page = 1;
-        String sql_limit = " LIMIT " + record + " OFFSET " + (page - 1) * record;
-
+        String sql_limit = " LIMIT " + IConstant.RECORD_LIMIT_COMMENT + " OFFSET " + (page - 1) * IConstant.RECORD_LIMIT_COMMENT;
         StringBuilder sql = new StringBuilder("SELECT cmt.* , COUNT(cv.user_id) AS vote_count FROM comments cmt");
         sql.append(" LEFT JOIN comment_has_votes cv ON cmt.id = cv.comment_id");
         sql.append(" WHERE cmt.for_post = ?");
@@ -88,9 +87,8 @@ public class CommentDAO extends AbstractDAO implements ICommentDAO {
 
     @Override
     public List<CommentModel> findByPostIDAndFirstLevel(Long idPost, int page) {
-        int record = 5;
         if (page == 0) page = 1;
-        String sql_limit = " LIMIT " + record + " OFFSET " + (page - 1) * record;
+        String sql_limit = " LIMIT " + IConstant.RECORD_LIMIT_COMMENT + " OFFSET " + (page - 1) * IConstant.RECORD_LIMIT_COMMENT;
         StringBuilder sql = new StringBuilder("SELECT cmt.* , COUNT(cv.user_id) AS vote_count FROM comments cmt");
         sql.append(" LEFT JOIN comment_has_votes cv ON cmt.id = cv.comment_id");
         sql.append(" WHERE cmt.for_post = ?");
@@ -109,9 +107,8 @@ public class CommentDAO extends AbstractDAO implements ICommentDAO {
 
     @Override
     public List<CommentModel> findByParentID(Long idParent, int page) {
-        int record = 5;
         String sql = "SELECT * FROM comments WHERE parent_comment_id = ?";
-        sql += " LIMIT " + record + " OFFSET " + (page - 1) * record;
+        sql += " LIMIT " + IConstant.RECORD_LIMIT_COMMENT + " OFFSET " + (page - 1) * IConstant.RECORD_LIMIT_COMMENT;
         return query(sql, new CommentMapper(), idParent);
     }
 }

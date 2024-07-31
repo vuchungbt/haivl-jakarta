@@ -20,7 +20,7 @@ public class HikariCPDataSource {
         config.setDriverClassName(resourceBundle.getString("driverName"));
 
         config.setMaximumPoolSize(5);
-        config.setMinimumIdle(3);
+        config.setMinimumIdle(2);
         config.setConnectionTimeout(5000);
 
         dataSource = new HikariDataSource(config);

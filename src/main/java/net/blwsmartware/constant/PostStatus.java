@@ -3,10 +3,10 @@ package net.blwsmartware.constant;
 public enum PostStatus {
 
     DRAFT(-2),
+    DELETED(-1),
     PENDING(0),
-    PUBLISHED(1),
-    ARCHIVED(2),
-    DELETED(-1);
+    PUBLISHED(0),
+    ARCHIVED(2) ;
 
     private final int code;
 

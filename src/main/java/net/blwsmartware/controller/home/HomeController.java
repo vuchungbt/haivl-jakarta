@@ -47,20 +47,14 @@ public class HomeController extends HttpServlet {
         } catch (Exception e) {
             //Log 404
         }
-        List<PostModel> list = null;
+        List<PostModel> list = switch (pth_request) {
+            case "", "home" -> postService.findAll(pageNumber);
+            case "top" -> postService.findTop(pageNumber);
+            case "ask" -> postService.findPostPending(pageNumber);
+            case "trending" -> postService.findTrending(pageNumber);
+            default -> null;
+        };
 
-        switch (pth_request) {
-            case "":
-            case "home":
-                list = postService.findAll(pageNumber);
-                break;
-            case "top":
-                list = postService.findTop(pageNumber);
-                break;
-            case "trending":
-                list = postService.findTrending(pageNumber);
-                break;
-        }
         request.setAttribute("posts", list);
 
         new HikariCPMetrics(HikariCPDataSource.getDataSource()).printMetrics();

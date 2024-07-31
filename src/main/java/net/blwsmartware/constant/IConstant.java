@@ -32,4 +32,8 @@ public interface IConstant {
     public static final String UPLOAD_DIR_THUMBNAIL = "thumbnail";
     public static final String FILE_WATERMARK = "watermark.png";
 
+    public static final int RECORD_LIMIT_POST =  10;
+    public static final int RECORD_LIMIT_COMMENT =  5;
+
+
 }

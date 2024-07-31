@@ -2,6 +2,7 @@ package net.blwsmartware.service.impl;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
+import net.blwsmartware.constant.PostStatus;
 import net.blwsmartware.dao.IPostDAO;
 import net.blwsmartware.model.PostModel;
 import net.blwsmartware.service.ICommentService;
@@ -88,6 +89,22 @@ public class PostService implements IPostService {
         commentsEntity(list);
         return list;
 
+    }
+
+    @Override
+    public List<PostModel> findPostPending(int page) {
+        List<PostModel> list = postDAO.findWithStatus(page, PostStatus.PENDING);
+        createdEntity(list);
+        commentsEntity(list);
+        return list;
+    }
+
+    @Override
+    public List<PostModel> findPostPublished(int page) {
+        List<PostModel> list = postDAO.findWithStatus(page, PostStatus.PUBLISHED);
+        createdEntity(list);
+        commentsEntity(list);
+        return list;
     }
 
     private void createdEntity(List<PostModel> list) {

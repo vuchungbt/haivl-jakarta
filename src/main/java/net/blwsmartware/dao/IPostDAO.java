@@ -1,5 +1,6 @@
 package net.blwsmartware.dao;
 
+import net.blwsmartware.constant.PostStatus;
 import net.blwsmartware.model.PostModel;
 
 import java.util.List;
@@ -22,5 +23,7 @@ public interface IPostDAO extends GenericDAO {
     List<PostModel> findTop(int page);
 
     List<PostModel> findTrending(int page);
+
+    List<PostModel> findWithStatus(int page, PostStatus status);
 
 }

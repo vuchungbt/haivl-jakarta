@@ -47,7 +47,7 @@ public class AbstractDAO implements GenericDAO {
                 while (resultSet.next()) {
                     results.add(rowMapper.mapRow(resultSet));
                 }
-                new HikariCPMetrics(HikariCPDataSource.getDataSource()).printMetrics();
+                // new HikariCPMetrics(HikariCPDataSource.getDataSource()).printMetrics();
             }
         }
         catch (SQLException e) {
