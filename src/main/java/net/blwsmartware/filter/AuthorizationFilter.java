@@ -20,6 +20,7 @@ public class AuthorizationFilter implements Filter {
 
     @Inject
     private IUserService userService;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
@@ -31,8 +32,8 @@ public class AuthorizationFilter implements Filter {
 
         String url = request.getRequestURI();
         handleUri(request);
-        Cookie tokenCookie  = JWTUtil.getCookieToken(request);
-        if(tokenCookie!=null&&!tokenCookie.getValue().isEmpty()){
+        Cookie tokenCookie = JWTUtil.getCookieToken(request);
+        if (tokenCookie != null && !tokenCookie.getValue().isEmpty()) {
 
             try {
                 String token = tokenCookie.getValue();
@@ -54,8 +55,9 @@ public class AuthorizationFilter implements Filter {
         Long id = JWTUtil.getIdUserFromToken(token);
         return userService.findByID(id);
     }
-    private void handleUri(HttpServletRequest request){
-        String link = RouterUtil.getRouter(1,request);
+
+    private void handleUri(HttpServletRequest request) {
+        String link = RouterUtil.getRouter(1, request);
         request.setAttribute("router", link);
     }
 
@@ -83,7 +85,7 @@ public class AuthorizationFilter implements Filter {
     private void handleExpiredToken(String url, HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         JWTUtil.destroyToken(request, response);
-        if(checkURLForNoToken(url)){
+        if (checkURLForNoToken(url)) {
             filterChain.doFilter(request, response);
         } else {
             response.sendRedirect(request.getContextPath() + "/login?message=token_expired&alert=danger");

@@ -26,7 +26,7 @@ public class GoogleLogin {
                     .execute().returnContent().asString();
             JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
             return jobj.get("access_token").toString().replaceAll("\"", "");
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
             return null;
         }

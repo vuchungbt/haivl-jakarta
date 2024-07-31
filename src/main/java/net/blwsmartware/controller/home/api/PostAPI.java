@@ -44,13 +44,14 @@ public class PostAPI extends HttpServlet {
             postModel.setAuthId(userModel.getId());
             postModel = postService.save(postModel);
             System.out.println(postModel);
-            result.put("status","success");
-        } catch (Exception e){
+            result.put("status", "success");
+        } catch (Exception e) {
             result.put("status", "error");
         }
-        objectMapper.writeValue(response.getOutputStream(),result);
+        objectMapper.writeValue(response.getOutputStream(), result);
 
     }
+
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -67,6 +68,7 @@ public class PostAPI extends HttpServlet {
         System.out.println(postModel);
         objectMapper.writeValue(response.getOutputStream(), postModel);
     }
+
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

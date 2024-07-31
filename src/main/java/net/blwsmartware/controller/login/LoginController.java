@@ -30,8 +30,8 @@ public class LoginController extends HttpServlet {
         String state = request.getParameter("state");
         String error_code = request.getParameter("error_code");
         String error_message = request.getParameter("error_message");
-        if(error_code!=null || error_message!=null){
-            response.sendRedirect(request.getContextPath()+ "/login");
+        if (error_code != null || error_message != null) {
+            response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
         String path;
@@ -82,9 +82,9 @@ public class LoginController extends HttpServlet {
     }
 
     public void handleUserLogin(UserModel userModel, String provider, String sendDirection, HttpServletRequest request, HttpServletResponse response)
-            throws IOException{
+            throws IOException {
         UserModel existingUser;
-        if(provider.equals("google")){
+        if (provider.equals("google")) {
             existingUser = userService.findByGgID(userModel.getGgID());
         } else {
             existingUser = userService.findByFbID(userModel.getFbID());
@@ -112,7 +112,7 @@ public class LoginController extends HttpServlet {
     }
 
     public void handleUserLogout(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         JWTUtil.destroyToken(request, response);
         response.sendRedirect(request.getContextPath() + "/login");
     }

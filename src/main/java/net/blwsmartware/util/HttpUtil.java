@@ -6,7 +6,10 @@ import java.io.BufferedReader;
 
 public class HttpUtil {
     private final String value;
-    public HttpUtil(String value){this.value = value; }
+
+    public HttpUtil(String value) {
+        this.value = value;
+    }
 
 
     public <T> T toModel(Class<T> tClass) {

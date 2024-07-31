@@ -31,11 +31,11 @@ public class PostService implements IPostService {
 
     @Override
     public PostModel save(PostModel postModel) {
-        if(postModel.getSource()!=null){
+        if (postModel.getSource() != null) {
             String src = postModel.getSource();
-            src =src.toUpperCase();
-            if(!src.startsWith("HTTP://") && !src.startsWith("HTTPS://")) {
-                postModel.setSource("https://"+postModel.getSource());
+            src = src.toUpperCase();
+            if (!src.startsWith("HTTP://") && !src.startsWith("HTTPS://")) {
+                postModel.setSource("https://" + postModel.getSource());
             }
         }
         Long id = postDAO.save(postModel);
@@ -108,19 +108,21 @@ public class PostService implements IPostService {
     }
 
     private void createdEntity(List<PostModel> list) {
-        if (list==null || list.isEmpty()) return;
+        if (list == null || list.isEmpty()) return;
         list.forEach(postModel -> {
             postModel.setCreated(userService.findByID(postModel.getAuthId()));
         });
     }
+
     private void commentsEntity(List<PostModel> list) {
-        if (list==null || list.isEmpty()) return;
+        if (list == null || list.isEmpty()) return;
         list.forEach(postModel -> {
             postModel.setComments(commentService.findByPostIDAndFirstLevel(postModel.getId(), 1));
         });
     }
+
     private void currentVoted(List<PostModel> list) {
-        if (list==null || list.isEmpty()) return;
+        if (list == null || list.isEmpty()) return;
         list.forEach(postModel -> {
             postModel.setComments(commentService.findByPostIDAndFirstLevel(postModel.getId(), 1));
         });

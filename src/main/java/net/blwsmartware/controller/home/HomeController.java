@@ -39,9 +39,9 @@ public class HomeController extends HttpServlet {
 
         String pth_request = (String) request.getAttribute("router");
         System.out.println("link : " + pth_request);
-        String page = RouterUtil.getRouter(2,request);
-        int pageNumber = 1 ;
-        try{
+        String page = RouterUtil.getRouter(2, request);
+        int pageNumber = 1;
+        try {
             pageNumber = Integer.parseInt(page);
             if (pageNumber == 0) pageNumber = 1;
         } catch (Exception e) {

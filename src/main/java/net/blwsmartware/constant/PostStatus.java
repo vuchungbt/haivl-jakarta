@@ -6,7 +6,7 @@ public enum PostStatus {
     DELETED(-1),
     PENDING(0),
     PUBLISHED(0),
-    ARCHIVED(2) ;
+    ARCHIVED(2);
 
     private final int code;
 

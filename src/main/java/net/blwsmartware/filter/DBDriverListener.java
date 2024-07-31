@@ -25,7 +25,7 @@ public class DBDriverListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         DataSourceHolder.setDataSource(HikariCPDataSource.getDataSource());
         dataSource = DataSourceHolder.getDataSource();
-        if(dataSource!=null) LOGGER.info("-------Registered JDBC driver and init HikariDataSource -----------");
+        if (dataSource != null) LOGGER.info("-------Registered JDBC driver and init HikariDataSource -----------");
     }
 
     @Override

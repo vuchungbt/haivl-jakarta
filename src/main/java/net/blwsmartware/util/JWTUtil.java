@@ -39,24 +39,27 @@ public class JWTUtil {
         DecodedJWT jwt = verifyToken(token);
         return jwt.getClaim("id").asLong();
     }
-    public static Cookie getCookieToken(HttpServletRequest request){
-        Cookie []cookies = request.getCookies();
-        if(cookies!=null){
-            for(Cookie cookie : cookies){
-                if(cookie.getName().equals("token"))
+
+    public static Cookie getCookieToken(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token"))
                     return cookie;
             }
         }
         return null;
     }
-    public static String getToken(HttpServletRequest request){
+
+    public static String getToken(HttpServletRequest request) {
         Cookie cookie = getCookieToken(request);
-        if(cookie != null &&!cookie.getValue().isEmpty())
+        if (cookie != null && !cookie.getValue().isEmpty())
             return cookie.getValue();
         return null;
     }
-    public static void destroyToken(HttpServletRequest request, HttpServletResponse response){
-        Cookie []cookies = request.getCookies();
+
+    public static void destroyToken(HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
