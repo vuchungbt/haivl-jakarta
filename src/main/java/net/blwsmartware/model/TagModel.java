@@ -1,6 +1,6 @@
 package net.blwsmartware.model;
 
-public class TagModel extends AbstractModel{
+public class TagModel extends AbstractModel {
     private boolean isTrend;
 
     public boolean isTrend() {

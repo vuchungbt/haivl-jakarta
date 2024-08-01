@@ -10,6 +10,6 @@ public class DataSourceHolder {
     }
 
     public static HikariDataSource getDataSource() {
-        return dataSource ;
+        return dataSource;
     }
 }

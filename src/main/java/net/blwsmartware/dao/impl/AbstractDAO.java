@@ -29,7 +29,7 @@ public class AbstractDAO implements GenericDAO {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("setParameter error:" +e.getMessage());
+            System.out.println("setParameter error:" + e.getMessage());
         }
     }
 
@@ -38,7 +38,7 @@ public class AbstractDAO implements GenericDAO {
         List<T> results = new ArrayList<>();
         System.out.println("Query:" + sql);
 
-        try(
+        try (
                 Connection connection = HikariCPDataSource.getDataSource().getConnection();
                 PreparedStatement statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql))
         ) {
@@ -47,10 +47,9 @@ public class AbstractDAO implements GenericDAO {
                 while (resultSet.next()) {
                     results.add(rowMapper.mapRow(resultSet));
                 }
-                new HikariCPMetrics(HikariCPDataSource.getDataSource()).printMetrics();
+                // new HikariCPMetrics(HikariCPDataSource.getDataSource()).printMetrics();
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("ResultSet query error:" + e.getMessage());
             return null;
         }
@@ -63,10 +62,10 @@ public class AbstractDAO implements GenericDAO {
 
         Connection connection = null;
         try {
-            connection =HikariCPDataSource.getDataSource().getConnection();
+            connection = HikariCPDataSource.getDataSource().getConnection();
             connection.setAutoCommit(false);
 
-            try(PreparedStatement statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql))) {
+            try (PreparedStatement statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql))) {
                 setParameter(statement, param);
                 statement.executeUpdate();
                 connection.commit();
@@ -75,7 +74,7 @@ public class AbstractDAO implements GenericDAO {
         } catch (SQLException e) {
             System.out.println("ResultSet update error:" + e.getMessage());
             try {
-                if (connection!=null) connection.rollback();
+                if (connection != null) connection.rollback();
             } catch (SQLException e1) {
                 System.out.println("ResultSet update error:" + e1.getMessage());
             }
@@ -84,15 +83,15 @@ public class AbstractDAO implements GenericDAO {
 
     @Override
     public Long insert(String sql, Object... param) {
-        Connection connection =null;
-         try {
-             connection =HikariCPDataSource.getDataSource().getConnection();
+        Connection connection = null;
+        try {
+            connection = HikariCPDataSource.getDataSource().getConnection();
             Long id = null;
             connection.setAutoCommit(false);
-            try(PreparedStatement statement =connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql), Statement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql), Statement.RETURN_GENERATED_KEYS)) {
                 setParameter(statement, param);
                 statement.executeUpdate();
-                try(ResultSet resultSet = statement.getGeneratedKeys()) {
+                try (ResultSet resultSet = statement.getGeneratedKeys()) {
                     if (resultSet.next()) {
                         id = resultSet.getLong(1);
                     }
@@ -103,7 +102,7 @@ public class AbstractDAO implements GenericDAO {
         } catch (SQLException e) {
             System.out.println("ResultSet update error:" + e.getMessage());
             try {
-                if (connection!=null) connection.rollback();
+                if (connection != null) connection.rollback();
             } catch (SQLException e1) {
                 System.out.println("ResultSet update error:" + e1.getMessage());
             }
@@ -119,18 +118,18 @@ public class AbstractDAO implements GenericDAO {
     @Override
     public int count(String sql, Object... param) {
         int count = 0;
-        try(
+        try (
                 Connection connection = HikariCPDataSource.getDataSource().getConnection();
                 PreparedStatement statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql));
-                ) {
-                    setParameter(statement, param);
-                    try(
-                            ResultSet resultSet =statement.executeQuery();
-                            ) {
-                            if (resultSet.next()) {
-                                count = resultSet.getInt(1);
-                            }
-                    }
+        ) {
+            setParameter(statement, param);
+            try (
+                    ResultSet resultSet = statement.executeQuery();
+            ) {
+                if (resultSet.next()) {
+                    count = resultSet.getInt(1);
+                }
+            }
 
         } catch (SQLException e) {
             System.out.println("ResultSet count error:" + e.getMessage());
@@ -141,23 +140,23 @@ public class AbstractDAO implements GenericDAO {
     @Override
     public <T> T findOne(String sql, RowMapper<T> rowMapper, Object... param) {
 
-        try(
+        try (
                 Connection connection = HikariCPDataSource.getDataSource().getConnection();
                 PreparedStatement statement = connection.prepareStatement(StringEscapeUtils.escapeHtml4(sql));
-                ){
-                    setParameter(statement, param);
-                    try(
-                            ResultSet resultSet =statement.executeQuery();
-                    ) {
-                        if (resultSet.next()) {
-                            return rowMapper.mapRow(resultSet);
-                        }
-                    }
-
-                } catch (SQLException e) {
-                    System.out.println("ResultSet findOne error:" + e.getMessage());
+        ) {
+            setParameter(statement, param);
+            try (
+                    ResultSet resultSet = statement.executeQuery();
+            ) {
+                if (resultSet.next()) {
+                    return rowMapper.mapRow(resultSet);
                 }
-                return null;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ResultSet findOne error:" + e.getMessage());
+        }
+        return null;
 
     }
 }

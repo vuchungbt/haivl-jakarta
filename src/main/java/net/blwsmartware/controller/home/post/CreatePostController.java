@@ -17,7 +17,7 @@ public class CreatePostController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String token = JWTUtil.getToken(request);
-        if(token ==null){
+        if (token == null) {
             response.sendRedirect(request.getContextPath() + "/login?send-direction=create-post");
             return;
         }

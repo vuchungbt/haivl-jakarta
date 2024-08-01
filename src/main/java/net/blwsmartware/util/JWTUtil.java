@@ -17,7 +17,7 @@ import java.util.UUID;
 public class JWTUtil {
     public static final String SECRET = ResourceBundle.getBundle("secret").getString("SECRET");
 
-    public static final long EXPIRATION_TIME = 2 * 60 * 1000;
+    public static final long EXPIRATION_TIME = 2 * 60 * 60 * 1000;
 
     public static String generateToken(UserModel userModel) {
         Algorithm algorithm = Algorithm.HMAC384(SECRET);
@@ -39,24 +39,27 @@ public class JWTUtil {
         DecodedJWT jwt = verifyToken(token);
         return jwt.getClaim("id").asLong();
     }
-    public static Cookie getCookieToken(HttpServletRequest request){
-        Cookie []cookies = request.getCookies();
-        if(cookies!=null){
-            for(Cookie cookie : cookies){
-                if(cookie.getName().equals("token"))
+
+    public static Cookie getCookieToken(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token"))
                     return cookie;
             }
         }
         return null;
     }
-    public static String getToken(HttpServletRequest request){
+
+    public static String getToken(HttpServletRequest request) {
         Cookie cookie = getCookieToken(request);
-        if(cookie != null &&!cookie.getValue().isEmpty())
+        if (cookie != null && !cookie.getValue().isEmpty())
             return cookie.getValue();
         return null;
     }
-    public static void destroyToken(HttpServletRequest request, HttpServletResponse response){
-        Cookie []cookies = request.getCookies();
+
+    public static void destroyToken(HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
