@@ -67,8 +67,8 @@
 
           </ul>
           <c:if test="${not empty userModel}">
-            <div class="dropdown border-bottom-menu">
-              <a href="#" class="d-blockdropdown-toggle" data-bs-toggle="dropdown"
+            <div class="dropdown m-2">
+              <a href="#" class="d-blockdropdown-toggle" data-bs-toggle="dropdown" style="margin:5px 10px 5px 25px; text-wrap:nowrap;"
                  aria-expanded="false">
                 <c:if test="${not empty userModel.avatar}">
                   <img src="${userModel.avatar}" alt="mdo" width="32" height="32" class="rounded-circle">
@@ -76,6 +76,8 @@
                 <c:if test="${empty userModel.avatar}">
                   <img src='<c:url value = "/template/web/img/avatar/user.png"/>' alt="mdo" width="32" height="32" class="rounded-circle">
                 </c:if>
+
+                <i class="fas fa-sort-down"></i>
 
               </a>
               <ul class="dropdown-menu text-small">

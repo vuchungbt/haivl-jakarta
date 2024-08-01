@@ -19,9 +19,9 @@ public class HikariCPDataSource {
         config.setPassword(resourceBundle.getString("password"));
         config.setDriverClassName(resourceBundle.getString("driverName"));
 
-        config.setMaximumPoolSize(5);
-        config.setMinimumIdle(2);
-        config.setConnectionTimeout(5000);
+        config.setMaximumPoolSize(12);
+        config.setMinimumIdle(5);
+        config.setConnectionTimeout(10000);
 
         dataSource = new HikariDataSource(config);
     }
