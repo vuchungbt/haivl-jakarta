@@ -1,5 +1,6 @@
 package net.blwsmartware.mapper;
 
+import net.blwsmartware.constant.PostStatus;
 import net.blwsmartware.model.PostModel;
 
 import java.sql.ResultSet;
@@ -28,6 +29,7 @@ public class PostMapper implements RowMapper<PostModel> {
             postModel.setAvgVote(rs.getDouble("avg_vote"));
             postModel.setVoteCount(rs.getInt("vote_count"));
             postModel.setAuthId(rs.getLong("auth_id"));
+            postModel.setStatusCode(PostStatus.fromCode(postModel.getStatus()).name());
         } catch (SQLException e) {
             System.out.println("PostMapper result null");
             return null;

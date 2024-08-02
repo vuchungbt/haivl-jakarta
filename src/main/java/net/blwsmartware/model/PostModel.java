@@ -18,6 +18,25 @@ public class PostModel extends AbstractModel {
     private Set<TagModel> tags;
     private List<CommentModel> comments;
 
+    private String imagePath;
+    private String statusCode;
+
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
     public Set<TagModel> getTags() {
         return tags;
     }

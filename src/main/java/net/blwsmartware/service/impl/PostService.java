@@ -128,4 +128,12 @@ public class PostService implements IPostService {
         });
     }
 
+    public List<PostModel> findAllByIdUser(Long idUser) {
+        List<PostModel> list = postDAO.findAllByIdUser(idUser);
+        createdEntity(list);
+        commentsEntity(list);
+        return list;
+    }
+
+
 }

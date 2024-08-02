@@ -1,5 +1,6 @@
 package net.blwsmartware.controller.profile;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -7,35 +8,36 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import net.blwsmartware.model.PostModel;
+import net.blwsmartware.model.UserModel;
+import net.blwsmartware.service.IPostService;
+import net.blwsmartware.util.FormUtil;
+import net.blwsmartware.util.JWTUtil;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(urlPatterns = {"/profile"})
 public class ProfileController extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    @Inject
+    private IPostService postService;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Cookie[] cookies = request.getCookies();
-        String token = null;
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    token = cookie.getValue();
-                    System.out.println(token);
-                }
-            }
-        }
-        if (token != null) {
-            RequestDispatcher rd = request.getRequestDispatcher("/views/web/profile.jsp");
-            rd.forward(request, response);
-
-        } else {
+        String token = JWTUtil.getToken(request);
+        if (token == null) {
             System.out.println("Dont have token");
-//            path = "/views/login.jsp";
             response.sendRedirect(request.getContextPath() + "/login");
+            return;
         }
+        Long idUser = JWTUtil.getIdUserFromToken(token);
+        List<PostModel> list = postService.findAllByIdUser(idUser);
+        request.setAttribute("posts",list);
+        RequestDispatcher rd = request.getRequestDispatcher("/views/web/profile.jsp");
+        rd.forward(request, response);
+
 
 
     }
