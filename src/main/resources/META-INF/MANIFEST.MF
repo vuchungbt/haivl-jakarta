@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Main-Class: 
+Main-Class:
 Class-Path: jakarta.interceptor-api-2.2.0.jar weld-lite-extension-transl
  ator-6.0.0.Beta4.jar sitemesh-3.2.1.jar commons-codec-1.17.1.jar common
  s-lang3-3.14.0.jar weld-api-6.0.Beta5.jar jakarta.servlet.jsp.jstl-api-

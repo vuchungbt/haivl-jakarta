@@ -42,14 +42,14 @@
 
           <div class="blog-post py-1">
             <c:forEach var="post" items="${posts}">
-              <div class="card">
+              <div class="card mt-2">
 
                 <div class="row">
                   <div class="d-flex justify-content-between p-2 px-3">
                     <div class="d-flex flex-row align-items-center">
                       <div class="d-flex flex-column ml-2 px-2">
                         <h5 class="m-1">
-                        <a href="#"> ${post.shortdescription} </a></h5>
+                        <a href="#"> ${post.title} </a></h5>
                       </div>
 
                     </div>
@@ -72,18 +72,18 @@
                 <div class="row">
 
 
-                  <div class="col-md-4">
-                    <div class="card m-2">
+                  <div class="col-md-4 pe-0">
+                    <div class="card m-2 ">
                       <img src="https://i.imgur.com/xhzhaGA.jpg" class="card-img">
                     </div>
                   </div>
 
-                  <div class="col-md-8">
+                  <div class="col-md-8 p-0">
                     <div class="p-2 content-container mb-4">
-                      <p class="text-justify content">${post.description}</p>
+                      <p class="text-justify content">${post.content}</p>
                     </div>
                     <ul class="nav nav-stack small pb-2" style="position: absolute; bottom: 0;">
-                      <li class="nav-item">
+                      <li class="nav-item timestamp">
                         <i class="bi bi-calendar-check pe-1"></i>
                         <c:if test="${empty post.modifiedDate}">${post.createdDate}</c:if>
                         <c:if test="${not empty post.modifiedDate}">${post.modifiedDate}</c:if>

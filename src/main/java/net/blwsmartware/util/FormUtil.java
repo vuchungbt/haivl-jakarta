@@ -11,10 +11,10 @@ public class FormUtil {
 	public static <T> T toModel (Class<T> clazz, HttpServletRequest request) {
 			T object = null;
 			try {
-				object = clazz.newInstance();
+				object = clazz.getDeclaredConstructor().newInstance();
 				BeanUtils.populate(object, request.getParameterMap());// tự động tham chiếu đến biến giống tên thuộc tính và giá trị name khai báo trong input UI
 				
-			} catch(InstantiationException|IllegalAccessException | InvocationTargetException e) {
+			} catch(InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 				System.out.println(e.getMessage());
 			}
 			return object;
