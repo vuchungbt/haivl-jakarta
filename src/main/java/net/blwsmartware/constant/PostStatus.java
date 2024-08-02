@@ -17,4 +17,13 @@ public enum PostStatus {
     public int getCode() {
         return code;
     }
+
+    public static PostStatus fromCode(int code) {
+        for (PostStatus status : PostStatus.values()) {
+            if (status.getCode() == code) {
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("Invalid PostStatus code: " + code);
+    }
 }

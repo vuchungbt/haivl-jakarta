@@ -13,6 +13,8 @@ import net.blwsmartware.model.PostModel;
 import net.blwsmartware.model.UserModel;
 import net.blwsmartware.service.IPostService;
 import net.blwsmartware.service.IUserService;
+import net.blwsmartware.service.ImageService;
+import net.blwsmartware.service.impl.ImageServiceImpl;
 import net.blwsmartware.util.HttpUtil;
 import net.blwsmartware.util.JWTUtil;
 import org.jboss.logging.annotations.Pos;
@@ -41,6 +43,9 @@ public class PostAPI extends HttpServlet {
     @Inject
     private IUserService userService;
 
+    @Inject
+    private ImageServiceImpl imageService;
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -53,11 +58,8 @@ public class PostAPI extends HttpServlet {
             Long idUser = JWTUtil.getIdUserFromToken(JWTUtil.getToken(request));
             UserModel userModel = userService.findByID(idUser);
 
-//            Part filePart = request.getPart("image");
-//
-//            PostModel postModel = HttpUtil.of(request.getReader()).toModel(PostModel.class);
             Map<String,Object> formData = new HashMap<>();
-            Part filePart = null;
+            File rez = null;
             for(Part part : request.getParts()){
                 if(part.getContentType() == null){
                     String fieldName = part.getName();
@@ -66,53 +68,34 @@ public class PostAPI extends HttpServlet {
                     formData.put(fieldName,fieldValue);
                 }else{
                     if(part.getName().equals("image")){
-                        filePart = part;
+                        try{
+                            imageService.makeDir();
+                            imageService.setPath(part);
+                            imageService.saveImageToDisk();
+                            imageService.createThumbnail();
+                            rez = imageService.resize();
+                        }catch (Exception e){
+                            System.out.println(e.getMessage());
+                        }
                     }
                 }
             }
             PostModel postModel = new ObjectMapper().convertValue(formData, PostModel.class);
-
-
-            if (filePart != null && filePart.getSize() > 0) {
-                String originalFileName = filePart.getSubmittedFileName();
-                String fileExtension = originalFileName.substring(originalFileName.lastIndexOf('.'));
-                String baseName = originalFileName.substring(0,originalFileName.lastIndexOf('.'));
-
-                // Đường dẫn thư mục lưu trữ file
-                String uploadDir = getServletContext().getRealPath("/") + "uploads";
-                File uploadDirFile = new File(uploadDir);
-                if (!uploadDirFile.exists()) {
-                    uploadDirFile.mkdirs();
-                }
-
-                // Lưu file vào thư mục đích
-                String fileName = originalFileName;
-                File file = new File(uploadDir + File.separator + fileName);
-                int counter = 1;
-                while(file.exists()){
-                    fileName = baseName + "(" + counter + ")" + fileExtension;
-                    file = new File(uploadDir + File.separator + fileName);
-                    counter ++;
-                }
-
-                String filePath = uploadDir + File.separator + fileName;
-                filePart.write(filePath);
-
-                // Thiết lập tên file cho thuộc tính image
-                postModel.setSource(fileName);
+            if(rez!=null){
+                postModel.setImagePath(rez.getPath());
+                postModel.setThumbnail(imageService.getThumbnailName());
             }
-
             postModel.setCreatedBy(userModel.getName());
             postModel.setAuthId(userModel.getId());
             postModel = postService.save(postModel);
             System.out.println(postModel);
-            result.put("status","success");
-            result.put("postModdel",postModel);
-        } catch (Exception e){
-            result.put("status", "error");
+            result.put("status", "success");
+            objectMapper.writeValue(response.getOutputStream(), result);
         }
-        objectMapper.writeValue(response.getOutputStream(), result);
-
+        catch (Exception e){
+            result.put("status", "error");
+            objectMapper.writeValue(response.getOutputStream(), result);
+        }
     }
 
     @Override
@@ -130,13 +113,13 @@ public class PostAPI extends HttpServlet {
             postModel.setModifiedBy(userModel.getName());
             postModel = postService.update(postModel);
             System.out.println(postModel);
-            result.put("postModdel",postModel);
             result.put("status","success");
+            objectMapper.writeValue(response.getOutputStream(), result);
         }
         catch (Exception e){
             result.put("status", "error");
+            objectMapper.writeValue(response.getOutputStream(), result);
         }
-        objectMapper.writeValue(response.getOutputStream(), result);
     }
 
     @Override

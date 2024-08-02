@@ -26,4 +26,7 @@ public interface IPostService {
     List<PostModel> findPostPending(int page);
 
     List<PostModel> findPostPublished(int page);
+
+    List<PostModel> findAllByIdUser(Long idUser);
+
 }

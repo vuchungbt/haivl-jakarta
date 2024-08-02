@@ -6,7 +6,12 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Create Post</title>
+  <c:if test="${empty postModel.id}">
+    <title>Create Post</title>
+  </c:if>
+  <c:if test="${not empty postModel.id}">
+    <title>Update Post</title>
+  </c:if>
 
   <!-- Bootstrap CSS -->
 <%--  <link rel="stylesheet" href="<c:url value='/template/web/css/bootstrap.min.css' />" />--%>
@@ -45,15 +50,20 @@
             <!-- Post input -->
             <form id = "formSubmit" enctype="multipart/form-data" class="w-100" action="">
             <textarea  class="form-control pe-4 border-0" rows="1" maxlength="100" data-autoresize=""
-                            name="title" placeholder="Title..."></textarea>
+                            name="title" placeholder="Title...">${postModel.title}</textarea>
             <textarea maxlength="1200" class="form-control pe-4 border-0" rows="2" data-autoresize=""
-                name="content" placeholder="Content..."></textarea>
+                name="content" placeholder="Content...">${postModel.content}</textarea>
                 <div>
 
                               <input type="file" id="input-file-to-destroy" class="dropify" data-allowed-formats="portrait square"
-                                data-max-file-size="25M" data-max-height="3000" name ="image"/>
+                                data-max-file-size="25M" data-max-height="3000" name ="image" src ="${postModel.imagePath}"/>
 
-                                <button type="button" id="btnCreatePost" class="btn btn-sm btn-info" style="margin:5px; float:right" >Post</button>
+                                <c:if test="${empty postModel.id}">
+                                  <button type="button" id="btnCreatePost" class="btn btn-sm btn-info" style="margin:5px; float:right" >Post</button>
+                                </c:if>
+                                <c:if test="${not empty postModel.id}">
+                                  <button type="button" id="btnCreatePost" class="btn btn-sm btn-info" style="margin:5px; float:right" >Update</button>
+                                </c:if>
                             </div>
             </form>
             <div id = "result-message" class="alert text-center " style="display: none;"></div>
@@ -220,45 +230,6 @@
 		});
   </script>
   <script>
-     // $('#btnCreatePost').click(function(e){
-     //    e.preventDefault();
-     //    let data = {};
-     //    let formData = $('#formSubmit').serializeArray();
-     //    $.each(formData, function (i,v){
-     //        data[v.name]=v.value;
-     //    })
-     //   createPost();
-     //   function createPost(){
-     //      $.ajax({
-     //        url : '/api-post',
-     //        type : 'POST',
-     //        // contentType : 'application/json',
-     //        // data : JSON.stringify(data),
-     //        // dataType : 'json',
-     //        data: formData,
-     //        processData: false, // Không xử lý dữ liệu
-     //        contentType: false, // Không đặt kiểu nội dung
-     //        success : function (result){
-     //            console.log(result);
-     //            if(result.status==="success"){
-     //              $('#formSubmit').hide();
-     //              $('#result-message').removeClass('alert-danger').addClass('alert-success')
-     //                      .html('<div>Chúc mừng bạn đã đăng bài thành công!</div> <br>' +
-     //                              '<a href ="/view-all-post"><b>Xem bài vừa đăng</b></a>' ).show();
-     //            }else{
-     //              $('#result-message').removeClass('alert-success').addClass('alert-danger')
-     //                      .html('<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i> ' + result.message).show();
-     //            }
-     //        },
-     //        error : function(){
-     //          $('#result-message').removeClass('alert-success').addClass('alert-danger')
-     //                  .html('<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i> ' +
-     //                          '<div>Đã có lỗi xảy ra, vui lòng thử lại vào thời điểm khác.</div>' +
-     //                          '<a href ="/"><b>Trở về trang chủ</b></a>').show();
-     //        }
-     //      })
-     //   }
-     // });
      $('#btnCreatePost').click(function(e) {
        e.preventDefault();
 
@@ -270,15 +241,16 @@
          url: '/api-post',
          type: 'POST',
          data: formData,
-         processData: false, // Không xử lý dữ liệu
-         contentType: false, // Không đặt kiểu nội dung
+         processData: false,
+         contentType: false,
          success: function(result) {
            console.log(result);
            if (result.status === "success") {
-             $('#formSubmit').hide();
-             $('#result-message').removeClass('alert-danger').addClass('alert-success')
-                     .html('<div>Chúc mừng bạn đã đăng bài thành công!</div> <br>' +
-                             '<a href="/view-all-post"><b>Xem bài vừa đăng</b></a>').show();
+             window.location.href = "/profile";
+             // $('#formSubmit').hide();
+             // $('#result-message').removeClass('alert-danger').addClass('alert-success')
+             //         .html('<div>Chúc mừng bạn đã đăng bài thành công!</div> <br>' +
+             //                 '<a href="/view-all-post"><b>Xem bài vừa đăng</b></a>').show();
            } else {
              $('#result-message').removeClass('alert-success').addClass('alert-danger')
                      .html('<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i> ' + result.message).show();
