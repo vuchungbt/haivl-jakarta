@@ -8,6 +8,8 @@
     <name>haivl-jakarta</name>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jakarta.servlet-api>6.0.0</jakarta.servlet-api>
         <jakarta.servlet.jsp>4.0.0</jakarta.servlet.jsp>
         <jakarta.servlet.jstl.api>3.0.0</jakarta.servlet.jstl.api>
@@ -153,11 +155,6 @@
             <version>3.0.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.taglibs</groupId>
-            <artifactId>taglibs-standard-impl</artifactId>
-            <version>1.2.5</version>
-        </dependency>
 
         <dependency>
             <groupId>com.zaxxer</groupId>
