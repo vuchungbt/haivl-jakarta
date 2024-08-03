@@ -10,13 +10,13 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/w"})
-public class SinglePostController extends HttpServlet {
+@WebServlet(urlPatterns = {"/p"})
+public class SingleUserController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/views/web/singlepost.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/views/web/singleuser.jsp");
         rd.forward(request, response);
     }
 }

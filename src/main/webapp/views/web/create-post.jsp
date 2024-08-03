@@ -94,8 +94,9 @@
                         <div class="card-body d-flex" >
 
                           <div class="nav nav-item w-100 position-relative">
+
                             <textarea data-autoresize="" class="form-control pe-5 bg-light" rows="1"
-                              placeholder="Source...(chua lam)"></textarea>
+                              placeholder="Source name...(chua lam)"></textarea>
                             <a type button
                               class="nav-link bg-transparent px-3 position-absolute top-50 end-0 translate-middle-y border-0"
                               data-bs-toggle="modal" data-bs-target="#exampleModal">

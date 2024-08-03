@@ -52,7 +52,7 @@
                         <div class="d-flex flex-row align-items-center">
                           <img src="${post.created.thumbnail}" width="40" class="rounded-circle">
                           <div class="d-flex flex-column ml-2 px-2">
-                            <span class="fw-semibold"><a href="#"> ${post.created.name} </a></span>
+                            <span class="fw-semibold"><a href="/p?id="> ${post.created.name} </a></span>
                             <small class="timestamp mr-2">${post.createdDate}</small>
                           </div>
 
@@ -73,7 +73,7 @@
                     <div class="col-md-6">
 
                       <div class="p-2">
-                        <h6 class="text-justify">${post.title}</h6>
+                        <h6 class="text-justify"><a href="/w?v="> ${post.title} </a></h6>
                       </div>
 
                       <div class="card">
@@ -188,7 +188,7 @@
                                 <div class="ms-2">
                                   <div class="bg-light p-1 rounded">
                                     <div class="d-flex justify-content-between">
-                                      <div class="mb-1 fw-semibold"> <a href="#!"> ${comment.created.name} </a> </div>
+                                      <div class="mb-1 fw-semibold"> <a href="/p?id="> ${comment.created.name} </a> </div>
                                       <small class="ms-2 timestamp">${comment.createdDate}</small>
                                     </div>
                                     <div class="content-comment-alt">

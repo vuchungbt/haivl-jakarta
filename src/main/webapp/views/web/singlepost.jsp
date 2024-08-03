@@ -30,14 +30,14 @@
                     <div class="d-flex align-items-center">
                       <!-- Avatar -->
                       <div class="avatar avatar-story me-2">
-                        <a href="#!"> <img class="avatar-img rounded-circle" src="https://i.imgur.com/xhzhaGA.jpg"
+                        <a href="#"> <img class="avatar-img rounded-circle" src="https://i.imgur.com/xhzhaGA.jpg"
                             alt="">
                         </a>
                       </div>
                       <!-- Info -->
                       <div>
                         <div class="nav nav-divider">
-                          <h6 class="nav-item card-title mb-0"> <a href="#!"> Lori Ferguson </a></h6>
+                          <h6 class="nav-item card-title mb-0"> <a href="/p?id="> Lori Ferguson </a></h6>
                         </div>
                         <p class="mb-0 small">3 giờ trước</p>
                       </div>
