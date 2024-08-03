@@ -20,13 +20,13 @@
 
 
 <body>
-
+    <main class="py-2">
     <!-- Container START -->
     <div class="container">
       <div class="row">
 
         <!-- Main content START -->
-        <div class="col-lg-8">
+        <div class="col-lg-8  pb-2">
               <!-- Card START -->
               <div class="card">
                 <div class="card-header py-3 border-0 d-flex align-items-center justify-content-between">
@@ -417,7 +417,7 @@
       </div> <!-- Row END -->
     </div>
     <!-- Container END -->
-
+</main>
 
 </body>
 

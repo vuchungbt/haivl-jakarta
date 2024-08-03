@@ -109,29 +109,29 @@
                         </div>
                       </div>
                       <hr>
-                          <div class="justify-content-between rounded">
-                            <div class="tags">
-                                <span class="badge bg-primary me-1">#tag1</span>
-                                <span class="badge bg-secondary me-1">#tag2</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
-                                <span class="badge bg-success me-1">#tag3</span>
+                      <div class="justify-content-between rounded">
+                        <div class="tags">
+                          <span class="badge bg-primary me-1">#tag1</span>
+                          <span class="badge bg-secondary me-1">#tag2</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
+                          <span class="badge bg-success me-1">#tag3</span>
 
-                            </div>
-                          </div>
+                        </div>
+                      </div>
 
 
                       <hr>

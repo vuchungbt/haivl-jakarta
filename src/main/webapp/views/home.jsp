@@ -126,6 +126,27 @@
                         </div>
                         <hr>
 
+                        <div class="justify-content-between rounded">
+                          <div class="tags">
+                            <span class="badge bg-primary ">#tag1</span>
+                            <span class="badge bg-secondary  ">#tag2</span>
+                            <span class="badge bg-success ">#tag3</span>
+                            <span class="badge bg-success ">#tag3</span>
+                            <span class="badge bg-success ">#tag3</span>
+                            <span class="badge bg-success">#tag3</span>
+                            <span class="badge bg-success ">#tag3</span>
+                            <span class="badge bg-success ">#tag3</span>
+                            <span class="badge bg-success ">#tag3</span>
+                            <span class="badge bg-success ">#tag3</span>
+                            <span class="badge bg-success ">#tag3</span>
+                            <span class="badge bg-success ">#tag3</span>
+
+                          </div>
+                        </div>
+
+
+                        <hr>
+
                         <c:if test="${not empty post.source}">
                           <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex flex-row icons d-flex align-items-center">
@@ -209,8 +230,13 @@
               <!-- Reply -->
               <div class="d-flex mb-3">
                 <!-- Avatar -->
-                <div class="avatar avatar-xs me-2">
-                  <a href="#!"> <img class="avatar-img rounded-circle" src="${thumbnail}" alt=""> </a>
+                <div class="avatar avatar-xs-4 me-2">
+
+                  <a href="#!">
+                    <c:if test="${not empty userModel.avatar}">
+                      <img src="${userModel.avatar}" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </c:if>
+                  </a>
                 </div>
                 <!-- Comment box  -->
                 <form class="nav nav-item w-100 position-relative">
