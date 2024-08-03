@@ -55,7 +55,7 @@
                 name="content" placeholder="Content...">${postModel.content}</textarea>
                 <div>
 
-                              <input type="file" id="input-file-to-destroy" class="dropify" data-allowed-formats="portrait square"
+                              <input type="file" id="input-file-to-destroy" class="dropify" data-default-file="${postModel.imagePath}"
                                 data-max-file-size="25M" data-max-height="3000" name ="image" src ="${postModel.imagePath}"/>
 
                                 <c:if test="${empty postModel.id}">
