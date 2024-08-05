@@ -48,25 +48,39 @@
           <!-- Card START -->
           <div class="card card-body">
             <!-- Post input -->
-            <form id = "formSubmit" enctype="multipart/form-data" class="w-100" action="">
+            <c:set var="method" value="${empty postModel.id ? 'post' : 'put'}"/>
+            <c:if test="${empty postModel.id}">
+              <c:url var="postUrl" value="/create-post"/>
+            </c:if>
+            <c:if test="${not empty postModel.id}">
+              <c:url var="postUrl" value="edit-post"/>
+            </c:if>
+              <form id = "formSubmit" enctype="multipart/form-data" class="w-100" action="${postUrl}" method="${method}">
             <textarea  class="form-control pe-4 border-0" rows="1" maxlength="100" data-autoresize=""
-                            name="title" placeholder="Title...">${postModel.title}</textarea>
-            <textarea maxlength="1200" class="form-control pe-4 border-0" rows="2" data-autoresize=""
-                name="content" placeholder="Content...">${postModel.content}</textarea>
+                       name="title" placeholder="Title...">${postModel.title}</textarea>
+                <textarea maxlength="1200" class="form-control pe-4 border-0" rows="2" data-autoresize=""
+                          name="content" placeholder="Content...">${postModel.content}</textarea>
                 <div>
 
-                              <input type="file" id="input-file-to-destroy" class="dropify" data-allowed-formats="portrait square"
-                                data-max-file-size="25M" data-max-height="3000" name ="image" src ="${postModel.imagePath}"/>
+                  <input type="file" id="input-file-to-destroy" class="dropify" data-allowed-formats="portrait square"
+                         data-max-file-size="25M" data-max-height="3000" name ="image" src ="${postModel.imagePath}"/>
 
-                                <c:if test="${empty postModel.id}">
-                                  <button type="button" id="btnCreatePost" class="btn btn-sm btn-info" style="margin:5px; float:right" >Post</button>
-                                </c:if>
-                                <c:if test="${not empty postModel.id}">
-                                  <button type="button" id="btnCreatePost" class="btn btn-sm btn-info" style="margin:5px; float:right" >Update</button>
-                                </c:if>
-                            </div>
-            </form>
-            <div id = "result-message" class="alert text-center " style="display: none;"></div>
+
+                  <button type="submit" id="btnCreatePost" class="btn btn-sm btn-info" style="margin:5px; float:right" >
+                    <c:if test="${empty postModel.id}"> Post </c:if>
+                    <c:if test="${not empty postModel.id}"> Update </c:if>
+                  </button>
+
+                    <%--                                <c:if test="${not empty postModel.id}">--%>
+                    <%--                                  <button type="submit" id="btnCreatePost" class="btn btn-sm btn-info" style="margin:5px; float:right" >Update</button>--%>
+                    <%--                                </c:if>--%>
+                </div>
+              </form>
+                <span id = "result-message" class="alert alert-danger text-center " style="display: none">
+                  <i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i>
+                  <div>Đã có lỗi xảy ra, vui lòng thử lại vào thời điểm khác.</div>
+                  <a href="/"><b>Trở về trang chủ</b></a>
+                </span>
 
 
             <!-- Share feed toolbar END -->
@@ -230,40 +244,14 @@
 		});
   </script>
   <script>
-     $('#btnCreatePost').click(function(e) {
-       e.preventDefault();
+    let status = ${status};
+    if(status != null){
+      if (status === "error"){
+        $('#formSubmit').hide();
+        $('#result-message').show();
 
-       // Khởi tạo FormData từ form HTML
-       let formData = new FormData($('#formSubmit')[0]);
-
-       // Gửi dữ liệu bằng AJAX
-       $.ajax({
-         url: '/api-post',
-         type: 'POST',
-         data: formData,
-         processData: false,
-         contentType: false,
-         success: function(result) {
-           console.log(result);
-           if (result.status === "success") {
-             window.location.href = "/profile";
-             // $('#formSubmit').hide();
-             // $('#result-message').removeClass('alert-danger').addClass('alert-success')
-             //         .html('<div>Chúc mừng bạn đã đăng bài thành công!</div> <br>' +
-             //                 '<a href="/view-all-post"><b>Xem bài vừa đăng</b></a>').show();
-           } else {
-             $('#result-message').removeClass('alert-success').addClass('alert-danger')
-                     .html('<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i> ' + result.message).show();
-           }
-         },
-         error: function() {
-           $('#result-message').removeClass('alert-success').addClass('alert-danger')
-                   .html('<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i> ' +
-                           '<div>Đã có lỗi xảy ra, vui lòng thử lại vào thời điểm khác.</div>' +
-                           '<a href="/"><b>Trở về trang chủ</b></a>').show();
-         }
-       });
-     });
+      }
+    }
   </script>
 </body>
 

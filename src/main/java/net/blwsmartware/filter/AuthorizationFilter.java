@@ -14,6 +14,7 @@ import net.blwsmartware.util.JWTUtil;
 import net.blwsmartware.util.RouterUtil;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @WebFilter("/loginFilter")
 public class AuthorizationFilter implements Filter {
@@ -52,8 +53,8 @@ public class AuthorizationFilter implements Filter {
     }
 
     private UserModel getInfoFromToken(String token) {
-        Long id = JWTUtil.getIdUserFromToken(token);
-        return userService.findByID(id);
+        Long idUser = (Long) Objects.requireNonNull(JWTUtil.getClaimsFromToken(token)).get("id");
+        return userService.findByID(idUser);
     }
 
     private void handleUri(HttpServletRequest request) {
