@@ -9,12 +9,10 @@ import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
-import org.apache.http.client.fluent.Request;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,14 +34,18 @@ public class GoogleLogin {
             httpPost.setEntity(new UrlEncodedFormEntity(params));
 
 
-            try(CloseableHttpResponse response = httpClient.execute(httpPost)){
-                String responeString = EntityUtils.toString(response.getEntity());
-                JsonObject object = new Gson().fromJson(responeString, JsonObject.class);
-                return object.get("access_token").toString().replaceAll("\"","");
+            String responeString = httpClient.execute(httpPost, response -> {
+                int status = response.getCode();
+                if (status >= 200 && status < 300) {
+                    HttpEntity entity = response.getEntity();
+                    return entity != null ? EntityUtils.toString(entity) : null;
+                } else {
+                    throw new ClientProtocolException("Unexpected response status: " + status);
+                }
+            });
+            JsonObject object = new Gson().fromJson(responeString, JsonObject.class);
+            return object.get("access_token").toString().replaceAll("\"","");
 
-            }catch (ParseException e){
-                System.out.println(e.getMessage());
-            }
         }catch (IOException e){
             System.out.println(e.getMessage());
         }
@@ -54,27 +56,29 @@ public class GoogleLogin {
     public static UserModel getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
         try(CloseableHttpClient httpClient = HttpClients.createDefault()){
             HttpGet httpGet = new HttpGet(IConstant.GOOGLE_LINK_GET_USER_INFO + accessToken);
-
-            try(CloseableHttpResponse response = httpClient.execute(httpGet)){
-                String responeString = EntityUtils.toString(response.getEntity());
-                JsonObject object = new Gson().fromJson(responeString, JsonObject.class);
-                UserModel ggAccount = new UserModel();
-
-                ggAccount.setGgID(object.get("id").getAsString());
-                ggAccount.setName(object.get("name").getAsString());
-                ggAccount.setEmail(object.get("email").getAsString());
-
-                if(object.has("picture")){
-                    ggAccount.setAvatar(object.get("picture").getAsString());
-                    ggAccount.setThumbnail(object.get("picture").getAsString());
+            String responeString = httpClient.execute(httpGet, response -> {
+                int status = response.getCode();
+                if (status >= 200 && status < 300) {
+                    HttpEntity entity = response.getEntity();
+                    return entity != null ? EntityUtils.toString(entity) : null;
+                } else {
+                    throw new ClientProtocolException("Unexpected response status: " + status);
                 }
-                return ggAccount;
+            });
+            JsonObject object = new Gson().fromJson(responeString, JsonObject.class);
+            UserModel ggAccount = new UserModel();
 
+            ggAccount.setGgID(object.get("id").getAsString());
+            ggAccount.setName(object.get("name").getAsString());
+            ggAccount.setEmail(object.get("email").getAsString());
 
-            }catch (ParseException e){
-                System.out.println(e.getMessage());
+            if(object.has("picture")){
+                ggAccount.setAvatar(object.get("picture").getAsString());
+                ggAccount.setThumbnail(object.get("picture").getAsString());
             }
-            return null;
+            return ggAccount;
+
+
         }
     }
 }

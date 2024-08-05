@@ -30,6 +30,7 @@ public class PostMapper implements RowMapper<PostModel> {
             postModel.setVoteCount(rs.getInt("vote_count"));
             postModel.setAuthId(rs.getLong("auth_id"));
             postModel.setStatusCode(PostStatus.fromCode(postModel.getStatus()).name());
+            postModel.setImagePath(rs.getString("image_path"));
         } catch (SQLException e) {
             System.out.println("PostMapper result null");
             return null;

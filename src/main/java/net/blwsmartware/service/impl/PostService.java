@@ -31,7 +31,7 @@ public class PostService implements IPostService {
 
     @Override
     public PostModel save(PostModel postModel) {
-        if (postModel.getSource() != null) {
+        if (postModel.getSource() != null&& !postModel.getSource().isEmpty()) {
             String src = postModel.getSource();
             src = src.toUpperCase();
             if (!src.startsWith("HTTP://") && !src.startsWith("HTTPS://")) {

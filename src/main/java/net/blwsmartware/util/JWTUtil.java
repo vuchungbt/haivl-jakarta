@@ -92,4 +92,11 @@ public class JWTUtil {
             }
         }
     }
+    public static Long getIdUser(HttpServletRequest request){
+        Map<String, Object> hashMap = JWTUtil.getClaimsFromToken(JWTUtil.getToken(request));
+        if (hashMap!=null && !hashMap.isEmpty()){
+            return (Long) hashMap.get("id");
+        }
+        return null;
+    }
 }

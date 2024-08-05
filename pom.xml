@@ -8,6 +8,8 @@
     <name>haivl-jakarta</name>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jakarta.servlet-api>6.0.0</jakarta.servlet-api>
         <jakarta.servlet.jsp>4.0.0</jakarta.servlet.jsp>
         <jakarta.servlet.jstl.api>3.0.0</jakarta.servlet.jstl.api>
@@ -132,14 +134,13 @@
             <artifactId>httpclient5</artifactId>
             <version>5.4-beta1</version>
         </dependency>
-
-
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>fluent-hc</artifactId>
-            <version>4.5.14</version>
-
+            <groupId>org.apache.httpcomponents.core5</groupId>
+            <artifactId>httpcore5</artifactId>
+            <version>5.3-beta1</version>
         </dependency>
+
+
 
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -153,11 +154,6 @@
             <version>3.0.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.taglibs</groupId>
-            <artifactId>taglibs-standard-impl</artifactId>
-            <version>1.2.5</version>
-        </dependency>
 
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -181,7 +177,13 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.9.3</version>
+            <version>1.9.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 

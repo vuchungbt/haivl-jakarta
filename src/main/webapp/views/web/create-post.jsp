@@ -1,69 +1,79 @@
 <%@include file="/common/taglib.jsp" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <c:if test="${empty postModel.id}">
-    <title>Create Post</title>
-  </c:if>
-  <c:if test="${not empty postModel.id}">
-    <title>Update Post</title>
-  </c:if>
+  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <!DOCTYPE html>
+    <html>
 
-  <!-- Bootstrap CSS -->
-<%--  <link rel="stylesheet" href="<c:url value='/template/web/css/bootstrap.min.css' />" />--%>
-<%--  <link rel="stylesheet" href="<c:url value='/template/web/css/customize.css' />" />--%>
-<%--  <link rel="stylesheet" href="<c:url value='/template/web/css/dropify.min.css' />" />--%>
+    <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <c:if test="${empty postModel.id}">
+        <title>Create Post</title>
+      </c:if>
+      <c:if test="${not empty postModel.id}">
+        <title>Update Post</title>
+      </c:if>
 
-<%--  <script src="<c:url value='/template/web/js/kit.42d5adcbca.js' />" ></script>--%>
-<%--  <!-- Dark mode -->--%>
-<%--  <script src="<c:url value='/template/web/js/theme.js' />"></script>--%>
+      <!-- Bootstrap CSS -->
+      <%-- <link rel="stylesheet" href="<c:url value='/template/web/css/bootstrap.min.css' />" />--%>
+      <%-- <link rel="stylesheet" href="<c:url value='/template/web/css/customize.css' />" />--%>
+      <%-- <link rel="stylesheet" href="<c:url value='/template/web/css/dropify.min.css' />" />--%>
 
-  <style>
-    textarea {
-      width: 100%;
-      overflow: hidden;
-      resize: none;
-    }
-  </style>
-</head>
+      <%-- <script src="<c:url value='/template/web/js/kit.42d5adcbca.js' />"></script>--%>
+        <%-- <!-- Dark mode -->--%>
+          <%-- <script src="<c:url value='/template/web/js/theme.js' />"></script>--%>
+
+            <style>
+              textarea {
+                width: 100%;
+                overflow: hidden;
+                resize: none;
+              }
+            </style>
+    </head>
 
 
-<body>
+    <body>
 
-<%--    <%@ include file="/common/web/header-bar.jsp" %>--%>
+      <%-- <%@ include file="/common/web/header-bar.jsp" %>--%>
 
-  <!-- **************** MAIN CONTENT START **************** -->
-  <main class="py-2">
+        <!-- **************** MAIN CONTENT START **************** -->
+        <main class="py-2">
+            <c:set var="method" value="${empty postModel.id ? 'post' : 'put'}"/>
+            <c:if test="${empty postModel.id}">
+                <c:url var="postUrl" value="/create-post"/>
+            </c:if>
+            <c:if test="${not empty postModel.id}">
+                <c:url var="postUrl" value="/edit-post"/>
+            </c:if>
+            <form id = "formSubmit" enctype="multipart/form-data" action="${postUrl}" method="post">
+                <input type="hidden" name="_method" value="${method}" />
 
-    <!-- Container START -->
-    <div class="container">
-      <div class="row g-4">
+          <!-- Container START -->
+          <div class="container">
+            <div class="row g-4">
 
         <!-- Main content START -->
         <div class="col-lg-8 vstack gap-4">
           <!-- Card START -->
           <div class="card card-body">
             <!-- Post input -->
-            <c:set var="method" value="${empty postModel.id ? 'post' : 'put'}"/>
-            <c:if test="${empty postModel.id}">
-              <c:url var="postUrl" value="/create-post"/>
-            </c:if>
-            <c:if test="${not empty postModel.id}">
-              <c:url var="postUrl" value="edit-post"/>
-            </c:if>
-              <form id = "formSubmit" enctype="multipart/form-data" class="w-100" action="${postUrl}" method="${method}">
-            <textarea  class="form-control pe-4 border-0" rows="1" maxlength="100" data-autoresize=""
+            <div class="w-100" >
+              <textarea  class="form-control pe-4 border-0" rows="1" maxlength="100" data-autoresize=""
                        name="title" placeholder="Title...">${postModel.title}</textarea>
                 <textarea maxlength="1200" class="form-control pe-4 border-0" rows="2" data-autoresize=""
                           name="content" placeholder="Content...">${postModel.content}</textarea>
                 <div>
 
-                  <input type="file" id="input-file-to-destroy" class="dropify" data-allowed-formats="portrait square"
-                         data-max-file-size="25M" data-max-height="3000" name ="image" src ="${postModel.imagePath}"/>
+                    <div>
+                        <!--data-default-file  just to view -->
+<%--                        <input type="file" id="input-file-to-destroy" class="dropify"--%>
+<%--                               data-default-file="https://i.imgur.com/xhzhaGA.jpg" data-max-file-size="25M"--%>
+<%--                               data-max-height="3000" name="image" src="${postModel.imagePath}" />--%>
+                        <input type="file" id="input-file-to-destroy" class="dropify"
+                               data-default-file="${postModel.imagePath}" data-max-file-size="25M"
+                               data-max-height="3000" name="image" src="" />
+                    </div>
 
 
                   <button type="submit" id="btnCreatePost" class="btn btn-sm btn-info" style="margin:5px; float:right" >
@@ -71,188 +81,175 @@
                     <c:if test="${not empty postModel.id}"> Update </c:if>
                   </button>
 
-                    <%--                                <c:if test="${not empty postModel.id}">--%>
-                    <%--                                  <button type="submit" id="btnCreatePost" class="btn btn-sm btn-info" style="margin:5px; float:right" >Update</button>--%>
-                    <%--                                </c:if>--%>
                 </div>
-              </form>
-                <span id = "result-message" class="alert alert-danger text-center " style="display: none">
+            </div>
+                  <!-- Share feed toolbar END -->
+                </div>
+              </div>
+              <!-- Main content END -->
+
+              <!-- Right sidebar START -->
+              <div class="col-lg-4">
+
+                <div class="row g-4">
+
+                    <div class="col-sm-6 col-lg-12">
+     <!-- Card START -->
+                      <div class="card">
+                        <div class="card-body d-flex" >
+
+                          <div class="nav nav-item w-100 position-relative">
+
+                            <textarea id= "mainSourceName" data-autoresize="" class="form-control pe-5 bg-light" rows="1"
+                              placeholder="Source name" name="sourceName">${postModel.sourceName}</textarea>
+                            <a type button id = "setSource"
+                              class="nav-link bg-transparent px-3 position-absolute top-50 end-0 translate-middle-y border-0"
+                              data-bs-toggle="modal" data-bs-target="#exampleModal">
+                              <i class="far fa-edit"></i>
+                            </a>
+                          </div>
+
+                        </div>
+                      </div>
+                      </div>
+                      <div class="col-sm-6 col-lg-12">
+                      <!-- Card START -->
+                      <div class="card">
+                        <div class="card-body">
+
+                          <textarea maxlength="500" class="form-control border-0" rows="1" data-autoresize=""
+                            name="tag-collect" placeholder="#Tag"></textarea>
+                          <div class="mt-0">
+                            <c:forEach var="tag" items="${postModel.tags}">
+                                <span class="badge bg-primary me-1">${tag}</span>
+                            </c:forEach>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Card END -->
+                    </div>
+
+                </div>
+              </div>
+              <!-- Right sidebar END -->
+
+            </div> <!-- Row END -->
+          </div>
+          <!-- Container END -->
+
+
+
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Source</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <input type="text" id="sourceNameModal" class="form-control m-1" placeholder="Source name">
+                  <input type="text" class="form-control m-1" id="sourceLinkModal" name = "source" placeholder="Source link" value="${postModel.source}">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" id="saveChangesBtnModal" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+                <input type="hidden" name="id" value="${postModel.id}"/>
+        </form>
+        <span id = "result-message" class="alert alert-danger text-center " style="display: none">
                   <i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i>
                   <div>Đã có lỗi xảy ra, vui lòng thử lại vào thời điểm khác.</div>
                   <a href="/"><b>Trở về trang chủ</b></a>
-                </span>
+        </span>
 
+        </main>
 
-            <!-- Share feed toolbar END -->
-          </div>
-        </div>
-        <!-- Main content END -->
+        <%-- <%@ include file="/common/web/footer.jsp" %>--%>
 
-        <!-- Right sidebar START -->
-        <div class="col-lg-4">
- 
-          <div class="row g-4">
+          <script src="<c:url value='/public/web/js/jquery-3.5.1.js' />"></script>
+          <script src="<c:url value='/public/web/js/bootstrap.bundle.min.js' />"></script>
+          <script src="<c:url value='/public/web/js/customize.js' />"></script>
+          <script src="<c:url value='/public/web/js/dropify.js' />"></script>
+          <script>
+            $(document).ready(function () {
+              // Basic
+              $('.dropify').dropify();
 
-            <!-- Card START -->
-            <div class="col-sm-6 col-lg-12">
-              <div class="card">
-                <div class="card-header border-0 pb-0">
-                  <h5 class="card-title">About</h5>
-                  <!-- Button modal -->
-                </div>
-                <!-- Card body START -->
-                <div class="card-body position-relative pt-0">
-                  <p>He moonlights difficult engrossed it, sportsmen. Interested has all Devonshire difficulty gay
-                    assistance joy.</p>
-                  <!-- Date time -->
-                  <ul class="list-unstyled mt-3 mb-0">
-                    <li class="mb-2"> <i class="bi bi-calendar-date fa-fw pe-1"></i> Born: <strong> October 20, 1990
-                      </strong> </li>
-                    <li class="mb-2"> <i class="bi bi-heart fa-fw pe-1"></i> Status: <strong> Single </strong> </li>
-                    <li> <i class="bi bi-envelope fa-fw pe-1"></i> Email: <strong> webestica@gmail.com </strong> </li>
-                  </ul>
-                </div>
-                <!-- Card body END -->
-              </div>
-            </div>
-            <!-- Card END -->
+              // Translated
+              $('.dropify-fr').dropify({
+                messages: {
+                  default: 'Glissez-déposez un fichier ici ou cliquez',
+                  replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+                  remove: 'Supprimer',
+                  error: 'Désolé, le fichier trop volumineux'
+                }
+              });
 
-            <!-- Card START -->
-            <div class="col-sm-6 col-lg-12">
-              <div class="card">
-                <!-- Card header START -->
-                <div class="card-header d-flex justify-content-between border-0">
-                  <h5 class="card-title">Experience</h5>
-                  <a class="btn btn-primary-soft btn-sm" href="#!"> <i class="fa-solid fa-plus"></i> </a>
-                </div>
-                <!-- Card header END -->
-                <!-- Card body START -->
-                <div class="card-body position-relative pt-0">
-                  <!-- Experience item START -->
-                  <div class="d-flex">
-                    <!-- Avatar -->
-                    <div class="avatar me-3">
-                      <a href="#!"> <img class="avatar-img rounded-circle" src="img/logo/08.svg" alt=""> </a>
-                    </div>
-                    <!-- Info -->
-                    <div>F
-                      <h6 class="card-title mb-0"><a href="#!"> Apple Computer, Inc. </a></h6>
-                      <p class="small">May 2015 – Present Employment Duration 8 mos <a
-                          class="btn btn-primary-soft btn-xs ms-2" href="#!">Edit </a></p>
-                    </div>
-                  </div>
-                  <!-- Experience item END -->
+              // Used events
+              var drEvent = $('#input-file-events').dropify();
 
-                  <!-- Experience item START -->
-                  <div class="d-flex">
-                    <!-- Avatar -->
-                    <div class="avatar me-3">
-                      <a href="#!"> <img class="avatar-img rounded-circle" src="img/logo/09.svg" alt=""> </a>
-                    </div>
-                    <!-- Info -->
-                    <div>
-                      <h6 class="card-title mb-0"><a href="#!"> Microsoft Corporation </a></h6>
-                      <p class="small">May 2017 – Present Employment Duration 1 yrs 5 mos <a
-                          class="btn btn-primary-soft btn-xs ms-2" href="#!">Edit </a></p>
-                    </div>
-                  </div>
-                  <!-- Experience item END -->
+              drEvent.on('dropify.beforeClear', function (event, element) {
+                return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+              });
 
-                  <!-- Experience item START -->
-                  <div class="d-flex">
-                    <!-- Avatar -->
-                    <div class="avatar me-3">
-                      <a href="#!"> <img class="avatar-img rounded-circle" src="img/logo/10.svg" alt=""> </a>
-                    </div>
-                    <!-- Info -->
-                    <div>
-                      <h6 class="card-title mb-0"><a href="#!"> Tata Consultancy Services. </a></h6>
-                      <p class="small mb-0">May 2022 – Present Employment Duration 6 yrs 10 mos <a
-                          class="btn btn-primary-soft btn-xs ms-2" href="#!">Edit </a></p>
-                    </div>
-                  </div>
-                  <!-- Experience item END -->
+              drEvent.on('dropify.afterClear', function (event, element) {
+                alert('File deleted');
+              });
 
-                </div>
-                <!-- Card body END -->
-              </div>
-            </div>
-            <!-- Card END -->
-          </div>
-        </div>
-        <!-- Right sidebar END -->
+              drEvent.on('dropify.errors', function (event, element) {
+                console.log('Has Errors');
+              });
 
-      </div> <!-- Row END -->
-    </div>
-    <!-- Container END -->
+              var drDestroy = $('#input-file-to-destroy').dropify();
+              drDestroy = drDestroy.data('dropify')
+              $('#toggleDropify').on('click', function (e) {
+                e.preventDefault();
+                if (drDestroy.isDropified()) {
+                  drDestroy.destroy();
+                } else {
+                  drDestroy.init();
+                }
+              })
+            });
+            document.querySelectorAll('[data-autoresize]').forEach(function (element) {
+              var offset = element.offsetHeight - element.clientHeight;
+              element.addEventListener('input', function (event) {
+                event.target.style.height = 'auto';
+                event.target.style.height = event.target.scrollHeight + offset + 'px';
+              });
+            });
+          </script>
+    <script>
 
-  </main>
+        let originalSourceNameValue;
+        let originalSourceLinkValue;
+        document.getElementById('setSource').addEventListener('click', function (){
+            originalSourceNameValue= document.getElementById('mainSourceName').value;
+            originalSourceLinkValue = document.getElementById('sourceLinkModal').value;
 
-<%--  <%@ include file="/common/web/footer.jsp" %>--%>
+            const text = document.getElementById('sourceNameModal');
+            text.value = originalSourceNameValue;
 
-  <script src="<c:url value='/public/web/js/jquery-3.5.1.js' />"></script>
-  <script src="<c:url value='/public/web/js/bootstrap.bundle.min.js' />"></script>
-  <script src="<c:url value='/public/web/js/customize.js' />"></script>
-  <script src="<c:url value='/public/web/js/dropify.js' />"></script>
-  <script>
-    $(document).ready(function () {
-      // Basic
-      $('.dropify').dropify();
+        });
+        document.getElementById('saveChangesBtnModal').addEventListener('click', function() {
 
-      // Translated
-      $('.dropify-fr').dropify({
-        messages: {
-          default: 'Glissez-déposez un fichier ici ou cliquez',
-          replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
-          remove: 'Supprimer',
-          error: 'Désolé, le fichier trop volumineux'
-        }
-      });
+            originalSourceNameValue = document.getElementById('sourceNameModal').value;
+            originalSourceLinkValue = document.getElementById('sourceLinkModal').value;
 
-      // Used events
-      var drEvent = $('#input-file-events').dropify();
+        });
 
-      drEvent.on('dropify.beforeClear', function (event, element) {
-        return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
-      });
+        let exampleModal = document.getElementById('exampleModal');
+        exampleModal.addEventListener('hidden.bs.modal', function (){
+            document.getElementById('mainSourceName').value = originalSourceNameValue;
+            document.getElementById('sourceLinkModal').value = originalSourceLinkValue;
+        });
 
-      drEvent.on('dropify.afterClear', function (event, element) {
-        alert('File deleted');
-      });
+    </script>
+    </body>
 
-      drEvent.on('dropify.errors', function (event, element) {
-        console.log('Has Errors');
-      });
-
-      var drDestroy = $('#input-file-to-destroy').dropify();
-      drDestroy = drDestroy.data('dropify')
-      $('#toggleDropify').on('click', function (e) {
-        e.preventDefault();
-        if (drDestroy.isDropified()) {
-          drDestroy.destroy();
-        } else {
-          drDestroy.init();
-        }
-      })
-    });
-    document.querySelectorAll('[data-autoresize]').forEach(function (element) {
-			var offset = element.offsetHeight - element.clientHeight;
-			element.addEventListener('input', function (event) {
-				event.target.style.height = 'auto';
-				event.target.style.height = event.target.scrollHeight + offset + 'px';
-			});
-		});
-  </script>
-  <script>
-    let status = ${status};
-    if(status != null){
-      if (status === "error"){
-        $('#formSubmit').hide();
-        $('#result-message').show();
-
-      }
-    }
-  </script>
-</body>
-
-</html>
+    </html>
