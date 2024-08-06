@@ -1,10 +1,12 @@
 package net.blwsmartware.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PostModel extends AbstractModel {
     private List<String> tab = new ArrayList<>();
     private String source, refer, shortdescription, content, sourceName;

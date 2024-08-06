@@ -35,10 +35,10 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
         sql.append(" title=?,");
         sql.append(" publish_date=?,");
         sql.append(" verified_date=?,");
-        sql.append(" type=?");
+        sql.append(" type=?, ");
         sql.append(" image_path=?");
         sql.append(" WHERE id = ?");
-        update(sql.toString(), newPost.getDescription(), newPost.getShortDescription(), newPost.getContent(),
+        update(sql.toString(), newPost.getName(),newPost.getDescription(), newPost.getShortDescription(), newPost.getContent(),
                 newPost.getRefer(), newPost.getSource(), newPost.getSourceName(), newPost.getModifiedBy(), newPost.getStatus(), newPost.getThumbnail(), newPost.getTitle(),
                 newPost.getPublishDate(), newPost.getVerifiedDate(), newPost.getType(),newPost.getImagePath(),
                 newPost.getId());

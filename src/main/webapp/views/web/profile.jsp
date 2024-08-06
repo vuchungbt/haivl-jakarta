@@ -86,7 +86,6 @@
                 </div>
 
 
-
                 <div class="blog-post py-1">
                   <c:forEach var="post" items="${posts}">
                     <div class="card mt-2">

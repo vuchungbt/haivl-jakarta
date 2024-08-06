@@ -16,6 +16,7 @@ import net.blwsmartware.util.JWTUtil;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet(urlPatterns = {"/profile"})
 public class ProfileController extends HttpServlet {
@@ -32,7 +33,7 @@ public class ProfileController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        Long idUser = JWTUtil.getIdUserFromToken(token);
+        Long idUser = (Long) Objects.requireNonNull(JWTUtil.getClaimsFromToken(JWTUtil.getToken(request))).get("id");
         List<PostModel> list = postService.findAllByIdUser(idUser);
         request.setAttribute("posts",list);
         RequestDispatcher rd = request.getRequestDispatcher("/views/web/profile.jsp");

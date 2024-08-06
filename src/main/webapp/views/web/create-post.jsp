@@ -39,45 +39,50 @@
 
         <!-- **************** MAIN CONTENT START **************** -->
         <main class="py-2">
+            <c:set var="method" value="${empty postModel.id ? 'post' : 'put'}"/>
+            <c:if test="${empty postModel.id}">
+                <c:url var="postUrl" value="/create-post"/>
+            </c:if>
+            <c:if test="${not empty postModel.id}">
+                <c:url var="postUrl" value="/edit-post"/>
+            </c:if>
+            <form id = "formSubmit" enctype="multipart/form-data" action="${postUrl}" method="post">
+                <input type="hidden" name="_method" value="${method}" />
 
           <!-- Container START -->
           <div class="container">
             <div class="row g-4">
 
-              <!-- Main content START -->
-              <div class="col-lg-8 vstack gap-4">
-                <!-- Card START -->
-                <div class="card card-body">
-                  <!-- Post input -->
-                  <form id="formSubmit" enctype="multipart/form-data" class="w-100" action="">
-                    <textarea class="form-control pe-4 border-0" rows="1" maxlength="100" data-autoresize=""
-                      name="title" placeholder="Title...">${postModel.title}</textarea>
-                    <textarea maxlength="1200" class="form-control pe-4 border-0" rows="2" data-autoresize=""
-                      name="content" placeholder="Content...">${postModel.content}</textarea>
-                    <div>
-                      <!--data-default-file  just to view -->
-                      <input type="file" id="input-file-to-destroy" class="dropify"
-                        data-default-file="https://i.imgur.com/xhzhaGA.jpg" data-max-file-size="25M"
-                        data-max-height="3000" name="image" src="${postModel.imagePath}" />
+        <!-- Main content START -->
+        <div class="col-lg-8 vstack gap-4">
+          <!-- Card START -->
+          <div class="card card-body">
+            <!-- Post input -->
+            <div class="w-100" >
+              <textarea  class="form-control pe-4 border-0" rows="1" maxlength="100" data-autoresize=""
+                       name="title" placeholder="Title...">${postModel.title}</textarea>
+                <textarea maxlength="1200" class="form-control pe-4 border-0" rows="2" data-autoresize=""
+                          name="content" placeholder="Content...">${postModel.content}</textarea>
+                <div>
 
+                    <div>
+                        <!--data-default-file  just to view -->
+<%--                        <input type="file" id="input-file-to-destroy" class="dropify"--%>
+<%--                               data-default-file="https://i.imgur.com/xhzhaGA.jpg" data-max-file-size="25M"--%>
+<%--                               data-max-height="3000" name="image" src="${postModel.imagePath}" />--%>
+                        <input type="file" id="input-file-to-destroy" class="dropify"
+                               data-default-file="${postModel.imagePath}" data-max-file-size="25M"
+                               data-max-height="3000" name="image" src="" />
                     </div>
 
 
+                  <button type="submit" id="btnCreatePost" class="btn btn-sm btn-info" style="margin:5px; float:right" >
+                    <c:if test="${empty postModel.id}"> Post </c:if>
+                    <c:if test="${not empty postModel.id}"> Update </c:if>
+                  </button>
 
-                    <c:if test="${empty postModel.id}">
-                      <button type="button" id="btnCreatePost" class="btn btn-sm btn-info"
-                        style="margin:5px; float:right">Post</button>
-                    </c:if>
-                    <c:if test="${not empty postModel.id}">
-                      <button type="button" id="btnCreatePost" class="btn btn-sm btn-info"
-                        style="margin:5px; float:right">Update</button>
-                    </c:if>
-
-
-                  </form>
-                  <div id="result-message" class="alert text-center " style="display: none;"></div>
-
-
+                </div>
+            </div>
                   <!-- Share feed toolbar END -->
                 </div>
               </div>
@@ -95,9 +100,9 @@
 
                           <div class="nav nav-item w-100 position-relative">
 
-                            <textarea data-autoresize="" class="form-control pe-5 bg-light" rows="1"
-                              placeholder="Source name...(chua lam)"></textarea>
-                            <a type button
+                            <textarea id= "mainSourceName" data-autoresize="" class="form-control pe-5 bg-light" rows="1"
+                              placeholder="Source name" name="sourceName">${postModel.sourceName}</textarea>
+                            <a type button id = "setSource"
                               class="nav-link bg-transparent px-3 position-absolute top-50 end-0 translate-middle-y border-0"
                               data-bs-toggle="modal" data-bs-target="#exampleModal">
                               <i class="far fa-edit"></i>
@@ -113,11 +118,11 @@
                         <div class="card-body">
 
                           <textarea maxlength="500" class="form-control border-0" rows="1" data-autoresize=""
-                            name="tag-collect" placeholder="#Tag...(chua lam)"></textarea>
+                            name="tag-collect" placeholder="#Tag"></textarea>
                           <div class="mt-0">
-                            <span class="badge bg-primary me-1">#tag1</span>
-                            <span class="badge bg-secondary me-1">#tag2</span>
-                            <span class="badge bg-success me-1">#tag3</span>
+                            <c:forEach var="tag" items="${postModel.tags}">
+                                <span class="badge bg-primary me-1">${tag}</span>
+                            </c:forEach>
                           </div>
                         </div>
                       </div>
@@ -134,10 +139,6 @@
 
 
 
-
-
-
-
           <!-- Modal -->
           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -148,27 +149,23 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <input type="text" class="form-control m-1" placeholder="Source name">
-                  <input type="text" class="form-control m-1" placeholder="Source link">
+                  <input type="text" id="sourceNameModal" class="form-control m-1" placeholder="Source name">
+                  <input type="text" class="form-control m-1" id="sourceLinkModal" name = "source" placeholder="Source link" value="${postModel.source}">
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" id="saveChangesBtnModal" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
                 </div>
               </div>
             </div>
           </div>
-
-
-
-
-
-
-
-
-
-
-
+                <input type="hidden" name="id" value="${postModel.id}"/>
+        </form>
+        <span id = "result-message" class="alert alert-danger text-center " style="display: none">
+                  <i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i>
+                  <div>Đã có lỗi xảy ra, vui lòng thử lại vào thời điểm khác.</div>
+                  <a href="/"><b>Trở về trang chủ</b></a>
+        </span>
 
         </main>
 
@@ -227,42 +224,32 @@
               });
             });
           </script>
-          <script>
-            $('#btnCreatePost').click(function (e) {
-              e.preventDefault();
+    <script>
 
-              // Khởi tạo FormData từ form HTML
-              let formData = new FormData($('#formSubmit')[0]);
+        let originalSourceNameValue;
+        let originalSourceLinkValue;
+        document.getElementById('setSource').addEventListener('click', function (){
+            originalSourceNameValue= document.getElementById('mainSourceName').value;
+            originalSourceLinkValue = document.getElementById('sourceLinkModal').value;
 
-              // Gửi dữ liệu bằng AJAX
-              $.ajax({
-                url: '/api-post',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (result) {
-                  console.log(result);
-                  if (result.status === "success") {
-                    window.location.href = "/profile";
-                    // $('#formSubmit').hide();
-                    // $('#result-message').removeClass('alert-danger').addClass('alert-success')
-                    //         .html('<div>Chúc mừng bạn đã đăng bài thành công!</div> <br>' +
-                    //                 '<a href="/view-all-post"><b>Xem bài vừa đăng</b></a>').show();
-                  } else {
-                    $('#result-message').removeClass('alert-success').addClass('alert-danger')
-                      .html('<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i> ' + result.message).show();
-                  }
-                },
-                error: function () {
-                  $('#result-message').removeClass('alert-success').addClass('alert-danger')
-                    .html('<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i> ' +
-                      '<div>Đã có lỗi xảy ra, vui lòng thử lại vào thời điểm khác.</div>' +
-                      '<a href="/"><b>Trở về trang chủ</b></a>').show();
-                }
-              });
-            });
-          </script>
+            const text = document.getElementById('sourceNameModal');
+            text.value = originalSourceNameValue;
+
+        });
+        document.getElementById('saveChangesBtnModal').addEventListener('click', function() {
+
+            originalSourceNameValue = document.getElementById('sourceNameModal').value;
+            originalSourceLinkValue = document.getElementById('sourceLinkModal').value;
+
+        });
+
+        let exampleModal = document.getElementById('exampleModal');
+        exampleModal.addEventListener('hidden.bs.modal', function (){
+            document.getElementById('mainSourceName').value = originalSourceNameValue;
+            document.getElementById('sourceLinkModal').value = originalSourceLinkValue;
+        });
+
+    </script>
     </body>
 
     </html>
