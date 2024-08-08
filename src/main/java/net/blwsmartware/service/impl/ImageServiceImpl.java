@@ -202,5 +202,11 @@ public class ImageServiceImpl implements ImageService {
         return getFile().delete();
     }
 
+    @Override
+    public boolean delete(String path) {
+
+        return new File(path).delete();
+    }
+
 
 }

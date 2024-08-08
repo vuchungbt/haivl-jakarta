@@ -167,12 +167,8 @@ import java.util.stream.Collectors;
 
             PostModel postModel = new ObjectMapper().convertValue(formData, PostModel.class);
             postModel = postService.findByID(postModel.getId());
-            if(postModel.getImagePath()!=null && !postModel.getImagePath().isEmpty()){
-                File oldImage = new File(postModel.getImagePath());
-                boolean deleted = oldImage.delete();
-                if(!deleted){
-                    System.out.println("Delete image unsuccessfully");
-                }
+            if(!imageService.delete(postModel.getImagePath())){
+                System.out.println("Delete image unsuccessfully");
             }
 
             String tagList = request.getParameter("tag-collect");
@@ -186,7 +182,7 @@ import java.util.stream.Collectors;
             if (!tags.isEmpty()) {
                 postModel.setTab(tags);
             }
-            //Chưa xóa ảnh cũ đã đăng trước đó
+
             if (rez != null) {
                 postModel.setImagePath(rez.getPath());
                 postModel.setThumbnail(imageService.getThumbnailName());

@@ -24,4 +24,6 @@ public interface ImageService {
     void submitSystemWaterMark();
 
     boolean delete();
+
+    boolean delete(String path);
 }

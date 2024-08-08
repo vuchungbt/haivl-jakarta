@@ -31,6 +31,6 @@
     </div> <!-- row.// -->
 
 </div>
-<script src="<c:url value='/public/login/js/sendDirection.js'/> " type="text/javascript"></script>
+<%--<script src="<c:url value='/public/login/js/sendDirection.js'/> " type="text/javascript"></script>--%>
 </body>
 </html>
