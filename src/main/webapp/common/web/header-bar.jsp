@@ -118,7 +118,7 @@
 
           <c:if test="${empty userModel}">
             <%--            <a role "button" style="margin:5px 10px 5px 25px;" class="login-link btn btn-sm btn-info" href='<c:url value="/login" />'>Đăng nhập</a>--%>
-            <a style="margin:5px 10px 5px 25px;" id = "login-link" class="login-link btn btn-sm btn-info" href='<c:url value="/login" />'>Đăng nhập</a>
+                            <a   style="margin:5px 10px 5px 25px;" id = "login-link" class="login-link btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#loginModal" />Đăng nhập</a>
 
           </c:if>
           <div class="search">
