@@ -106,7 +106,15 @@
                               <i class="fa fa-ellipsis-h text-secondary" aria-hidden="true"></i>
                             </a>
                             <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                              <li><a class="dropdown-item border-radius-md" href="#">Xóa</a></li>
+                              <li>
+                                <form action="<c:url value ='/delete-post'/>" method="post">
+                                  <button style="background: none; border: none; padding: 0; margin: 0; text-align: left; font: inherit; color: inherit;"
+                                        type = submit>
+                                    <a class="dropdown-item border-radius-md" >Xóa</a>
+                                  </button>
+                                  <input type="hidden" value="${post.id}" name = "id">
+                                </form>
+                              </li>
                               <c:url var="editPost" value="/edit-post">
                                 <c:param name="id" value="${post.id}" />
                               </c:url>
