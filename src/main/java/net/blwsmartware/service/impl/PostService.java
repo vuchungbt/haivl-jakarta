@@ -9,6 +9,7 @@ import net.blwsmartware.service.ICommentService;
 import net.blwsmartware.service.IPostService;
 import net.blwsmartware.service.IUserService;
 import jakarta.inject.Inject;
+import net.blwsmartware.service.ImageService;
 
 import java.util.List;
 
@@ -23,6 +24,9 @@ public class PostService implements IPostService {
 
     @Inject
     private ICommentService commentService;
+
+    @Inject
+    private ImageService imageService;
 
     @Override
     public PostModel findByID(Long id) {
@@ -50,6 +54,10 @@ public class PostService implements IPostService {
 
     @Override
     public void delete(long id) {
+        PostModel postModel = postDAO.findByID(id);
+        if(postModel.getImagePath()!=null && !postModel.getImagePath().isEmpty()){
+            imageService.delete(postModel.getImagePath());
+        }
         postDAO.delete(id);
     }
 

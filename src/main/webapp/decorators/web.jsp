@@ -60,6 +60,7 @@
 <%--      <script   src="<c:url value='/template/web/js/bootstrap.bundle.min.js'/>"></script>--%>
 <%--      <script   src="<c:url value='/template/web/js/customize.js'/> "></script>--%>
 <%--      <script src="<c:url value='/template/web/js/loginDirection/loginDirection.js'/> "></script>--%>
+<script src="<c:url value='/public/login/js/sendDirection.js'/> " type="text/javascript"></script>
 
 </html>
 

@@ -1,7 +1,8 @@
     let urlParams = new URLSearchParams(window.location.search);
-    let sendDirection = urlParams.get("send-direction") || '';
+    let path = window.location.pathname;
+    let sendDirection = path.split('/')[1];
     let stateParam = urlParams.get("state");
-    if (!sendDirection&&stateParam) {
+    if (stateParam) {
         try {
             let stateObj = JSON.parse(decodeURIComponent(stateParam));
             sendDirection = stateObj["send-direction"] || '';
