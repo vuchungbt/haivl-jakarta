@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import net.blwsmartware.constant.IConstant;
 import net.blwsmartware.model.PostModel;
 import net.blwsmartware.model.UserModel;
 import net.blwsmartware.service.IPostService;
@@ -184,7 +185,8 @@ import java.util.stream.Collectors;
             }
 
             if (rez != null) {
-                postModel.setImagePath(rez.getPath());
+                String pathImage = imageService.getPathToSaveDB(rez.getPath());
+                postModel.setImagePath(pathImage);
                 postModel.setThumbnail(imageService.getThumbnailName());
             }
             postModel.setModifiedBy(userModel.getName());

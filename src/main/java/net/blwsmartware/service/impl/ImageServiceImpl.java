@@ -205,7 +205,20 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public boolean delete(String path) {
 
-        return new File(path).delete();
+        return getFile(path).delete();
+    }
+    @Override
+    public File getFile(String path){
+        return new File(getFolderUpload() + path);
+    }
+    @Override
+    public String getPathToSaveDB(String path){
+        String [] path_image = path.split("\\\\");
+        StringBuilder result = new StringBuilder();
+        for(int i = 0; i< 2; i++){
+            result.append(File.separator).append(path_image[path_image.length - 2 + i]);
+        }
+        return result.toString();
     }
 
 
