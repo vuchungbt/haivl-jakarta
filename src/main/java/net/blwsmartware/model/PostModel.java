@@ -15,7 +15,15 @@ public class PostModel extends AbstractModel {
     private Long authId;
     private double avgVote;
     private int voteCount;
+    private int currentVote;
 
+    public int getCurrentVote() {
+        return currentVote;
+    }
+
+    public void setCurrentVote(int currentVote) {
+        this.currentVote = currentVote;
+    }
 
     private UserModel created;
     private Set<TagModel> tags;

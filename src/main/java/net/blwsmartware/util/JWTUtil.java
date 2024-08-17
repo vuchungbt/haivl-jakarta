@@ -33,6 +33,7 @@ public class JWTUtil {
     }
 
     public static DecodedJWT verifyToken(String token) {
+        if(token==null) return null;
         Algorithm algorithm = Algorithm.HMAC384(SECRET);
         JWTVerifier verifier = JWT.require(algorithm).build();
         return verifier.verify(token);

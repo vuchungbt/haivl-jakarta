@@ -33,7 +33,11 @@ public class ProfileController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        Long idUser = (Long) Objects.requireNonNull(JWTUtil.getClaimsFromToken(JWTUtil.getToken(request))).get("id");
+        Long idUser = (Long) Objects
+                .requireNonNull(JWTUtil
+                        .getClaimsFromToken(JWTUtil
+                                .getToken(request)))
+                                    .get("id");
         List<PostModel> list = postService.findAllByIdUser(idUser);
         request.setAttribute("posts", list);
         RequestDispatcher rd = request.getRequestDispatcher("/views/web/profile.jsp");

@@ -1,7 +1,5 @@
 package net.blwsmartware.service.impl;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Named;
 import net.blwsmartware.constant.PostStatus;
 import net.blwsmartware.dao.IPostDAO;
 import net.blwsmartware.model.PostModel;
@@ -15,6 +13,17 @@ import java.util.List;
 
 
 public class PostService implements IPostService {
+
+    private Long userID;
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
+    }
+
+    @Override
+    public void vote(Long idPost, int vote) {
+        postDAO.vote(idPost,vote,this.userID);
+    }
 
     @Inject
     private IPostDAO postDAO;
@@ -71,6 +80,7 @@ public class PostService implements IPostService {
         List<PostModel> list = postDAO.findAll();
         createdEntity(list);
         commentsEntity(list);
+        currentVoted(list,this.userID);
         return list;
     }
 
@@ -79,6 +89,7 @@ public class PostService implements IPostService {
         List<PostModel> list = postDAO.findAll(page);
         createdEntity(list);
         commentsEntity(list);
+        currentVoted(list,this.userID);
         return list;
     }
 
@@ -87,6 +98,7 @@ public class PostService implements IPostService {
         List<PostModel> list = postDAO.findTop(page);
         createdEntity(list);
         commentsEntity(list);
+        currentVoted(list,this.userID);
         return list;
     }
 
@@ -95,23 +107,26 @@ public class PostService implements IPostService {
         List<PostModel> list = postDAO.findTrending(page);
         createdEntity(list);
         commentsEntity(list);
+        currentVoted(list,this.userID);
         return list;
-
     }
 
     @Override
     public List<PostModel> findPostPending(int page) {
-        List<PostModel> list = postDAO.findWithStatus(page, PostStatus.PENDING);
-        createdEntity(list);
-        commentsEntity(list);
-        return list;
+        return findPostWithStatus(PostStatus.PENDING,page);
     }
 
     @Override
     public List<PostModel> findPostPublished(int page) {
-        List<PostModel> list = postDAO.findWithStatus(page, PostStatus.PUBLISHED);
+        return findPostWithStatus(PostStatus.PUBLISHED,page);
+    }
+
+    @Override
+    public List<PostModel> findPostWithStatus(PostStatus status, int page) {
+        List<PostModel> list = postDAO.findWithStatus(page, status);
         createdEntity(list);
         commentsEntity(list);
+        currentVoted(list,this.userID);
         return list;
     }
 
@@ -129,10 +144,11 @@ public class PostService implements IPostService {
         });
     }
 
-    private void currentVoted(List<PostModel> list) {
-        if (list == null || list.isEmpty()) return;
+    private void currentVoted(List<PostModel> list,Long userCurrentID) {
+        if (list == null || list.isEmpty() || userCurrentID==null) return;
         list.forEach(postModel -> {
-            postModel.setComments(commentService.findByPostIDAndFirstLevel(postModel.getId(), 1));
+            System.out.println("Vote:"+postDAO.checkVote(postModel.getId(),userCurrentID));
+            postModel.setCurrentVote( postDAO.checkVote(postModel.getId(),userCurrentID));
         });
     }
 
