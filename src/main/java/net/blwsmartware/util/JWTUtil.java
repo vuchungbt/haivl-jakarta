@@ -38,13 +38,13 @@ public class JWTUtil {
         return verifier.verify(token);
     }
 
-    public static Map<String, Object> getClaimsFromToken(String token){
+    public static Map<String, Object> getClaimsFromToken(String token) {
         DecodedJWT jwt = verifyToken(token);
-        if(jwt == null)
+        if (jwt == null)
             return null;
         Map<String, Object> claimsMap = new HashMap<>();
         Map<String, Claim> claims = jwt.getClaims();
-        for(Map.Entry<String, Claim>entry : claims.entrySet()){
+        for (Map.Entry<String, Claim> entry : claims.entrySet()) {
             Claim claim = entry.getValue();
             if (claim.asString() != null) {
                 claimsMap.put(entry.getKey(), claim.asString());
@@ -92,9 +92,10 @@ public class JWTUtil {
             }
         }
     }
-    public static Long getIdUser(HttpServletRequest request){
+
+    public static Long getIdUser(HttpServletRequest request) {
         Map<String, Object> hashMap = JWTUtil.getClaimsFromToken(JWTUtil.getToken(request));
-        if (hashMap!=null && !hashMap.isEmpty()){
+        if (hashMap != null && !hashMap.isEmpty()) {
             return (Long) hashMap.get("id");
         }
         return null;

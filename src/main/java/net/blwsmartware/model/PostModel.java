@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PostModel extends AbstractModel {
     private List<String> tab = new ArrayList<>();

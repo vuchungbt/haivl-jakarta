@@ -38,9 +38,9 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
         sql.append(" type=?, ");
         sql.append(" image_path=?");
         sql.append(" WHERE id = ?");
-        update(sql.toString(), newPost.getName(),newPost.getDescription(), newPost.getShortDescription(), newPost.getContent(),
+        update(sql.toString(), newPost.getName(), newPost.getDescription(), newPost.getShortDescription(), newPost.getContent(),
                 newPost.getRefer(), newPost.getSource(), newPost.getSourceName(), newPost.getModifiedBy(), newPost.getStatus(), newPost.getThumbnail(), newPost.getTitle(),
-                newPost.getPublishDate(), newPost.getVerifiedDate(), newPost.getType(),newPost.getImagePath(),
+                newPost.getPublishDate(), newPost.getVerifiedDate(), newPost.getType(), newPost.getImagePath(),
                 newPost.getId());
     }
 
@@ -123,7 +123,7 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
     }
 
     @Override
-    public List<PostModel> findAllByIdUser(Long idUser){
+    public List<PostModel> findAllByIdUser(Long idUser) {
         StringBuilder sql = new StringBuilder("SELECT p.*, COUNT(pv.user_id) AS vote_count, ROUND(AVG(pv.vote), 2) AS avg_vote ");
         sql.append(" FROM posts p");
         sql.append(" LEFT JOIN post_has_votes pv ON p.id = pv.post_id");

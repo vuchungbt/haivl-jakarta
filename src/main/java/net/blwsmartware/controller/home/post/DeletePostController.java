@@ -24,26 +24,26 @@ public class DeletePostController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-            Long idPost = Long.parseLong(request.getParameter("id"));
-            String message;
-            String alert;
-            try{
-                List<CommentModel> commentModelList = commentService.findByPostID(idPost);
-                for (CommentModel commentModel : commentModelList){
-                    commentService.delete(commentModel.getId());
-                }
-                postService.delete(idPost);
-
-                System.out.println("Đã xóa");
-                message = "delete-success";
-                alert = "success";
-            }catch (Exception e){
-                message = "delete-error";
-                alert = "error";
-                System.out.println(e.getMessage());
+            throws ServletException, IOException {
+        Long idPost = Long.parseLong(request.getParameter("id"));
+        String message;
+        String alert;
+        try {
+            List<CommentModel> commentModelList = commentService.findByPostID(idPost);
+            for (CommentModel commentModel : commentModelList) {
+                commentService.delete(commentModel.getId());
             }
-        response.sendRedirect(request.getContextPath() +"/profile?message=" + message + "&alert=" + alert );
+            postService.delete(idPost);
+
+            System.out.println("Đã xóa");
+            message = "delete-success";
+            alert = "success";
+        } catch (Exception e) {
+            message = "delete-error";
+            alert = "error";
+            System.out.println(e.getMessage());
+        }
+        response.sendRedirect(request.getContextPath() + "/profile?message=" + message + "&alert=" + alert);
 
     }
 }

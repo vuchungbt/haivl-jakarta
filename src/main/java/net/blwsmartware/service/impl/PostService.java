@@ -35,7 +35,7 @@ public class PostService implements IPostService {
 
     @Override
     public PostModel save(PostModel postModel) {
-        if (postModel.getSource() != null&& !postModel.getSource().isEmpty()) {
+        if (postModel.getSource() != null && !postModel.getSource().isEmpty()) {
             String src = postModel.getSource();
             src = src.toUpperCase();
             if (!src.startsWith("HTTP://") && !src.startsWith("HTTPS://")) {
@@ -55,7 +55,7 @@ public class PostService implements IPostService {
     @Override
     public void delete(long id) {
         PostModel postModel = postDAO.findByID(id);
-        if(postModel.getImagePath()!=null && !postModel.getImagePath().isEmpty()){
+        if (postModel.getImagePath() != null && !postModel.getImagePath().isEmpty()) {
             imageService.delete(postModel.getImagePath());
         }
         postDAO.delete(id);

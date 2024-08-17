@@ -35,43 +35,44 @@ import java.util.stream.Collectors;
         maxFileSize = 1024 * 1024 * 10,      // 10 MB
         maxRequestSize = 1024 * 1024 * 15    // 15 MB
 )
-    public class PostController extends HttpServlet {
-        private static final long serialVersionUID = 1L;
+public class PostController extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
-        @Inject
-        private IPostService postService;
-        @Inject
-        private IUserService userService;
+    @Inject
+    private IPostService postService;
+    @Inject
+    private IUserService userService;
 
-        @Inject
-        private ImageServiceImpl imageService;
+    @Inject
+    private ImageServiceImpl imageService;
 
-        protected void doGet(HttpServletRequest request, HttpServletResponse response)
-                throws ServletException, IOException {
-            String token = JWTUtil.getToken(request);
-            PostModel model = FormUtil.toModel(PostModel.class, request);
-            if (token == null) {
-                response.sendRedirect(request.getContextPath() + "/login?send-direction=create-post");
-                return;
-            }
-            if(model.getId()!=null){
-                model = postService.findByID(model.getId());
-            }
-            request.setAttribute("postModel", model);
-            RequestDispatcher rd = request.getRequestDispatcher("/views/web/create-post.jsp");
-            rd.forward(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String token = JWTUtil.getToken(request);
+        PostModel model = FormUtil.toModel(PostModel.class, request);
+        if (token == null) {
+            response.sendRedirect(request.getContextPath() + "/login?send-direction=create-post");
+            return;
         }
+        if (model.getId() != null) {
+            model = postService.findByID(model.getId());
+        }
+        request.setAttribute("postModel", model);
+        RequestDispatcher rd = request.getRequestDispatcher("/views/web/create-post.jsp");
+        rd.forward(request, response);
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            String method = request.getParameter("_method");
-            if(method.equalsIgnoreCase("put")){
-                doPut(request, response);
-                return;
-            }
+        String method = request.getParameter("_method");
+        if (method.equalsIgnoreCase("put")) {
+            doPut(request, response);
+            return;
+        }
         request.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        Map<String, Object> formData ;
+        Map<String, Object> formData;
         try {
             Long idUser = JWTUtil.getIdUser(request);
             UserModel userModel = userService.findByID(idUser);
@@ -106,11 +107,11 @@ import java.util.stream.Collectors;
             Pattern pattern = Pattern.compile("#\\w+");
             Matcher matcher = pattern.matcher(tagList);
             List<String> tags = new ArrayList<>();
-            while (matcher.find()){
+            while (matcher.find()) {
                 tags.add(matcher.group());
             }
 
-            if(!tags.isEmpty()){
+            if (!tags.isEmpty()) {
                 postModel.setTab(tags);
             }
 
@@ -167,7 +168,7 @@ import java.util.stream.Collectors;
 
             PostModel postModel = new ObjectMapper().convertValue(formData, PostModel.class);
             postModel = postService.findByID(postModel.getId());
-            if(!imageService.delete(postModel.getImagePath())){
+            if (!imageService.delete(postModel.getImagePath())) {
                 System.out.println("Delete image unsuccessfully");
             }
 

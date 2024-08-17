@@ -35,10 +35,9 @@ public class ProfileController extends HttpServlet {
         }
         Long idUser = (Long) Objects.requireNonNull(JWTUtil.getClaimsFromToken(JWTUtil.getToken(request))).get("id");
         List<PostModel> list = postService.findAllByIdUser(idUser);
-        request.setAttribute("posts",list);
+        request.setAttribute("posts", list);
         RequestDispatcher rd = request.getRequestDispatcher("/views/web/profile.jsp");
         rd.forward(request, response);
-
 
 
     }
