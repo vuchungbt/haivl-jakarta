@@ -94,7 +94,7 @@
                           <div class="">
                             <div class="d-flex flex-row d-flex align-items-center ">
                               <div class="cont">
-                                <div class="stars py-1" data-vote-value="${post.voteCount}">
+                                <div class="stars py-1" data-vote-value="${post.currentVote}">
                                   <form action="">
 
                                     <input class="star star-5 star-none-wrap" id="star-5-${post.id}" type="radio"

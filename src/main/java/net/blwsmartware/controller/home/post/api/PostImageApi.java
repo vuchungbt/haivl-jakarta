@@ -16,6 +16,7 @@ import java.nio.file.Files;
 
 @WebServlet(urlPatterns = {"/post-image-api"})
 public class PostImageApi extends HttpServlet {
+//<<<<<<< HEAD
     private static final long serialVersionUID  = 1L;
     @Inject
     private ImageServiceImpl imageService;
@@ -30,14 +31,13 @@ public class PostImageApi extends HttpServlet {
 
         if(image.exists()){
             String minType = getServletContext().getMimeType(image.getName());
-            if(minType ==null){
+            if (minType == null) {
                 minType = "application/octet-stream";
             }
             response.setContentType(minType);
             response.setContentLengthLong(image.length());
             Files.copy(image.toPath(), response.getOutputStream());
-        }else{
-            System.out.println("Don't find");
+        } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }

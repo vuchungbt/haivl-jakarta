@@ -9,8 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.blwsmartware.model.PostModel;
 import net.blwsmartware.service.IPostService;
-import net.blwsmartware.util.HikariCPDataSource;
-import net.blwsmartware.util.HikariCPMetrics;
+import net.blwsmartware.util.JWTUtil;
 import net.blwsmartware.util.RouterUtil;
 
 import java.io.IOException;
@@ -47,6 +46,9 @@ public class HomeController extends HttpServlet {
         } catch (Exception e) {
             //Log 404
         }
+        Long idUser = JWTUtil.getIdUser(request);
+        System.out.println("50======================idUser:"+idUser);
+        postService.setUserID(idUser);
         List<PostModel> list = switch (pth_request) {
             case "", "home" -> postService.findAll(pageNumber);
             case "top" -> postService.findTop(pageNumber);
@@ -56,8 +58,6 @@ public class HomeController extends HttpServlet {
         };
 
         request.setAttribute("posts", list);
-
-        new HikariCPMetrics(HikariCPDataSource.getDataSource()).printMetrics();
 
         RequestDispatcher rd = request.getRequestDispatcher("/views/home.jsp");
         rd.forward(request, response);

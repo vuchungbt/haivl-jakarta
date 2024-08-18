@@ -38,9 +38,9 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
         sql.append(" type=?, ");
         sql.append(" image_path=?");
         sql.append(" WHERE id = ?");
-        update(sql.toString(), newPost.getName(),newPost.getDescription(), newPost.getShortDescription(), newPost.getContent(),
+        update(sql.toString(), newPost.getName(), newPost.getDescription(), newPost.getShortDescription(), newPost.getContent(),
                 newPost.getRefer(), newPost.getSource(), newPost.getSourceName(), newPost.getModifiedBy(), newPost.getStatus(), newPost.getThumbnail(), newPost.getTitle(),
-                newPost.getPublishDate(), newPost.getVerifiedDate(), newPost.getType(),newPost.getImagePath(),
+                newPost.getPublishDate(), newPost.getVerifiedDate(), newPost.getType(), newPost.getImagePath(),
                 newPost.getId());
     }
 
@@ -67,6 +67,14 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
     public int count() {
         String sql = "SELECT count(*) FROM posts";
         return count(sql);
+    }
+
+    @Override
+    public void vote(Long postID, int vote, Long userID) {
+        StringBuilder sql = new StringBuilder("INSERT INTO post_has_votes ");
+        sql.append(" (post_id,user_id,vote) ");
+        sql.append(" VALUES(?,?,?)");
+        insert(sql.toString(),postID,userID,vote);
     }
 
     @Override
@@ -139,5 +147,14 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
         String sql = "SELECT count(*) FROM posts where auth_id = ? GROUP BY  auth_id ";
         return count(sql, idUser);
     }
+
+    @Override
+    public int checkVote(Long postID, Long userID) {
+        StringBuilder sql = new StringBuilder("SELECT vote ");
+        sql.append(" FROM post_has_votes ");
+        sql.append(" WHERE post_id = ? and user_id=?" );
+        return count(sql.toString() ,postID,userID);
+    }
+
 
 }

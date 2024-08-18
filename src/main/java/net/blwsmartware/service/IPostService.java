@@ -1,5 +1,6 @@
 package net.blwsmartware.service;
 
+import net.blwsmartware.constant.PostStatus;
 import net.blwsmartware.model.PostModel;
 
 import java.util.List;
@@ -30,5 +31,8 @@ public interface IPostService {
     List<PostModel> findAllByIdUser(Long idUser, int page);
     void deleteAllTag(PostModel postModel);
     int countByIdUser(Long idUser);
+    List<PostModel> findPostWithStatus(PostStatus status, int page);
 
+    void  setUserID(Long id);
+    void vote(Long idPost,int vote);
 }

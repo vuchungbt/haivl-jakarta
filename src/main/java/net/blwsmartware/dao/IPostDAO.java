@@ -15,7 +15,7 @@ public interface IPostDAO extends GenericDAO {
     Long save(PostModel postModel);
 
     int count();
-
+    void vote(Long postID,int vote, Long userID);
     List<PostModel> findAll();
 
     List<PostModel> findAll(int page);
@@ -27,5 +27,7 @@ public interface IPostDAO extends GenericDAO {
     List<PostModel> findWithStatus(int page, PostStatus status);
     List<PostModel> findAllByIdUser(Long idUser, int page);
     int countByIdUser(Long idUser);
+
+    int checkVote(Long postID,Long userID );
 
 }

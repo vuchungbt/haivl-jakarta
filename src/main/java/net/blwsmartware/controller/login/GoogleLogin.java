@@ -20,17 +20,17 @@ import java.util.List;
 
 public class GoogleLogin {
     public static String getToken(String code) {
-        try(CloseableHttpClient httpClient = HttpClients.createDefault()){
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 
             HttpPost httpPost = new HttpPost(IConstant.GOOGLE_LINK_GET_TOKEN);
 
             List<BasicNameValuePair> params = new ArrayList<>();
 
-            params.add(new BasicNameValuePair("client_id",IConstant.GOOGLE_CLIENT_ID));
+            params.add(new BasicNameValuePair("client_id", IConstant.GOOGLE_CLIENT_ID));
             params.add(new BasicNameValuePair("client_secret", IConstant.GOOGLE_CLIENT_SECRET));
             params.add(new BasicNameValuePair("redirect_uri", IConstant.GOOGLE_REDIRECT_URI));
-            params.add(new BasicNameValuePair("grant_type",IConstant.GOOGLE_GRANT_TYPE));
-            params.add(new BasicNameValuePair("code",code));
+            params.add(new BasicNameValuePair("grant_type", IConstant.GOOGLE_GRANT_TYPE));
+            params.add(new BasicNameValuePair("code", code));
             httpPost.setEntity(new UrlEncodedFormEntity(params));
 
 
@@ -44,9 +44,9 @@ public class GoogleLogin {
                 }
             });
             JsonObject object = new Gson().fromJson(responeString, JsonObject.class);
-            return object.get("access_token").toString().replaceAll("\"","");
+            return object.get("access_token").toString().replaceAll("\"", "");
 
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
         return null;
@@ -54,7 +54,7 @@ public class GoogleLogin {
     }
 
     public static UserModel getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
-        try(CloseableHttpClient httpClient = HttpClients.createDefault()){
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet httpGet = new HttpGet(IConstant.GOOGLE_LINK_GET_USER_INFO + accessToken);
             String responeString = httpClient.execute(httpGet, response -> {
                 int status = response.getCode();
@@ -72,7 +72,7 @@ public class GoogleLogin {
             ggAccount.setName(object.get("name").getAsString());
             ggAccount.setEmail(object.get("email").getAsString());
 
-            if(object.has("picture")){
+            if (object.has("picture")) {
                 ggAccount.setAvatar(object.get("picture").getAsString());
                 ggAccount.setThumbnail(object.get("picture").getAsString());
             }

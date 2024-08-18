@@ -47,6 +47,5 @@ public class ProfileController extends HttpServlet {
         rd.forward(request, response);
 
 
-
     }
 }

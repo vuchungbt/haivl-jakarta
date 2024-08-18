@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PostModel extends AbstractModel {
     private List<String> tab = new ArrayList<>();
@@ -14,7 +15,15 @@ public class PostModel extends AbstractModel {
     private Long authId;
     private double avgVote;
     private int voteCount;
+    private int currentVote;
 
+    public int getCurrentVote() {
+        return currentVote;
+    }
+
+    public void setCurrentVote(int currentVote) {
+        this.currentVote = currentVote;
+    }
 
     private UserModel created;
     private Set<TagModel> tags;
