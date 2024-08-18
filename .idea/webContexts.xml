@@ -4,6 +4,7 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/common/taglib.jsp" value="file://$PROJECT_DIR$/src/main/webapp/common" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/common/web/header-bar.jsp" value="file://$PROJECT_DIR$/src/main/webapp/common/web" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/decorators/web.html" value="file://$PROJECT_DIR$/src/main/webapp/decorators" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/home.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/web/create-post.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/web" />

@@ -4,14 +4,15 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 import net.blwsmartware.constant.PostStatus;
 import net.blwsmartware.dao.IPostDAO;
+import net.blwsmartware.dao.IPostHasTagDAO;
+import net.blwsmartware.model.PostHasTagModel;
 import net.blwsmartware.model.PostModel;
-import net.blwsmartware.service.ICommentService;
-import net.blwsmartware.service.IPostService;
-import net.blwsmartware.service.IUserService;
+import net.blwsmartware.model.TagModel;
+import net.blwsmartware.service.*;
 import jakarta.inject.Inject;
-import net.blwsmartware.service.ImageService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class PostService implements IPostService {
@@ -28,9 +29,14 @@ public class PostService implements IPostService {
     @Inject
     private ImageService imageService;
 
+    @Inject
+    private IPostHasTagService postHasTagService;
+
     @Override
     public PostModel findByID(Long id) {
-        return postDAO.findByID(id);
+        PostModel postModel = postDAO.findByID(id);
+        currentTag(postModel);
+        return postModel;
     }
 
     @Override
@@ -71,6 +77,7 @@ public class PostService implements IPostService {
         List<PostModel> list = postDAO.findAll();
         createdEntity(list);
         commentsEntity(list);
+        currentTag(list);
         return list;
     }
 
@@ -79,6 +86,7 @@ public class PostService implements IPostService {
         List<PostModel> list = postDAO.findAll(page);
         createdEntity(list);
         commentsEntity(list);
+        currentTag(list);
         return list;
     }
 
@@ -87,6 +95,7 @@ public class PostService implements IPostService {
         List<PostModel> list = postDAO.findTop(page);
         createdEntity(list);
         commentsEntity(list);
+        currentTag(list);
         return list;
     }
 
@@ -95,6 +104,7 @@ public class PostService implements IPostService {
         List<PostModel> list = postDAO.findTrending(page);
         createdEntity(list);
         commentsEntity(list);
+        currentTag(list);
         return list;
 
     }
@@ -104,6 +114,7 @@ public class PostService implements IPostService {
         List<PostModel> list = postDAO.findWithStatus(page, PostStatus.PENDING);
         createdEntity(list);
         commentsEntity(list);
+        currentTag(list);
         return list;
     }
 
@@ -112,6 +123,7 @@ public class PostService implements IPostService {
         List<PostModel> list = postDAO.findWithStatus(page, PostStatus.PUBLISHED);
         createdEntity(list);
         commentsEntity(list);
+        currentTag(list);
         return list;
     }
 
@@ -136,11 +148,31 @@ public class PostService implements IPostService {
         });
     }
 
-    public List<PostModel> findAllByIdUser(Long idUser) {
-        List<PostModel> list = postDAO.findAllByIdUser(idUser);
+    public List<PostModel> findAllByIdUser(Long idUser, int page) {
+        List<PostModel> list = postDAO.findAllByIdUser(idUser, page);
         createdEntity(list);
         commentsEntity(list);
+        currentTag(list);
         return list;
+    }
+    public void currentTag(List<PostModel> list){
+        if(list ==null || list.isEmpty()) return;
+        list.forEach(this::currentTag);
+    }
+    public void currentTag(PostModel postModel){
+        List<PostHasTagModel> postHasTagModels = postHasTagService.findAllByPostId(postModel.getId());
+        List<String> tagNames = postHasTagModels.stream()
+                .map(PostHasTagModel::getName)
+                .toList();
+        postModel.setTab(tagNames);
+    }
+    @Override
+    public void deleteAllTag(PostModel postModel){
+        postHasTagService.delete(postModel.getId());
+    }
+    @Override
+    public int countByIdUser(Long idUser) {
+        return postDAO.countByIdUser(idUser);
     }
 
 

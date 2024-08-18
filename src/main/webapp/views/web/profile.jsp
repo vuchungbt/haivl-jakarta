@@ -1,5 +1,6 @@
 <%@include file="/common/taglib.jsp" %>
   <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
     <!DOCTYPE html>
     <html>
 
@@ -30,14 +31,23 @@
                       <div>
                         <!-- Avatar -->
                         <div class="avatar avatar-xxl mt-n5 mb-3">
-                          <img class="avatar-img rounded-circle border border-white border-3"
-                            src="https://i.imgur.com/xhzhaGA.jpg" alt="">
+                          <c:if test="${not empty userModel.avatar}">
+                            <img class="avatar-img rounded-circle border border-white border-3"
+                                 src="${userModel.avatar}" alt="">
+                            <c:if test="${empty userModel.avatar}">
+                              <img class="avatar-img rounded-circle border border-white border-3"
+                                   src='<c:url value = "/template/web/img/avatar/user.png"/>' alt="">
+                            </c:if>
+                          </c:if>
+
                         </div>
+
+
                       </div>
                       <div class="ms-sm-4 mt-sm-3">
                         <!-- Info -->
-                        <h1 class="mb-0 h5">Sam Lanson <i class="bi bi-patch-check-fill text-success small"></i></h1>
-                        <p>250 bài đăng</p>
+                        <h1 class="mb-0 h5">${userModel.name} <i class="bi bi-patch-check-fill text-success small"></i></h1>
+                        <p>${count} bài đăng</p>
                       </div>
                       <!-- Button -->
                       <div class="d-flex mt-3 justify-content-center ms-sm-auto">
@@ -129,9 +139,11 @@
 
 
                         <div class="col-md-4 pe-0">
-                          <div class="card m-2 ">
-                            <img src="https://i.imgur.com/xhzhaGA.jpg" class="card-img">
-                          </div>
+                          <c:if test="${not empty post.imagePath}">
+                            <div class="card m-2 ">
+                                <img src="<c:url value='/post-image-api?path=${post.imagePath}'/>" class="card-img">
+                            </div>
+                          </c:if>
                         </div>
 
                         <div class="col-md-8 p-0">
@@ -374,6 +386,8 @@
       <script src="<c:url value='/public/web/js/bootstrap.bundle.min.js'/>"></script>
       <script src="<c:url value='/public/web/js/customize.js'/> "></script>
       <script src="<c:url value='/public/web/js/loginDirection/loginDirection.js'/> "></script>
+
+
 
 
     </body>

@@ -209,7 +209,9 @@ public class ImageServiceImpl implements ImageService {
     }
     @Override
     public File getFile(String path){
-        return new File(getFolderUpload() + path);
+
+        return new File(getFolderUpload()+ File.separator
+                + IConstant.UPLOAD_DIR_RESIZE + File.separator +  path);
     }
     @Override
     public String getPathToSaveDB(String path){

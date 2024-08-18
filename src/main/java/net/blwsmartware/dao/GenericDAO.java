@@ -18,4 +18,6 @@ public interface GenericDAO {
     int count(String sql, Object... param);
 
     <T> T findOne(String sql, RowMapper<T> rowMapper, Object... param);
+
+    void insertNotReturn(String sql, Object... param);
 }

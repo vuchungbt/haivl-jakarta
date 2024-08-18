@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import net.blwsmartware.model.PostModel;
 import net.blwsmartware.model.UserModel;
 import net.blwsmartware.service.IPostService;
+import net.blwsmartware.service.IUserService;
 import net.blwsmartware.util.FormUtil;
 import net.blwsmartware.util.JWTUtil;
 
@@ -23,6 +24,8 @@ public class ProfileController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     @Inject
     private IPostService postService;
+    @Inject
+    private IUserService userService;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -34,8 +37,12 @@ public class ProfileController extends HttpServlet {
             return;
         }
         Long idUser = (Long) Objects.requireNonNull(JWTUtil.getClaimsFromToken(JWTUtil.getToken(request))).get("id");
-        List<PostModel> list = postService.findAllByIdUser(idUser);
+        UserModel userModel = userService.findByID(idUser);
+        int page = 1;
+        List<PostModel> list = postService.findAllByIdUser(idUser, page);
         request.setAttribute("posts",list);
+        request.setAttribute("userModel", userModel);
+        request.setAttribute("count",postService.countByIdUser(userModel.getId()));
         RequestDispatcher rd = request.getRequestDispatcher("/views/web/profile.jsp");
         rd.forward(request, response);
 

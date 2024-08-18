@@ -24,8 +24,9 @@ public class PostImageApi extends HttpServlet {
         throws ServletException, IOException{
         String pathName = request.getParameter("path");
 
-        File image = new File(imageService.getFolderUpload()+ File.separator
-                                + IConstant.UPLOAD_DIR_RESIZE + File.separator +  pathName);
+//        File image = new File(imageService.getFolderUpload()+ File.separator
+//                                + IConstant.UPLOAD_DIR_RESIZE + File.separator +  pathName);
+        File image = imageService.getFile(pathName);
 
         if(image.exists()){
             String minType = getServletContext().getMimeType(image.getName());
@@ -36,6 +37,7 @@ public class PostImageApi extends HttpServlet {
             response.setContentLengthLong(image.length());
             Files.copy(image.toPath(), response.getOutputStream());
         }else{
+            System.out.println("Don't find");
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }

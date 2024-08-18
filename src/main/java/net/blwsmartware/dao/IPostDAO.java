@@ -25,6 +25,7 @@ public interface IPostDAO extends GenericDAO {
     List<PostModel> findTrending(int page);
 
     List<PostModel> findWithStatus(int page, PostStatus status);
-    List<PostModel> findAllByIdUser(Long idUser);
+    List<PostModel> findAllByIdUser(Long idUser, int page);
+    int countByIdUser(Long idUser);
 
 }
