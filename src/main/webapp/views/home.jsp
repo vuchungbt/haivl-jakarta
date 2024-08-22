@@ -76,9 +76,12 @@
                         <h6 class="text-justify"><a href="/w?v="> ${post.title} </a></h6>
                       </div>
 
-                      <div class="card">
-                        <img src="https://i.imgur.com/xhzhaGA.jpg" class="card-img">
-                      </div>
+
+                      <c:if test="${not empty post.imagePath}">
+                        <div class="card">
+                          <img src="<c:url value = '/post-image-api?path=${post.imagePath}'/>" class="card-img">
+                        </div>
+                      </c:if>
 
                       <div class="p-2 content-container">
                         <p class="text-justify content">${post.content}</p>
@@ -127,21 +130,15 @@
                         <hr>
 
                         <div class="justify-content-between rounded">
-                          <div class="tags">
-                            <span class="badge bg-primary ">#tag1</span>
-                            <span class="badge bg-secondary  ">#tag2</span>
-                            <span class="badge bg-success ">#tag3</span>
-                            <span class="badge bg-success ">#tag3</span>
-                            <span class="badge bg-success ">#tag3</span>
-                            <span class="badge bg-success">#tag3</span>
-                            <span class="badge bg-success ">#tag3</span>
-                            <span class="badge bg-success ">#tag3</span>
-                            <span class="badge bg-success ">#tag3</span>
-                            <span class="badge bg-success ">#tag3</span>
-                            <span class="badge bg-success ">#tag3</span>
-                            <span class="badge bg-success ">#tag3</span>
-
-                          </div>
+                          <c:if test="${not empty post.tab}">
+                            <div class="tags">
+                              <c:forEach items="${post.tab}" var="tag">
+  <%--                            <span class="badge bg-primary ">#tag1</span>--%>
+  <%--                            <span class="badge bg-secondary  ">#tag2</span>--%>
+                                  <span class="badge bg-success ">#${tag}</span>
+                              </c:forEach>
+                            </div>
+                          </c:if>
                         </div>
 
 

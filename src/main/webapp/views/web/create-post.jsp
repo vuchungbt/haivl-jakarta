@@ -1,7 +1,6 @@
 <%@include file="/common/taglib.jsp" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+ <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<c:url var="createPost" value="/create-post"/>
     <!DOCTYPE html>
     <html>
 
@@ -41,16 +40,7 @@
 
         <!-- **************** MAIN CONTENT START **************** -->
         <main class="py-2">
-            <c:set var="method" value="${empty postModel.id ? 'post' : 'put'}"/>
-            <c:if test="${empty postModel.id}">
-                <c:url var="postUrl" value="/create-post"/>
-            </c:if>
-            <c:if test="${not empty postModel.id}">
-                <c:url var="postUrl" value="/edit-post"/>
-            </c:if>
-            <form id = "formSubmit" enctype="multipart/form-data" action="${postUrl}" method="post">
-                <input type="hidden" name="_method" value="${method}" />
-
+    <form id = "formSubmit" enctype="multipart/form-data">
           <!-- Container START -->
           <div class="container">
             <div class="row g-4">
@@ -61,6 +51,8 @@
           <div class="card card-body">
             <!-- Post input -->
             <div class="w-100" >
+                <input type="hidden" id="currentImagePath" name="currentImagePath" value="${postModel.imagePath}" />
+                <input type="hidden" id="imageAction" name="imageAction" value="keep" />
               <textarea  class="form-control pe-4 border-0" rows="1" maxlength="100" data-autoresize=""
                        name="title" placeholder="Title...">${postModel.title}</textarea>
                 <textarea maxlength="1200" class="form-control pe-4 border-0" rows="2" data-autoresize=""
@@ -68,26 +60,25 @@
                 <div>
 
                     <div>
-                        <!--data-default-file  just to view -->
-<%--                        <input type="file" id="input-file-to-destroy" class="dropify"--%>
-<%--                               data-default-file="https://i.imgur.com/xhzhaGA.jpg" data-max-file-size="25M"--%>
-<%--                               data-max-height="3000" name="image" src="${postModel.imagePath}" />--%>
                         <c:if test="${empty postModel.imagePath}">
                             <input type="file" id="input-file-to-destroy" class="dropify"
                                     data-max-file-size="25M" data-max-height="3000" name="image" src="" />
                         </c:if>
                         <c:if test="${not empty postModel.imagePath}">
                             <input type="file" id="input-file-to-destroy" class="dropify"
-                                   data-default-file="${pageContext.request.contextPath}/post-image-api?path=${fn:replace(postModel.imagePath, '\\', '%5C')}" data-max-file-size="25M"
+                                   data-default-file="/post-image-api?path=${postModel.imagePath}" data-max-file-size="25M"
                                    data-max-height="3000" name="image" src="" />
                         </c:if>
                     </div>
 
+                    <c:if test="${empty postModel.id}">
+                        <input type="button" id="btnSubmitPost" class="btn btn-sm btn-info" style="margin:5px; float:right" value = "Post" />
+                    </c:if>
 
-                  <button type="submit" id="btnCreatePost" class="btn btn-sm btn-info" style="margin:5px; float:right" >
-                    <c:if test="${empty postModel.id}"> Post </c:if>
-                    <c:if test="${not empty postModel.id}"> Update </c:if>
-                  </button>
+
+                    <c:if test="${not empty postModel.id}">
+                        <input type="button" id="btnSubmitPost" class="btn btn-sm btn-info" style="margin:5px; float:right" value = "Update" />
+                    </c:if>
 
                 </div>
             </div>
@@ -126,11 +117,12 @@
                         <div class="card-body">
 
                           <textarea maxlength="500" class="form-control border-0" rows="1" data-autoresize=""
-                            name="tag-collect" placeholder="#Tag"></textarea>
-                          <div class="mt-0">
-                            <c:forEach var="tag" items="${postModel.tags}">
-                                <span class="badge bg-primary me-1">${tag}</span>
-                            </c:forEach>
+                            name="tag-collect" id="tagInput" placeholder="#Tag"><c:if test="${not empty postModel.tab}"><c:forEach var="tag" items="${postModel.tab}">#${tag} </c:forEach></c:if></textarea>
+<%--                            <ul id="suggestions" class="list-group position-absolute" style="display: none; max-height: 100px; overflow-y: auto;"></ul>--%>
+                            <ul id="suggestions" class="dropdown-menu text-small" ></ul>
+
+                            <div class="mt-0">
+
                           </div>
                         </div>
                       </div>
@@ -167,13 +159,10 @@
               </div>
             </div>
           </div>
-                <input type="hidden" name="id" value="${postModel.id}"/>
-        </form>
-        <span id = "result-message" class="alert alert-danger text-center " style="display: none">
-                  <i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i>
-                  <div>Đã có lỗi xảy ra, vui lòng thử lại vào thời điểm khác.</div>
-                  <a href="/"><b>Trở về trang chủ</b></a>
-        </span>
+                <input type="hidden" id ="id" name="id" value="${postModel.id}"/>
+    </form>
+        <div id = "result-message" class="alert alert-danger text-center " style="display: none"></div>
+            <input type="hidden" id="tagNames" value="${tagNames}">
 
         </main>
 
@@ -202,7 +191,12 @@
               var drEvent = $('#input-file-events').dropify();
 
               drEvent.on('dropify.beforeClear', function (event, element) {
-                return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+                  if(confirm("Do you really want to delete \"" + element.file.name + "\" ?")){
+                      $('#imageAction').val('delete');
+                  }else{
+                      return false;
+                  }
+
               });
 
               drEvent.on('dropify.afterClear', function (event, element) {
@@ -256,6 +250,121 @@
             document.getElementById('mainSourceName').value = originalSourceNameValue;
             document.getElementById('sourceLinkModal').value = originalSourceLinkValue;
         });
+
+    </script>
+    <script>
+        $('#btnSubmitPost').click(function(e){
+           e.preventDefault();
+           let formData = new FormData($('#formSubmit')[0]);
+
+           let id = $('#id').val();
+           if(id ===""){
+               addPost(formData);
+           }
+
+           else{
+               updatePost(formData);
+           }
+           function addPost(formData){
+               $.ajax({
+                   url : '/create-post',
+                   type : 'post',
+                   data : formData,
+                   processData: false,
+                   contentType: false,
+                   // dataType : 'json',
+                   success : function(result){
+                       if(result.status ==="success"){
+                           window.location.href = "/profile?alert=success&message=create-post-success";
+                       }else{
+                            $('#result-message').removeClass("alert-success").addClass("alert-danger")
+                                .html('<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i> ' + result.message).show();
+                       }
+                   },
+                   error: function (){
+                        $('#result-message').removeClass("alert-success").addClass("alert-danger")
+                            .html('<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i> ' +
+                                '<div>Đã có lỗi xảy ra, vui lòng thử lại vào thời điểm khác.</div>' +
+                                '<a href="/"><b>Trở về trang chủ</b></a>').show();
+                   },
+               })
+
+           }
+           function updatePost(formData){
+                $.ajax({
+                    url : '/edit-post',
+                    type : 'put',
+                    data : formData,
+                    processData: false,
+                    contentType: false,
+                    success : function(result){
+                        if(result.status ==="success"){
+                            window.location.href = "/profile?alert=success&message=edit-post-success";
+                        }else{
+                            $('#result-message').removeClass("alert-success").addClass("alert-danger")
+                                .html('<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i> ' + result.message).show();
+                        }
+                    },
+                    error: function (){
+                        $('#result-message').removeClass("alert-success").addClass("alert-danger")
+                            .html('<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i> ' +
+                                '<div>Đã có lỗi xảy ra, vui lòng thử lại vào thời điểm khác.</div>' +
+                                '<a href="/"><b>Trở về trang chủ</b></a>').show();
+                    },
+                })
+
+            }
+
+        });
+    </script>
+    <script>
+        let tagNames = ${tagNames};
+        let tagInput = document.getElementById('tagInput');
+
+        let suggestions = document.getElementById('suggestions');
+
+        tagInput.addEventListener('input', function () {
+
+            const cursorPosition = tagInput.selectionStart;
+            const queryUpToCursor = tagInput.value.substring(0, cursorPosition);
+            const lastHashIndex1 = queryUpToCursor.lastIndexOf(' ');
+            const lastHashIndex = queryUpToCursor.lastIndexOf('#');
+
+            let searchTerm="";
+            if(lastHashIndex1 < lastHashIndex){
+                searchTerm = queryUpToCursor.substring(lastHashIndex + 1, cursorPosition);
+            }
+
+           suggestions.innerHTML = '';
+            if(searchTerm.length > 0){
+                let matches = tagNames.filter(tag => tag.startsWith(searchTerm)).slice(0, 5);
+               if(matches.length > 0){
+                   suggestions.style.display = 'block';
+                   matches.forEach(math => {
+                       const li = document.createElement('li');
+                       li.classList.add('dropdown-item');
+                       li.textContent = math;
+                       li.addEventListener('click', function (){
+                           const tagValue = tagInput.value;
+                           const beforeCursor = tagValue.substring(0, lastHashIndex);
+                           const afterCursor = tagValue.substring(cursorPosition);
+
+                           tagInput.value = beforeCursor + '#' + this.textContent + afterCursor;
+
+
+                           suggestions.style.display = 'none';
+                       });
+                       suggestions.appendChild(li);
+                   })
+               }else {
+                   suggestions.style.display = 'none';
+               }
+           }else {
+               suggestions.style.display = 'none';
+           }
+        });
+
+
 
     </script>
     </body>
