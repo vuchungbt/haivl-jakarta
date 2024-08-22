@@ -40,13 +40,6 @@
 
         <!-- **************** MAIN CONTENT START **************** -->
         <main class="py-2">
-<%--            <c:set var="method" value="${empty postModel.id ? 'post' : 'put'}"/>--%>
-<%--            <c:if test="${empty postModel.id}">--%>
-<%--                <c:url var="postUrl" value="/create-post"/>--%>
-<%--            </c:if>--%>
-<%--            <c:if test="${not empty postModel.id}">--%>
-<%--                <c:url var="postUrl" value="/edit-post"/>--%>
-<%--            </c:if>--%>
     <form id = "formSubmit" enctype="multipart/form-data">
           <!-- Container START -->
           <div class="container">
@@ -124,8 +117,11 @@
                         <div class="card-body">
 
                           <textarea maxlength="500" class="form-control border-0" rows="1" data-autoresize=""
-                            name="tag-collect" placeholder="#Tag"><c:if test="${not empty postModel.tab}"><c:forEach var="tag" items="${postModel.tab}">#${tag} </c:forEach></c:if></textarea>
-                          <div class="mt-0">
+                            name="tag-collect" id="tagInput" placeholder="#Tag"><c:if test="${not empty postModel.tab}"><c:forEach var="tag" items="${postModel.tab}">#${tag} </c:forEach></c:if></textarea>
+<%--                            <ul id="suggestions" class="list-group position-absolute" style="display: none; max-height: 100px; overflow-y: auto;"></ul>--%>
+                            <ul id="suggestions" class="dropdown-menu text-small" ></ul>
+
+                            <div class="mt-0">
 
                           </div>
                         </div>
@@ -166,6 +162,7 @@
                 <input type="hidden" id ="id" name="id" value="${postModel.id}"/>
     </form>
         <div id = "result-message" class="alert alert-danger text-center " style="display: none"></div>
+            <input type="hidden" id="tagNames" value="${tagNames}">
 
         </main>
 
@@ -319,6 +316,56 @@
             }
 
         });
+    </script>
+    <script>
+        let tagNames = ${tagNames};
+        let tagInput = document.getElementById('tagInput');
+
+        let suggestions = document.getElementById('suggestions');
+
+        tagInput.addEventListener('input', function () {
+
+            const cursorPosition = tagInput.selectionStart;
+            const queryUpToCursor = tagInput.value.substring(0, cursorPosition);
+            const lastHashIndex1 = queryUpToCursor.lastIndexOf(' ');
+            const lastHashIndex = queryUpToCursor.lastIndexOf('#');
+
+            let searchTerm="";
+            if(lastHashIndex1 < lastHashIndex){
+                searchTerm = queryUpToCursor.substring(lastHashIndex + 1, cursorPosition);
+            }
+
+           suggestions.innerHTML = '';
+            if(searchTerm.length > 0){
+                let matches = tagNames.filter(tag => tag.startsWith(searchTerm)).slice(0, 5);
+               if(matches.length > 0){
+                   suggestions.style.display = 'block';
+                   matches.forEach(math => {
+                       const li = document.createElement('li');
+                       li.classList.add('dropdown-item');
+                       li.textContent = math;
+                       li.addEventListener('click', function (){
+                           const tagValue = tagInput.value;
+                           const beforeCursor = tagValue.substring(0, lastHashIndex);
+                           const afterCursor = tagValue.substring(cursorPosition);
+
+                           tagInput.value = beforeCursor + '#' + this.textContent + afterCursor;
+
+
+                           suggestions.style.display = 'none';
+                       });
+                       suggestions.appendChild(li);
+                   })
+               }else {
+                   suggestions.style.display = 'none';
+               }
+           }else {
+               suggestions.style.display = 'none';
+           }
+        });
+
+
+
     </script>
     </body>
 
