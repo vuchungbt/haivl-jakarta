@@ -175,6 +175,17 @@ public class PostService implements IPostService {
         currentTag(list);
         return list;
     }
+
+    @Override
+    public List<PostModel> findPostStatusByIdUser(Long idUser, int page, int status) {
+        List<PostModel> list = postDAO.findPostStatusByIdUser(idUser, page, status);
+        createdEntity(list);
+        commentsEntity(list);
+        currentTag(list);
+        return list;
+
+    }
+
     public void currentTag(List<PostModel> list){
         if(list ==null || list.isEmpty()) return;
         list.forEach(this::currentTag);

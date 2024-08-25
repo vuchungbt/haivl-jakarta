@@ -82,12 +82,11 @@
                     <h1 class="h5 mx-2 mt-1">Bài viết</h1>
                     <!-- Notification action START -->
                     <div class="float-lg-end">
-                      <select class="form-select form-select-sm " aria-label="Small select example">
+                      <select id = "select-post-status" class="form-select form-select-sm " aria-label="Small select example">
                         <option selected>All</option>
                         <option value="0">Pending</option>
                         <option value="1">Published</option>
                         <option value="2">Archie</option>
-                        <option value="3">xx</option>
                       </select>
 
                     </div>
@@ -436,6 +435,26 @@
             event.target.style.height = 'auto';
             event.target.style.height = event.target.scrollHeight + offset + 'px';
           });
+        });
+      </script>
+      <script>
+        function getParameterByName(name){
+          const  url = new URL(window.location.href);
+          return url.searchParams.get(name);
+
+        }
+        const statusValue = getParameterByName('status');
+        if(statusValue != null){
+          document.getElementById('select-post-status').value = statusValue;
+        }
+        document.getElementById('select-post-status').addEventListener('change', function (){
+            let selectValue = this.value;
+            let url = '/profile';
+            if(selectValue ==="All"){
+              window.location.href = url;
+            }else{
+              window.location.href = url + "?status=" + selectValue;
+            }
         });
       </script>
 

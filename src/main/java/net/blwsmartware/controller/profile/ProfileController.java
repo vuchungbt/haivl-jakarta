@@ -16,6 +16,7 @@ import net.blwsmartware.util.FormUtil;
 import net.blwsmartware.util.JWTUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,9 +31,15 @@ public class ProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        UserModel userModel = userService.findByID(JWTUtil.getIdUser(request));
+        String status = request.getParameter("status");
+        List<PostModel> list;
         int page = 1;
-        List<PostModel> list = postService.findAllByIdUser(userModel.getId(), page);
+        UserModel userModel = userService.findByID(JWTUtil.getIdUser(request));
+        if(status ==null){
+            list = postService.findAllByIdUser(userModel.getId(), page);
+        }else{
+            list =postService.findPostStatusByIdUser(userModel.getId(),page, Integer.parseInt(status));
+        }
         request.setAttribute("posts",list);
         request.setAttribute("userModel", userModel);
         request.setAttribute("count",postService.countByIdUser(userModel.getId()));
