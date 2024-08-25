@@ -30,16 +30,9 @@ public class ProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String token = JWTUtil.getToken(request);
-        if (token == null) {
-            System.out.println("Dont have token");
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
-        Long idUser = (Long) Objects.requireNonNull(JWTUtil.getClaimsFromToken(JWTUtil.getToken(request))).get("id");
-        UserModel userModel = userService.findByID(idUser);
+        UserModel userModel = userService.findByID(JWTUtil.getIdUser(request));
         int page = 1;
-        List<PostModel> list = postService.findAllByIdUser(idUser, page);
+        List<PostModel> list = postService.findAllByIdUser(userModel.getId(), page);
         request.setAttribute("posts",list);
         request.setAttribute("userModel", userModel);
         request.setAttribute("count",postService.countByIdUser(userModel.getId()));

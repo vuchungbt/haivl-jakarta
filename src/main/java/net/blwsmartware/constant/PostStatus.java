@@ -18,10 +18,12 @@ public enum PostStatus {
         return code;
     }
 
-    public static PostStatus fromCode(int code) {
+    public static String fromCode(int code) {
         for (PostStatus status : PostStatus.values()) {
             if (status.getCode() == code) {
-                return status;
+                String name = status.toString().toLowerCase();
+
+                return name.substring(0,1).toUpperCase() + name.substring(1);
             }
         }
         throw new IllegalArgumentException("Invalid PostStatus code: " + code);

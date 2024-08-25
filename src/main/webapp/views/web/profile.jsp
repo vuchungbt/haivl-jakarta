@@ -133,7 +133,7 @@
                               </li>
                             </ul>
                           </div>
-                        </div>
+                          </div>
                       </div>
                       <div class="row">
 
@@ -157,7 +157,7 @@
                               <c:if test="${not empty post.modifiedDate}">${post.modifiedDate}</c:if>
                             </li>
                             <li class="nav-item">
-                              <i class="bi bi-geo-alt pe-1"></i> Trạng thái: ${post.statusCode}
+                              <i class="bi bi-geo-alt pe-1"></i> Trạng thái: ${post.statusName}
                             </li>
                             <li class="nav-item">
                               <i class="bi bi-people pe-1"></i> Vote: ${post.avgVote}/5 (${post.voteCount})
@@ -187,23 +187,32 @@
                       <div class="card-header d-sm-flex justify-content-between align-items-center border-0">
                         <h5 class="card-title">Thông tin
                         </h5>
-                        <a class="btn btn-primary-soft btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <a id = "profileEdit" class="btn btn-primary-soft btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
                           Chỉnh sửa</a>
 
                       </div>
                       <!-- Card body START -->
                       <div class="card-body position-relative pt-0">
-                        <p>He moonlights difficult engrossed it, sportsmen. Interested has all Devonshire difficulty gay
-                          assistance joy.</p>
+                        <c:if test="${not empty userModel.description}">
+<%--                          <p>He moonlights difficult engrossed it, sportsmen. Interested has all Devonshire difficulty gay--%>
+<%--                            assistance joy.</p>--%>
+                          <p>${userModel.description}</p>
+                        </c:if>
                         <!-- Date time -->
                         <ul class="list-unstyled mt-3 mb-0">
-                          <li class="mb-2"> <i class="bi bi-calendar-date fa-fw pe-1"></i> Born: <strong> October 20,
-                              1990
-                            </strong> </li>
-                          <li class="mb-2"> <i class="bi bi-heart fa-fw pe-1"></i> Status: <strong> Single </strong>
-                          </li>
-                          <li> <i class="bi bi-envelope fa-fw pe-1"></i> Email: <strong> adm@gmail.com </strong>
-                          </li>
+<%--                          <li class="mb-2"> <i class="bi bi-calendar-date fa-fw pe-1"></i> Born: <strong> October 20,--%>
+<%--                              1990--%>
+<%--                            </strong> </li>--%>
+<%--                          <li class="mb-2"> <i class="bi bi-heart fa-fw pe-1"></i> Status: <strong> Single </strong>--%>
+<%--                          </li>--%>
+                          <c:if test="${not empty userModel.tel}">
+                            <li> <i class="bi bi-envelope fa-fw pe-1"></i> Phone: <strong> ${userModel.tel} </strong>
+                            </li>
+                          </c:if>
+                          <c:if test="${not empty userModel.email}">
+                            <li> <i class="bi bi-envelope fa-fw pe-1"></i> Email: <strong> ${userModel.email} </strong>
+                            </li>
+                          </c:if>
                         </ul>
                       </div>
                       <!-- Card body END -->
@@ -342,32 +351,81 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Thông tin(chua lam)</h1>
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Thông tin</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <form id="ffForm">
                 <div class="form-group">
-                  <textarea type="text" class="form-control" id="name" placeholder="Giới thiệu ngắn..."
+                  <textarea type="text" class="form-control" id="description" name="description" placeholder="Giới thiệu ngắn..."
                     required></textarea>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="tel" placeholder=" " required>
+                  <input type="text" class="form-control" id="tel" name="tel" placeholder=" " required>
                   <label for="tel" class="form-label">Liên hệ</label>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="email" placeholder=" " required>
+                  <input type="text" class="form-control" id="email" name="email" placeholder=" " required>
                   <label for="email" class="form-label">Email</label>
                 </div>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-primary" id="btnSaveProfile">Save changes</button>
             </div>
           </div>
         </div>
       </div>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        let email = "${userModel.email}";
+        let tel ="${userModel.tel}";
+        let description ="${userModel.description}";
+         let profileEdit =  document.getElementById('profileEdit');
+         profileEdit.addEventListener('click', function (){
+           if(email!=null&& email.trim().length > 0){
+             let emailInput = document.getElementById('email');
+             emailInput.value = email;
+             emailInput.setAttribute('readOnly', true);
+           }
+           if(tel!=null && tel.trim().length>0){
+             let telInput = document.getElementById('tel');
+             telInput.value = tel;
+           }
+           if(description!=null &&description.trim().length > 0){
+             document.getElementById('description').value = description;
+           }
+         });
+      </script>
+      <script>
+        $(document).ready(function (){
+          $('#btnSaveProfile').click(function (e){
+            e.preventDefault();
+            let data = {};
+            let formData = $('#ffForm').serializeArray();
+            $.each(formData, function (i,v){
+              data[""+v.name+""] = v.value;
+            });
+            $.ajax({
+              url : 'edit-profile',
+              method : 'put',
+              contentType : 'application/json',
+              data : JSON.stringify(data),
+              dataType: 'json',
+              success: function (result) {
+                if(result.message ==="success"){
+                  window.location.href ="/profile";
+                }
+              },
+              error:function (){
+                window.location.href = "/profile?message=error-edit-profile&alert=danger";
+              }
+            })
+
+          });
+        })
+      </script>
 
 
       <script>
