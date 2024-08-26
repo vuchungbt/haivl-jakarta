@@ -105,8 +105,6 @@ public class ImageServiceImpl implements ImageService {
 
     }
 
-    ;
-
     @Override
     public void saveImageToDisk() {
         try {

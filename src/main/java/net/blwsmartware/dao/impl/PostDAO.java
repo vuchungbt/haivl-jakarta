@@ -74,7 +74,7 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
         StringBuilder sql = new StringBuilder("INSERT INTO post_has_votes ");
         sql.append(" (post_id,user_id,vote) ");
         sql.append(" VALUES(?,?,?)");
-        insert(sql.toString(),postID,userID,vote);
+        update(sql.toString(),postID,userID,vote);
     }
 
     @Override

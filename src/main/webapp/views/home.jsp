@@ -294,6 +294,29 @@
       <script src="<c:url value='/public/web/js/bootstrap.bundle.min.js'/>"></script>
       <script src="<c:url value='/public/web/js/customize.js'/> "></script>
       <script src="<c:url value='/public/web/js/loginDirection/loginDirection.js'/> "></script>
+    <script src="<c:url value='/public/web/js/jquery-3.5.1.js'/> " type="text/javascript"></script>
+    <script>
+    $(document).ready(function() {
+        $('input[name="star"]').on('click', function() {
+            var starValue = $(this).attr('id').split('-')[1];
+            var postId = $(this).attr('id').split('-')[2];
+            $.ajax({
+                        url: '/vote-post',
+                        method: 'POST',
+                        data: {
+                            _post: postId,
+                            _vote: starValue
+                        },
+                        success: function(response) {
+                            console.log('>>success:',response);
+                        },
+                        error: function(xhr, status, error) {
+                            console.log('>>error:',error);
+                        }
+                    });
+        });
+    });
+    </script>
 
 
     </body>
