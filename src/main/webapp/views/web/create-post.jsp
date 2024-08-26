@@ -350,8 +350,7 @@
                            const afterCursor = tagValue.substring(cursorPosition);
 
                            tagInput.value = beforeCursor + '#' + this.textContent + afterCursor;
-
-
+                           
                            suggestions.style.display = 'none';
                        });
                        suggestions.appendChild(li);

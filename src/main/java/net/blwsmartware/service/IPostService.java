@@ -29,6 +29,7 @@ public interface IPostService {
     List<PostModel> findPostPublished(int page);
 
     List<PostModel> findAllByIdUser(Long idUser, int page);
+    List<PostModel> findPostStatusByIdUser(Long idUser, int page , int status);
     void deleteAllTag(PostModel postModel);
     int countByIdUser(Long idUser);
     List<PostModel> findPostWithStatus(PostStatus status, int page);

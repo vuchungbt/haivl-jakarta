@@ -24,7 +24,7 @@ public class UserMapper implements RowMapper<UserModel> {
             user.setName(rs.getString("name"));
             user.setThumbnail(rs.getString("thumbnail"));
             user.setTitle(rs.getString("title"));
-            user.setTitle(rs.getString("tel"));
+            user.setTel(rs.getString("tel"));
             user.setType(rs.getString("type"));
             user.setRoleId(rs.getLong("roleid"));
             user.setModifiedBy(rs.getString("updated_by"));

@@ -30,4 +30,6 @@ public interface IPostDAO extends GenericDAO {
 
     int checkVote(Long postID,Long userID );
 
+    List<PostModel> findPostStatusByIdUser(Long idUser, int page, int status);
+
 }

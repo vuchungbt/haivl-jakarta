@@ -8,7 +8,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.blwsmartware.model.CommentModel;
 import net.blwsmartware.service.ICommentService;
+import net.blwsmartware.service.IPostHasTagService;
 import net.blwsmartware.service.IPostService;
+import net.blwsmartware.service.ITagService;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +24,9 @@ public class DeletePostController extends HttpServlet {
     @Inject
     private ICommentService commentService;
 
+    @Inject
+    private IPostHasTagService postHasTagService;
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -33,6 +38,7 @@ public class DeletePostController extends HttpServlet {
             for (CommentModel commentModel : commentModelList) {
                 commentService.delete(commentModel.getId());
             }
+            postHasTagService.delete(idPost);
             postService.delete(idPost);
 
             System.out.println("Đã xóa");
