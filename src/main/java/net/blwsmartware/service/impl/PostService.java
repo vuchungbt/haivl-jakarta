@@ -23,7 +23,14 @@ public class PostService implements IPostService {
 
     @Override
     public void vote(Long idPost, int vote) {
-        postDAO.vote(idPost,vote,this.userID);
+        if(postDAO.checkVote(idPost,this.userID)==0)
+            postDAO.vote(idPost,vote,this.userID);
+        else postDAO.updateVote(idPost,vote,this.userID);
+    }
+
+    @Override
+    public void updateVote(Long idPost, int vote) {
+        postDAO.updateVote(idPost,vote,this.userID);
     }
 
     @Inject

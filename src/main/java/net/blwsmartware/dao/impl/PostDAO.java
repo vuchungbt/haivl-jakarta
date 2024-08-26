@@ -78,6 +78,13 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
     }
 
     @Override
+    public void updateVote(Long postID, int vote, Long userID) {
+        StringBuilder sql = new StringBuilder("UPDATE post_has_votes SET vote=? ");
+        sql.append(" WHERE post_id = ? and user_id = ?");
+        update(sql.toString(), vote,postID,userID);
+    }
+
+    @Override
     public List<PostModel> findAll() {
         String sql = "SELECT * FROM posts";
         return query(sql, new PostMapper());
@@ -168,6 +175,7 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
         sql.append(limit);
         return query(sql.toString(), new PostMapper());
     }
+
 
 
 }

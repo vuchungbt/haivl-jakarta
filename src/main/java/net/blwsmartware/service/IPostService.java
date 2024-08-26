@@ -36,4 +36,5 @@ public interface IPostService {
 
     void  setUserID(Long id);
     void vote(Long idPost,int vote);
+    void updateVote(Long idPost,int vote);
 }

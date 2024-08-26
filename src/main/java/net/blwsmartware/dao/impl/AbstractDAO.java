@@ -53,6 +53,7 @@ public class AbstractDAO implements GenericDAO {
     @Override
     public void update(String sql, Object... param) {
         try (Connection connection = HikariCPDataSource.getDataSource().getConnection()) {
+            System.out.println(sql);
             connection.setAutoCommit(false);
 
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
