@@ -133,4 +133,18 @@ public class AbstractDAO implements GenericDAO {
         }
         return null;
     }
+
+    @Override
+    public void insertNotReturn(String sql, Object... param){
+        try(Connection connection = HikariCPDataSource.getDataSource().getConnection()){
+            connection.setAutoCommit(false);
+            try(PreparedStatement statement = connection.prepareStatement(sql, Statement.NO_GENERATED_KEYS)){
+                setParameter(statement, param);
+                statement.executeUpdate();
+                connection.commit();
+            }
+        }catch (SQLException e){
+            System.out.println("Connection error:" + e.getMessage());
+        }
+    }
 }

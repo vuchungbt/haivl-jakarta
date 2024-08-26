@@ -26,4 +26,7 @@ public interface ImageService {
     boolean delete();
 
     boolean delete(String path);
+
+    public File getFile(String path);
+    public String getPathToSaveDB(String path);
 }

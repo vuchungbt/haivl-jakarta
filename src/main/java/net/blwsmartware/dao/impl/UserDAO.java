@@ -4,6 +4,9 @@ import net.blwsmartware.dao.IUserDAO;
 import net.blwsmartware.mapper.UserMapper;
 import net.blwsmartware.model.UserModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserDAO extends AbstractDAO implements IUserDAO {
     @Override
     public UserModel findByFbID(String fbID) {
@@ -38,29 +41,75 @@ public class UserDAO extends AbstractDAO implements IUserDAO {
     }
 
     @Override
-    public void update(UserModel newUser) {
-        StringBuilder sql = new StringBuilder("UPDATE users SET avatar=?,");
-        sql.append(" description=?,");
-        sql.append(" email=?,");
-        sql.append(" fbID=?,");
-        sql.append(" ggID=?,");
-        sql.append(" last_online=?,");
-        sql.append(" updated_by=?,");
-        sql.append(" name=?,");
-        sql.append(" page_photo=?,");
-        sql.append(" roleid=?,");
-        sql.append(" status=?,");
-        sql.append(" thumbnail=?,");
-        sql.append(" title=?,");
-        sql.append(" tel=?,");
-        sql.append(" type=?");
+    public void update(UserModel newUser){
+        List<Object> params = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("UPDATE users SET ");
+        if(newUser.getAvatar()!=null){
+            sql.append("avatar=?,");
+            params.add(newUser.getAvatar());
+        }
+        if(newUser.getDescription()!=null){
+            sql.append(" description=?,");
+            params.add(newUser.getDescription());
+        }
+        if(newUser.getEmail()!=null){
+            sql.append(" email=?,");
+            params.add(newUser.getEmail());
+        }
+        if(newUser.getFbID()!=null){
+            sql.append(" fbID=?,");
+            params.add(newUser.getFbID());
+        }
+        if(newUser.getGgID()!=null){
+            sql.append(" ggID=?,");
+            params.add(newUser.getGgID());
+        }
+        if (newUser.getLastOnline() != null) {
+            sql.append("last_online=?, ");
+            params.add(newUser.getLastOnline());
+        }
+        if (newUser.getModifiedBy() != null) {
+            sql.append("updated_by=?, ");
+            params.add(newUser.getModifiedBy());
+        }
+        if (newUser.getName() != null) {
+            sql.append("name=?, ");
+            params.add(newUser.getName());
+        }
+        if (newUser.getPagePhoto() != null) {
+            sql.append("page_photo=?, ");
+            params.add(newUser.getPagePhoto());
+        }
+        if (newUser.getRoleId() != null) {
+            sql.append("roleid=?, ");
+            params.add(newUser.getRoleId());
+        }
+//        if (newUser.getStatus()) {
+            sql.append("status=?, ");
+            params.add(newUser.getStatus());
+//        }
+        if (newUser.getThumbnail() != null) {
+            sql.append("thumbnail=?, ");
+            params.add(newUser.getThumbnail());
+        }
+        if (newUser.getTitle() != null) {
+            sql.append("title=?, ");
+            params.add(newUser.getTitle());
+        }
+        if (newUser.getTel() != null) {
+            sql.append("tel=?, ");
+            params.add(newUser.getTel());
+        }
+        if (newUser.getType() != null) {
+            sql.append("type=?, ");
+            params.add(newUser.getType());
+        }
+        if(sql.charAt(sql.length()-2) == ','){
+            sql.setLength(sql.length()-2);
+        }
         sql.append(" WHERE id = ?");
-        update(sql.toString(), newUser.getAvatar(), newUser.getDescription(),
-                newUser.getEmail(), newUser.getFbID(), newUser.getGgID(), newUser.getLastOnline(),
-                newUser.getModifiedBy(), newUser.getName(), newUser.getPagePhoto(),
-                newUser.getRoleId(), newUser.getStatus(), newUser.getThumbnail(), newUser.getTitle(),
-                newUser.getTel(), newUser.getType(),
-                newUser.getId());
+        params.add(newUser.getId());
+        update(sql.toString(), params.toArray());
     }
 
     @Override

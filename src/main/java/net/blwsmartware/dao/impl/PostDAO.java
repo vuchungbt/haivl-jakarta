@@ -131,14 +131,21 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
     }
 
     @Override
-    public List<PostModel> findAllByIdUser(Long idUser) {
+    public List<PostModel> findAllByIdUser(Long idUser, int page){
         StringBuilder sql = new StringBuilder("SELECT p.*, COUNT(pv.user_id) AS vote_count, ROUND(AVG(pv.vote), 2) AS avg_vote ");
         sql.append(" FROM posts p");
         sql.append(" LEFT JOIN post_has_votes pv ON p.id = pv.post_id");
         sql.append(" WHERE p.auth_id = " + idUser);
         sql.append(" GROUP BY p.id");
-        sql.append(" ORDER BY p.created_date DESC");
+        sql.append(" ORDER BY p.created_date DESC ");
+        String limit = "LIMIT " + IConstant.RECORD_LIMIT_POST + " OFFSET " + (page -1 )*IConstant.RECORD_LIMIT_POST;
+        sql.append(limit);
         return query(sql.toString(), new PostMapper());
+    }
+    @Override
+    public int countByIdUser(Long idUser) {
+        String sql = "SELECT count(*) FROM posts where auth_id = ? GROUP BY  auth_id ";
+        return count(sql, idUser);
     }
 
     @Override
@@ -147,6 +154,19 @@ public class PostDAO extends AbstractDAO implements IPostDAO {
         sql.append(" FROM post_has_votes ");
         sql.append(" WHERE post_id = ? and user_id=?" );
         return count(sql.toString() ,postID,userID);
+    }
+    @Override
+    public List<PostModel> findPostStatusByIdUser(Long idUser, int page, int status){
+        StringBuilder sql = new StringBuilder("SELECT p.*, COUNT(pv.user_id) AS vote_count, ROUND(AVG(pv.vote), 2) AS avg_vote ");
+        sql.append(" FROM posts p");
+        sql.append(" LEFT JOIN post_has_votes pv ON p.id = pv.post_id");
+        sql.append(" WHERE p.auth_id = " + idUser );
+        sql.append(" AND p.status = " + status);
+        sql.append(" GROUP BY p.id");
+        sql.append(" ORDER BY p.created_date DESC ");
+        String limit = "LIMIT " + IConstant.RECORD_LIMIT_POST + " OFFSET " + (page -1 )*IConstant.RECORD_LIMIT_POST;
+        sql.append(limit);
+        return query(sql.toString(), new PostMapper());
     }
 
 

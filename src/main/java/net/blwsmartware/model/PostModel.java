@@ -30,14 +30,14 @@ public class PostModel extends AbstractModel {
     private List<CommentModel> comments;
 
     private String imagePath;
-    private String statusCode;
+    private String statusName;
 
-    public String getStatusCode() {
-        return statusCode;
+    public String getStatusName() {
+        return statusName;
     }
 
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 
     public String getImagePath() {

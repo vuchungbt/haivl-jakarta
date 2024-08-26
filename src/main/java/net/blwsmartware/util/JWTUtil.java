@@ -19,8 +19,6 @@ public class JWTUtil {
     public static final String SECRET = ResourceBundle.getBundle("secret").getString("SECRET");
 
     public static final long EXPIRATION_TIME = 2 * 60 * 60 * 1000;
-    @Inject
-    private IUserService userService;
 
     public static String generateToken(UserModel userModel) {
         Algorithm algorithm = Algorithm.HMAC384(SECRET);
